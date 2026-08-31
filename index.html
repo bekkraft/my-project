@@ -397,7 +397,7 @@
         },
         rect_transition: {
             name: 'Переход (прямоуг.)',
-            dims: [ {id:'A',label:'Ширина A',def:400,min:60,max:2000}, {id:'B',label:'Высота B',def:300,min:60,max:2000}, {id:'a',label:'Ширина a',def:200,min:60,max:2000}, {id:'b',label:'Высота b',def:150,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
+            dims: [ {id:'A',label:'Ширина входа Ш1',def:400,min:60,max:2000}, {id:'B',label:'Высота входа В1',def:300,min:60,max:2000}, {id:'a',label:'Ширина выхода Ш2',def:200,min:60,max:2000}, {id:'b',label:'Высота выхода В2',def:150,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
             ends: 2, perimEnds: d => [2*(d.A+d.B), 2*(d.a+d.b)],
             area: d => {
                 // площадь по 4 боковым трапециям считается по фактической (наклонной) длине скатов, а не по осевой L
@@ -472,7 +472,7 @@
         },
         round_transition_rr: {
             name: 'Переход круг-круг',
-            dims: [ {id:'D',label:'Диаметр D',def:400,min:60,max:2000}, {id:'d',label:'Диаметр d',def:250,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
+            dims: [ {id:'D',label:'Диаметр входа D',def:400,min:60,max:2000}, {id:'d',label:'Диаметр выхода d',def:250,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
             ends: 2, perimEnds: d => [Math.PI*d.D, Math.PI*d.d],
             area: d => {
                 const slant = Math.hypot(d.L, (d.D-d.d)/2);
@@ -520,7 +520,7 @@
         },
         round_insert: {
             name: 'Врезка воротниковая',
-            dims: [ {id:'D',label:'Диаметр D',def:400,min:60,max:2000}, {id:'d',label:'Диаметр d',def:150,min:60,max:1000}, {id:'L',label:'Длина корпуса L',def:500,min:100,max:3000}, {id:'h',label:'Высота воротника h',def:100,min:30,max:500} ],
+            dims: [ {id:'D',label:'Диаметр D',def:400,min:60,max:2000}, {id:'d',label:'Диаметр врезки d',def:150,min:60,max:1000}, {id:'L',label:'Длина корпуса L',def:500,min:100,max:3000}, {id:'h',label:'Высота воротника h',def:100,min:30,max:500} ],
             ends: 3, perimEnds: d => [Math.PI*d.D, Math.PI*d.D, Math.PI*d.d],
             area: d => Math.PI*d.D*d.L/1e6 + Math.PI*d.d*d.h/1e6,
             kind: 'roundInsert'
