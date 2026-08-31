@@ -129,6 +129,16 @@
             table.responsive-table td::before { content: attr(data-label); float: left; font-weight: 600; color: #64748b; font-size: 11px; }
             table.responsive-table td:last-child { border-bottom: none; }
         }
+        .client-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;
+            border-radius: 20px; padding: 6px 10px 6px 14px; font-size: 13px; cursor: pointer;
+        }
+        .client-chip button {
+            border: none; background: transparent; color: #94a3b8; cursor: pointer; font-size: 14px; line-height: 1;
+        }
+        .client-chip button:hover { color: #ef4444; }
+        #historyTableBody td, #historyTableBody th { text-align: center; }
     </style>
 </head>
 <body>
@@ -145,7 +155,8 @@
                 </div>
                 <div>
                     <label class="label-text" for="clientName">Контрагент / Клиент</label>
-                    <input type="text" id="clientName" class="input-field" placeholder="ООО «КлиматСтрой»">
+                    <input type="text" id="clientName" class="input-field" placeholder="ООО «КлиматСтрой»" list="clientList" autocomplete="off">
+                    <datalist id="clientList"></datalist>
                 </div>
                 <div>
                     <label class="label-text" for="orderDate">Дата заказа</label>
@@ -160,6 +171,40 @@
                 <input type="checkbox" id="useAllowance" checked style="width:16px;height:16px;">
                 <label for="useAllowance">Учитывать припуски на фальцы/отбортовку в площади заготовки (иначе считается только геометрическая площадь развёртки)</label>
             </div>
+            <div class="no-print" style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; border-top:1px solid #f1f5f9; padding-top:14px;">
+                <button class="btn btn-secondary" onclick="startNewOrder()">🆕 Новый заказ</button>
+                <button class="btn btn-primary" onclick="saveOrderToHistory()">💾 Сохранить заказ в историю</button>
+                <button class="btn btn-secondary" onclick="toggleHistoryPanel()">🗂 История заказов (<span id="historyCount">0</span>)</button>
+                <button class="btn btn-secondary" onclick="toggleClientsPanel()">👤 Клиенты</button>
+            </div>
+        </div>
+
+        <!-- ИСТОРИЯ ЗАКАЗОВ -->
+        <div class="card no-print" id="historyPanel" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h2 style="font-size: 18px; font-weight: bold;">🗂 История заказов</h2>
+                <input type="text" id="historyFilter" class="input-field" placeholder="Фильтр по клиенту / номеру" style="max-width:260px;">
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr><th>№ заказа</th><th>Клиент</th><th>Дата</th><th>Позиций</th><th>Сумма</th><th>Сохранён</th><th></th></tr>
+                    </thead>
+                    <tbody id="historyTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- СПРАВОЧНИК КЛИЕНТОВ -->
+        <div class="card no-print" id="clientsPanel" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h2 style="font-size: 18px; font-weight: bold;">👤 Справочник клиентов</h2>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="newClientInput" class="input-field" placeholder="Название компании" style="max-width:260px;">
+                    <button class="btn btn-success" onclick="addClientManually()">Добавить</button>
+                </div>
+            </div>
+            <div id="clientsList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
         </div>
 
         <!-- КОНСТРУКТОР -->
@@ -275,6 +320,7 @@
                 <h2 style="font-size: 18px; font-weight: bold;">📋 Спецификация заказа</h2>
                 <div class="no-print">
                     <button class="btn btn-primary" onclick="exportToExcel()">📊 Excel</button>
+                    <button class="btn btn-primary" id="pdfBtn" onclick="exportToPDF()">📄 PDF (КП)</button>
                     <button class="btn btn-secondary" onclick="printOrder()">🖨️ Печать</button>
                     <button class="btn btn-danger" onclick="clearCart()">🗑️ Очистить</button>
                 </div>
@@ -309,7 +355,12 @@
 
     <div class="toast" id="toast"></div>
 
+    <!-- скрытый шаблон коммерческого предложения для PDF-экспорта -->
+    <div id="kpTemplate" style="position:fixed; left:-10000px; top:0; width:780px; background:#fff; font-family:'Segoe UI', Arial, sans-serif; color:#1e293b; padding:36px;"></div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
     'use strict';
 
@@ -558,6 +609,8 @@
         updateDimensions(true);
         renderCart();
         bindEvents();
+        renderClientList();
+        renderHistoryPanel();
     }
 
     function bindEvents() {
@@ -601,6 +654,189 @@
             if (Array.isArray(data.cart)) cart = data.cart;
             if (data.seq) seq = data.seq;
         } catch (e) { /* corrupted storage — start fresh */ }
+    }
+
+    /* ============================================================
+       ИСТОРИЯ ЗАКАЗОВ
+       Текущий заказ (draft) живёт отдельно от списка «сохранённых»
+       заказов — сохранение делает явный снимок (снапшот) в историю,
+       не трогая механизм автосохранения черновика.
+    ============================================================ */
+    const ORDERS_KEY = 'ductCalc.orders.v1';
+    const CLIENTS_KEY = 'ductCalc.clients.v1';
+
+    function loadOrders() {
+        try { return JSON.parse(localStorage.getItem(ORDERS_KEY)) || []; }
+        catch (e) { return []; }
+    }
+    function saveOrders(orders) {
+        try { localStorage.setItem(ORDERS_KEY, JSON.stringify(orders)); } catch (e) { /* ignore */ }
+    }
+
+    function loadClients() {
+        try { return JSON.parse(localStorage.getItem(CLIENTS_KEY)) || []; }
+        catch (e) { return []; }
+    }
+    function saveClients(list) {
+        try { localStorage.setItem(CLIENTS_KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+    }
+    function addClientIfNew(name) {
+        name = (name || '').trim();
+        if (!name) return;
+        const list = loadClients();
+        if (!list.some(c => c.toLowerCase() === name.toLowerCase())) {
+            list.push(name);
+            saveClients(list);
+            renderClientList();
+        }
+    }
+
+    function renderClientList() {
+        const clients = loadClients();
+        const datalist = document.getElementById('clientList');
+        datalist.innerHTML = clients.map(c => `<option value="${escapeHtml(c)}">`).join('');
+
+        const box = document.getElementById('clientsList');
+        if (clients.length === 0) {
+            box.innerHTML = '<span style="color:#94a3b8; font-size:13px;">Пока нет сохранённых клиентов — появятся после первого заказа или можно добавить вручную.</span>';
+            return;
+        }
+        box.innerHTML = clients.map(c => `
+            <span class="client-chip" onclick="pickClient('${escapeAttr(c)}')">
+                ${escapeHtml(c)}
+                <button onclick="event.stopPropagation(); removeClient('${escapeAttr(c)}')" title="Удалить из справочника">✕</button>
+            </span>
+        `).join('');
+    }
+
+    function pickClient(name) {
+        clientNameInput.value = name;
+        saveState();
+        showToast(`Клиент «${name}» выбран`);
+    }
+
+    function addClientManually() {
+        const inp = document.getElementById('newClientInput');
+        if (!inp.value.trim()) return;
+        addClientIfNew(inp.value);
+        inp.value = '';
+    }
+
+    function removeClient(name) {
+        const list = loadClients().filter(c => c !== name);
+        saveClients(list);
+        renderClientList();
+    }
+
+    function toggleClientsPanel() {
+        const panel = document.getElementById('clientsPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        document.getElementById('historyPanel').style.display = 'none';
+        if (panel.style.display === 'block') renderClientList();
+    }
+
+    function toggleHistoryPanel() {
+        const panel = document.getElementById('historyPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        document.getElementById('clientsPanel').style.display = 'none';
+        if (panel.style.display === 'block') renderHistoryPanel();
+    }
+
+    function startNewOrder() {
+        if (cart.length > 0 && !confirm('Начать новый заказ? Текущий черновик будет заменён (если он не сохранён в историю — данные потеряются).')) return;
+        const now = new Date();
+        seq++;
+        orderNumberInput.value = `З-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(seq).padStart(4,'0')}`;
+        clientNameInput.value = '';
+        orderDateInput.value = now.toISOString().split('T')[0];
+        cart = [];
+        renderCart();
+        saveState();
+        showToast('Начат новый заказ');
+    }
+
+    function saveOrderToHistory() {
+        if (cart.length === 0) { showToast('Нечего сохранять — корзина пуста', true); return; }
+        const orders = loadOrders();
+        const totalSum = cart.reduce((s,i) => s + i.total, 0);
+        const snapshot = {
+            id: `${orderNumberInput.value}__${Date.now()}`,
+            orderNumber: orderNumberInput.value,
+            clientName: clientNameInput.value || '—',
+            orderDate: orderDateInput.value,
+            cart: JSON.parse(JSON.stringify(cart)),
+            seq,
+            itemsCount: cart.reduce((s,i) => s+i.qty, 0),
+            totalSum,
+            savedAt: new Date().toISOString()
+        };
+        // если заказ с этим номером уже сохранён — обновляем снимок вместо дублирования
+        const existingIdx = orders.findIndex(o => o.orderNumber === snapshot.orderNumber);
+        if (existingIdx >= 0) orders[existingIdx] = snapshot; else orders.unshift(snapshot);
+        saveOrders(orders);
+        addClientIfNew(clientNameInput.value);
+        renderHistoryPanel();
+        showToast('Заказ сохранён в историю');
+    }
+
+    function renderHistoryPanel() {
+        const orders = loadOrders();
+        document.getElementById('historyCount').textContent = orders.length;
+        const filterInput = document.getElementById('historyFilter');
+        const filter = (filterInput.value || '').toLowerCase();
+        if (!filterInput._bound) {
+            filterInput.addEventListener('input', renderHistoryPanel);
+            filterInput._bound = true;
+        }
+        const filtered = orders.filter(o =>
+            !filter || o.clientName.toLowerCase().includes(filter) || o.orderNumber.toLowerCase().includes(filter)
+        );
+        const tbody = document.getElementById('historyTableBody');
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:16px;">Заказов пока нет</td></tr>';
+            return;
+        }
+        tbody.innerHTML = filtered.map(o => `
+            <tr>
+                <td>${escapeHtml(o.orderNumber)}</td>
+                <td>${escapeHtml(o.clientName)}</td>
+                <td>${escapeHtml(o.orderDate)}</td>
+                <td>${o.itemsCount} шт</td>
+                <td>${formatSum(o.totalSum)}</td>
+                <td>${new Date(o.savedAt).toLocaleString('ru-RU')}</td>
+                <td>
+                    <button class="btn btn-primary btn-small" onclick="openOrderFromHistory('${escapeAttr(o.id)}')">Открыть</button>
+                    <button class="btn btn-danger btn-small" onclick="deleteOrderFromHistory('${escapeAttr(o.id)}')">✕</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function openOrderFromHistory(id) {
+        const orders = loadOrders();
+        const order = orders.find(o => o.id === id);
+        if (!order) return;
+        if (cart.length > 0 && !confirm('Открыть сохранённый заказ? Текущий несохранённый черновик будет заменён.')) return;
+        orderNumberInput.value = order.orderNumber;
+        clientNameInput.value = order.clientName === '—' ? '' : order.clientName;
+        orderDateInput.value = order.orderDate;
+        cart = JSON.parse(JSON.stringify(order.cart));
+        seq = Math.max(seq, order.seq || seq);
+        renderCart();
+        saveState();
+        document.getElementById('historyPanel').style.display = 'none';
+        showToast(`Заказ ${order.orderNumber} загружен`);
+    }
+
+    function deleteOrderFromHistory(id) {
+        if (!confirm('Удалить заказ из истории безвозвратно?')) return;
+        const orders = loadOrders().filter(o => o.id !== id);
+        saveOrders(orders);
+        renderHistoryPanel();
+    }
+
+    function escapeAttr(str) {
+        return String(str ?? '').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
     }
 
     /* ============================================================
@@ -949,6 +1185,121 @@
     }
 
     function printOrder() { window.print(); }
+
+    /* ============================================================
+       PDF ЭКСПОРТ (коммерческое предложение)
+       Рендерим обычный DOM-документ и растеризуем его через
+       html2canvas — так кириллица гарантированно рисуется системным
+       шрифтом браузера, без встраивания кастомных TTF в jsPDF.
+    ============================================================ */
+    function buildKpHtml() {
+        const totalQty = cart.reduce((s,i) => s+i.qty, 0);
+        const totalArea = cart.reduce((s,i) => s+i.area*i.qty, 0);
+        const totalWeight = cart.reduce((s,i) => s+i.weight*i.qty, 0);
+        const totalSum = cart.reduce((s,i) => s+i.total, 0);
+
+        const rows = cart.map((item, idx) => `
+            <tr>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0; text-align:center;">${idx+1}</td>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0;">
+                    <div style="font-weight:600;">${escapeHtml(item.name)}</div>
+                    <div style="font-size:11px; color:#64748b;">${escapeHtml(item.dimStr)}</div>
+                </td>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0; text-align:center;">${escapeHtml(item.metalName)}, ${escapeHtml(item.thickness)} мм</td>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0; text-align:center;">${item.qty}</td>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0; text-align:center;">${(item.area*item.qty).toFixed(3)}</td>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0; text-align:right;">${formatSum(item.price)}</td>
+                <td style="padding:7px 6px; border-bottom:1px solid #e2e8f0; text-align:right; font-weight:600;">${formatSum(item.total)}</td>
+            </tr>
+        `).join('');
+
+        return `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #1e40af; padding-bottom:16px; margin-bottom:20px;">
+                <div>
+                    <div style="font-size:22px; font-weight:800; color:#1e40af;">ВентЗавод</div>
+                    <div style="font-size:12px; color:#64748b; margin-top:2px;">Коммерческое предложение на изготовление воздуховодов</div>
+                </div>
+                <div style="text-align:right; font-size:13px;">
+                    <div><strong>Заказ №:</strong> ${escapeHtml(orderNumberInput.value)}</div>
+                    <div><strong>Дата:</strong> ${escapeHtml(orderDateInput.value)}</div>
+                </div>
+            </div>
+            <div style="margin-bottom:18px; font-size:13px;">
+                <strong>Клиент:</strong> ${escapeHtml(clientNameInput.value || '—')}
+            </div>
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                <thead>
+                    <tr style="background:#eff6ff;">
+                        <th style="padding:8px 6px; text-align:center; border-bottom:2px solid #bfdbfe;">№</th>
+                        <th style="padding:8px 6px; text-align:left; border-bottom:2px solid #bfdbfe;">Наименование</th>
+                        <th style="padding:8px 6px; text-align:center; border-bottom:2px solid #bfdbfe;">Металл</th>
+                        <th style="padding:8px 6px; text-align:center; border-bottom:2px solid #bfdbfe;">Кол-во</th>
+                        <th style="padding:8px 6px; text-align:center; border-bottom:2px solid #bfdbfe;">Площадь м²</th>
+                        <th style="padding:8px 6px; text-align:right; border-bottom:2px solid #bfdbfe;">Цена/м²</th>
+                        <th style="padding:8px 6px; text-align:right; border-bottom:2px solid #bfdbfe;">Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+                <tfoot>
+                    <tr style="background:#eff6ff; font-weight:700;">
+                        <td colspan="3" style="padding:9px 6px; text-align:right;">ИТОГО:</td>
+                        <td style="padding:9px 6px; text-align:center;">${totalQty} шт</td>
+                        <td style="padding:9px 6px; text-align:center;">${totalArea.toFixed(3)}</td>
+                        <td style="padding:9px 6px; text-align:right;">вес: ${totalWeight.toFixed(1)} кг</td>
+                        <td style="padding:9px 6px; text-align:right; color:#1e40af;">${formatSum(totalSum)}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div style="margin-top:26px; font-size:11px; color:#94a3b8;">
+                Расчёт носит справочный характер. Окончательная стоимость подтверждается при оформлении заказа. Сформировано автоматически калькулятором ВентЗавод.
+            </div>
+        `;
+    }
+
+    async function exportToPDF() {
+        if (cart.length === 0) { showToast('Корзина пуста', true); return; }
+        if (typeof html2canvas === 'undefined' || !window.jspdf) {
+            showToast('PDF-библиотека не загрузилась (нет сети?)', true);
+            return;
+        }
+        const pdfBtn = document.getElementById('pdfBtn');
+        pdfBtn.disabled = true;
+        pdfBtn.textContent = '⏳ Формируем PDF...';
+        try {
+            const holder = document.getElementById('kpTemplate');
+            holder.innerHTML = buildKpHtml();
+
+            const canvasImg = await html2canvas(holder, { scale: 2, backgroundColor: '#ffffff' });
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'pt', 'a4');
+            const pageW = pdf.internal.pageSize.getWidth();
+            const pageH = pdf.internal.pageSize.getHeight();
+            const imgW = pageW;
+            const imgH = canvasImg.height * imgW / canvasImg.width;
+
+            if (imgH <= pageH) {
+                pdf.addImage(canvasImg.toDataURL('image/png'), 'PNG', 0, 0, imgW, imgH);
+            } else {
+                // многостраничная нарезка: рисуем один и тот же canvas со смещением
+                let heightLeft = imgH;
+                let position = 0;
+                pdf.addImage(canvasImg.toDataURL('image/png'), 'PNG', 0, position, imgW, imgH);
+                heightLeft -= pageH;
+                while (heightLeft > 0) {
+                    position -= pageH;
+                    pdf.addPage();
+                    pdf.addImage(canvasImg.toDataURL('image/png'), 'PNG', 0, position, imgW, imgH);
+                    heightLeft -= pageH;
+                }
+            }
+            pdf.save(`КП_${orderNumberInput.value}.pdf`);
+        } catch (e) {
+            showToast('Не удалось сформировать PDF', true);
+        } finally {
+            pdfBtn.disabled = false;
+            pdfBtn.textContent = '📄 PDF (КП)';
+        }
+    }
 
     /* ============================================================
        ДВИЖОК ЧЕРЧЕНИЯ — общие примитивы
