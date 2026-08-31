@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор заказов воздуховодов — ВентЗавод</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .container { max-width: 1500px; margin: 0 auto; }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-primary { background: #1e40af; color: white; }
+        .btn-primary:hover { background: #1e3a8a; }
+        .btn-success { background: #16a34a; color: white; }
+        .btn-success:hover { background: #15803d; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-secondary { background: #e2e8f0; color: #1e293b; }
+        .btn-secondary:hover { background: #cbd5e1; }
+        .btn-small { padding: 5px 10px; font-size: 12px; }
+        .btn:disabled { opacity: .5; cursor: not-allowed; }
+        .input-field {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            width: 100%;
+            background: #fafbfc;
+        }
+        .input-field:focus {
+            border-color: #1e40af;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30,64,175,0.1);
+        }
+        .input-field.error { border-color: #ef4444; background: #fef2f2; }
+        .field-error { color: #ef4444; font-size: 11px; margin-top: 2px; display: block; min-height: 14px; }
+        .label-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .calc-badge {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #bfdbfe;
+        }
+        .calc-badge small { display:block; font-weight:600; color:#64748b; font-size:10px; text-transform:none; margin-top:2px; }
+        .warn-box {
+            background: #fffbeb; border: 1px solid #fde68a; color: #92400e;
+            border-radius: 8px; padding: 10px 12px; font-size: 12px; margin-bottom: 12px; display:none;
+        }
+        .warn-box.show { display: block; }
+        .check-row { display:flex; align-items:center; gap:8px; font-size: 13px; color:#334155; }
+        canvas {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        table th {
+            background: #f1f5f9; font-weight: 600; font-size: 11px; text-transform: uppercase;
+            padding: 10px 8px; border-bottom: 2px solid #e2e8f0; text-align: center; white-space: nowrap;
+        }
+        table td { padding: 8px; border-bottom: 1px solid #f1f5f9; text-align: center; }
+        table tr:hover td { background: #f8fafc; }
+        .total-row { background: #eff6ff !important; font-weight: 700; border-top: 2px solid #bfdbfe; }
+        .cell-input { width: 70px; text-align:center; border:1px solid #e2e8f0; border-radius:6px; padding:4px; font-size:13px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .mb-4 { margin-bottom: 16px; }
+        .toast {
+            position: fixed; bottom: 20px; right: 20px; background: #16a34a; color: white;
+            padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); transform: translateY(100px); opacity: 0;
+            transition: all .25s; z-index: 999;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .card { box-shadow: none; border: none; padding: 0; margin-bottom: 10px; page-break-inside: avoid; }
+            table { font-size: 11px; }
+        }
+        @media (max-width: 900px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-4 { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 640px) {
+            .grid-3 { grid-template-columns: 1fr 1fr; }
+            table.responsive-table thead { display: none; }
+            table.responsive-table, table.responsive-table tbody, table.responsive-table tr, table.responsive-table td { display: block; width: 100%; }
+            table.responsive-table tr { border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; padding: 8px; }
+            table.responsive-table td { text-align: right; padding: 6px 4px; border-bottom: 1px dashed #f1f5f9; }
+            table.responsive-table td::before { content: attr(data-label); float: left; font-weight: 600; color: #64748b; font-size: 11px; }
+            table.responsive-table td:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ШАПКА -->
+        <div class="card">
+            <h1 style="font-size: 24px; font-weight: bold; color: #1e40af; margin-bottom: 20px;">
+                🔧 Калькулятор заказов воздуховодов
+            </h1>
+            <div class="grid-4">
+                <div>
+                    <label class="label-text" for="orderNumber">Номер заказа</label>
+                    <input type="text" id="orderNumber" class="input-field" readonly>
+                </div>
+                <div>
+                    <label class="label-text" for="clientName">Контрагент / Клиент</label>
+                    <input type="text" id="clientName" class="input-field" placeholder="ООО «КлиматСтрой»">
+                </div>
+                <div>
+                    <label class="label-text" for="orderDate">Дата заказа</label>
+                    <input type="date" id="orderDate" class="input-field">
+                </div>
+                <div>
+                    <label class="label-text" for="allowanceMm">Припуск на фальц/борт (мм)</label>
+                    <input type="number" id="allowanceMm" class="input-field" value="15" min="0" step="1">
+                </div>
+            </div>
+            <div style="margin-top:12px;" class="check-row">
+                <input type="checkbox" id="useAllowance" checked style="width:16px;height:16px;">
+                <label for="useAllowance">Учитывать припуски на фальцы/отбортовку в площади заготовки (иначе считается только геометрическая площадь развёртки)</label>
+            </div>
+        </div>
+
+        <!-- КОНСТРУКТОР -->
+        <div class="grid-2">
+            <div class="card">
+                <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">📐 Конструктор изделия</h2>
+
+                <div class="grid-2 mb-4">
+                    <div>
+                        <label class="label-text" for="metalType">Тип металла</label>
+                        <select id="metalType" class="input-field">
+                            <option value="galvanized">Оцинкованная сталь</option>
+                            <option value="stainless">Нержавеющая сталь AISI 304</option>
+                            <option value="black">Черный металл</option>
+                            <option value="aluminum">Алюминий</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="label-text" for="metalThickness">Толщина металла</label>
+                        <select id="metalThickness" class="input-field">
+                            <option value="0.5">0.5 мм</option>
+                            <option value="0.7">0.7 мм</option>
+                            <option value="0.9">0.9 мм</option>
+                            <option value="1.0">1.0 мм</option>
+                            <option value="1.2">1.2 мм</option>
+                            <option value="1.5">1.5 мм</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="label-text" for="productType">Тип изделия</label>
+                    <select id="productType" class="input-field">
+                        <optgroup label="— Прямоугольные воздуховоды —">
+                            <option value="rect_straight">Прямой участок</option>
+                            <option value="rect_transition">Переход</option>
+                            <option value="rect_elbow_90">Отвод 90°</option>
+                            <option value="rect_elbow_45">Отвод 45°</option>
+                            <option value="rect_elbow_custom">Отвод произвольный</option>
+                            <option value="rect_tee">Тройник</option>
+                            <option value="rect_cross">Крестовина</option>
+                            <option value="rect_plug">Заглушка</option>
+                            <option value="rect_insert">Врезка</option>
+                            <option value="rect_duck">Утка</option>
+                        </optgroup>
+                        <optgroup label="— Круглые воздуховоды —">
+                            <option value="round_straight">Прямой участок</option>
+                            <option value="round_transition_rr">Переход круг-круг</option>
+                            <option value="round_transition_rp">Переход круг-прямоугольник</option>
+                            <option value="round_elbow">Отвод</option>
+                            <option value="round_tee">Тройник</option>
+                            <option value="round_cross">Крестовина</option>
+                            <option value="round_plug">Заглушка</option>
+                            <option value="round_insert">Врезка воротниковая</option>
+                            <option value="round_nipple">Ниппель</option>
+                        </optgroup>
+                        <optgroup label="— Дополнительные элементы —">
+                            <option value="umbrella">Зонт вентиляционный</option>
+                            <option value="adapter">Переход на гибкий воздуховод</option>
+                            <option value="damper">Шибер (заслонка)</option>
+                            <option value="anemostat">Анемостат</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div id="dimensionsContainer" class="grid-3 mb-4"></div>
+                <div id="warnBox" class="warn-box"></div>
+
+                <div class="grid-2 mb-4">
+                    <div>
+                        <label class="label-text" for="quantity">Количество (шт)</label>
+                        <input type="number" id="quantity" class="input-field" value="1" min="1" step="1">
+                    </div>
+                    <div>
+                        <label class="label-text" for="pricePerM2">Цена за м² (сум), база (оцинковка)</label>
+                        <input type="number" id="pricePerM2" class="input-field" value="150000" min="0" step="10000">
+                    </div>
+                </div>
+
+                <div class="grid-3 mb-4">
+                    <div>
+                        <label class="label-text">Площадь заготовки</label>
+                        <div class="calc-badge" id="calcArea">0.000 м²<small id="calcAreaGeom"></small></div>
+                    </div>
+                    <div>
+                        <label class="label-text">Вес (за шт)</label>
+                        <div class="calc-badge" id="calcWeight">0.00 кг</div>
+                    </div>
+                    <div>
+                        <label class="label-text">Сумма (за партию)</label>
+                        <div class="calc-badge" id="calcTotal">0 сум</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" onclick="addToCart()" style="width: 100%;" id="addBtn">
+                    ➕ Добавить в заказ
+                </button>
+            </div>
+
+            <!-- ЧЕРТЁЖ -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="font-size: 18px; font-weight: bold;">📏 Чертёж изделия</h2>
+                    <button class="btn btn-primary no-print" onclick="downloadPNG()">📥 Скачать PNG</button>
+                </div>
+                <canvas id="drawingCanvas" width="900" height="700"></canvas>
+            </div>
+        </div>
+
+        <!-- СПЕЦИФИКАЦИЯ -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="font-size: 18px; font-weight: bold;">📋 Спецификация заказа</h2>
+                <div class="no-print">
+                    <button class="btn btn-primary" onclick="exportToExcel()">📊 Excel</button>
+                    <button class="btn btn-secondary" onclick="printOrder()">🖨️ Печать</button>
+                    <button class="btn btn-danger" onclick="clearCart()">🗑️ Очистить</button>
+                </div>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="responsive-table" id="cartTable">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Наименование</th>
+                            <th>Металл</th>
+                            <th>Толщ.</th>
+                            <th>Кол-во</th>
+                            <th>Площадь (м²)</th>
+                            <th>Вес (кг)</th>
+                            <th>Цена/м²</th>
+                            <th>Сумма (сум)</th>
+                            <th class="no-print">✕</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTableBody">
+                        <tr>
+                            <td colspan="10" style="text-align: center; color: #94a3b8; padding: 20px;">
+                                Корзина пуста. Добавьте изделия.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+    'use strict';
+
+    /* ============================================================
+       СПРАВОЧНИКИ
+    ============================================================ */
+    const METALS = {
+        galvanized: { name: 'Оцинк.',  density: 7850, priceMultiplier: 1 },
+        stainless:  { name: 'Нерж.',   density: 7900, priceMultiplier: 2.5 },
+        black:      { name: 'Черн.',   density: 7850, priceMultiplier: 0.8 },
+        aluminum:   { name: 'Алюм.',   density: 2700, priceMultiplier: 1.8 }
+    };
+
+    // Стандартный ряд размеров (для подсказок/предупреждений)
+    const STD_ROUND = [100,110,125,140,160,180,200,224,250,280,315,355,400,450,500,560,630,710,800,900,1000];
+    const SHEET_W = 1250; // ширина листа/рулона, мм — ограничение на разворачиваемый периметр без стыка
+
+    function toRad(deg) { return deg * Math.PI / 180; }
+
+    /* ============================================================
+       КАТАЛОГ ИЗДЕЛИЙ
+       ends       — число открытых торцов (для припуска на фальц/борт)
+       perimEnds  — функция периметра одного торца(ов), нужна для припуска
+       area       — «геометрическая» площадь развёртки (м²), БЕЗ припусков
+       kind       — тип отрисовки в движке чертежей
+    ============================================================ */
+    const PRODUCTS = {
+        rect_straight: {
+            name: 'Прямой участок (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:2000}, {id:'B',label:'Высота B',def:200,min:60,max:2000}, {id:'L',label:'Длина L',def:1000,min:50,max:4000} ],
+            ends: 2, perimEnds: d => [2*(d.A+d.B), 2*(d.A+d.B)],
+            area: d => 2*(d.A+d.B)*d.L/1e6,
+            kind: 'rectStraight'
+        },
+        rect_transition: {
+            name: 'Переход (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:400,min:60,max:2000}, {id:'B',label:'Высота B',def:300,min:60,max:2000}, {id:'a',label:'Ширина a',def:200,min:60,max:2000}, {id:'b',label:'Высота b',def:150,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
+            ends: 2, perimEnds: d => [2*(d.A+d.B), 2*(d.a+d.b)],
+            area: d => {
+                // площадь по 4 боковым трапециям считается по фактической (наклонной) длине скатов, а не по осевой L
+                const sx = Math.hypot(d.L, (d.A-d.a)/2);
+                const sy = Math.hypot(d.L, (d.B-d.b)/2);
+                return (d.A+d.a)*sx/1e6 + (d.B+d.b)*sy/1e6;
+            },
+            kind: 'rectTransition'
+        },
+        rect_elbow_90: {
+            name: 'Отвод 90° (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500}, {id:'R',label:'Радиус R',def:300,min:30,max:2000} ],
+            ends: 2, perimEnds: d => [2*(d.A+d.B), 2*(d.A+d.B)],
+            area: d => rectElbowArea(d.A, d.B, d.R, 90),
+            kind: 'rectElbow', angle: 90
+        },
+        rect_elbow_45: {
+            name: 'Отвод 45° (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500}, {id:'R',label:'Радиус R',def:350,min:30,max:2000} ],
+            ends: 2, perimEnds: d => [2*(d.A+d.B), 2*(d.A+d.B)],
+            area: d => rectElbowArea(d.A, d.B, d.R, 45),
+            kind: 'rectElbow', angle: 45
+        },
+        rect_elbow_custom: {
+            name: 'Отвод произвольный',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500}, {id:'R',label:'Радиус R',def:350,min:30,max:2000}, {id:'angle',label:'Угол °',def:60,min:1,max:180} ],
+            ends: 2, perimEnds: d => [2*(d.A+d.B), 2*(d.A+d.B)],
+            area: d => rectElbowArea(d.A, d.B, d.R, d.angle),
+            kind: 'rectElbow', angle: d => d.angle
+        },
+        rect_tee: {
+            name: 'Тройник (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500}, {id:'L',label:'Длина L',def:800,min:100,max:3000}, {id:'a',label:'Ширина отв. a',def:150,min:60,max:1000}, {id:'C',label:'Длина отвода C',def:400,min:50,max:1500} ],
+            ends: 3, perimEnds: d => [2*(d.A+d.B), 2*(d.A+d.B), 2*(d.a+d.B)],
+            area: d => 2*(d.A+d.B)*d.L/1e6 + 2*(d.a+d.B)*d.C/1e6,
+            kind: 'rectTee'
+        },
+        rect_cross: {
+            name: 'Крестовина (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500}, {id:'L',label:'Длина L',def:800,min:100,max:3000}, {id:'a',label:'Ширина отв. a',def:150,min:60,max:1000}, {id:'C',label:'Длина отвода C',def:400,min:50,max:1500} ],
+            ends: 4, perimEnds: d => [2*(d.A+d.B),2*(d.A+d.B),2*(d.a+d.B),2*(d.a+d.B)],
+            area: d => 2*(d.A+d.B)*d.L/1e6 + 2*2*(d.a+d.B)*d.C/1e6,
+            kind: 'rectCross'
+        },
+        rect_plug: {
+            name: 'Заглушка (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:2000}, {id:'B',label:'Высота B',def:200,min:60,max:2000} ],
+            ends: 1, perimEnds: d => [2*(d.A+d.B)],
+            area: d => d.A*d.B/1e6,
+            kind: 'rectPlug'
+        },
+        rect_insert: {
+            name: 'Врезка (прямоуг.)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:2000}, {id:'B',label:'Высота B',def:200,min:60,max:2000}, {id:'L',label:'Длина корпуса L',def:600,min:100,max:3000}, {id:'d',label:'Диаметр врезки d',def:150,min:60,max:800}, {id:'h',label:'Высота патрубка h',def:100,min:30,max:500} ],
+            ends: 3, perimEnds: d => [2*(d.A+d.B),2*(d.A+d.B),Math.PI*d.d],
+            area: d => 2*(d.A+d.B)*d.L/1e6 + Math.PI*d.d*d.h/1e6,
+            kind: 'rectInsert'
+        },
+        rect_duck: {
+            name: 'Утка',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500}, {id:'L',label:'Длина L',def:500,min:100,max:2000}, {id:'offset',label:'Смещение',def:150,min:0,max:1000} ],
+            ends: 2, perimEnds: d => [2*(d.A+d.B),2*(d.A+d.B)],
+            area: d => 2*(d.A+d.B)*Math.hypot(d.L, d.offset)/1e6,
+            kind: 'rectDuck'
+        },
+        round_straight: {
+            name: 'Прямой участок (круглый)',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:2000}, {id:'L',label:'Длина L',def:1000,min:50,max:4000} ],
+            ends: 2, perimEnds: d => [Math.PI*d.D, Math.PI*d.D],
+            area: d => Math.PI*d.D*d.L/1e6,
+            kind: 'roundStraight'
+        },
+        round_transition_rr: {
+            name: 'Переход круг-круг',
+            dims: [ {id:'D',label:'Диаметр D',def:400,min:60,max:2000}, {id:'d',label:'Диаметр d',def:250,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
+            ends: 2, perimEnds: d => [Math.PI*d.D, Math.PI*d.d],
+            area: d => {
+                const slant = Math.hypot(d.L, (d.D-d.d)/2);
+                return Math.PI*(d.D+d.d)/2*slant/1e6;
+            },
+            kind: 'roundTransitionRR'
+        },
+        round_transition_rp: {
+            name: 'Переход круг-прямоуг.',
+            dims: [ {id:'D',label:'Диаметр D',def:400,min:60,max:2000}, {id:'A',label:'Ширина A',def:500,min:60,max:2000}, {id:'B',label:'Высота B',def:300,min:60,max:2000}, {id:'L',label:'Длина L',def:500,min:50,max:2000} ],
+            ends: 2, perimEnds: d => [Math.PI*d.D, 2*(d.A+d.B)],
+            area: d => {
+                const slant = Math.hypot(d.L, Math.max(d.A,d.B)/2 - d.D/4);
+                return (Math.PI*d.D + 2*(d.A+d.B))/2*Math.max(slant,d.L)/1e6;
+            },
+            kind: 'roundTransitionRP'
+        },
+        round_elbow: {
+            name: 'Отвод (круглый)',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:1500}, {id:'R',label:'Радиус R',def:350,min:30,max:2000}, {id:'angle',label:'Угол °',def:90,min:1,max:180} ],
+            ends: 2, perimEnds: d => [Math.PI*d.D, Math.PI*d.D],
+            area: d => Math.PI*d.D*(Math.PI*d.R*d.angle/180)/1e6,
+            kind: 'roundElbow'
+        },
+        round_tee: {
+            name: 'Тройник (круглый)',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:1500}, {id:'d',label:'Диаметр отв. d',def:200,min:60,max:1000}, {id:'L',label:'Длина L',def:700,min:100,max:3000}, {id:'C',label:'Длина отвода C',def:300,min:50,max:1500} ],
+            ends: 3, perimEnds: d => [Math.PI*d.D, Math.PI*d.D, Math.PI*d.d],
+            area: d => Math.PI*d.D*d.L/1e6 + Math.PI*d.d*d.C/1e6,
+            kind: 'roundTee'
+        },
+        round_cross: {
+            name: 'Крестовина (круглая)',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:1500}, {id:'d',label:'Диаметр отв. d',def:200,min:60,max:1000}, {id:'L',label:'Длина L',def:700,min:100,max:3000}, {id:'C',label:'Длина отвода C',def:300,min:50,max:1500} ],
+            ends: 4, perimEnds: d => [Math.PI*d.D, Math.PI*d.D, Math.PI*d.d, Math.PI*d.d],
+            area: d => Math.PI*d.D*d.L/1e6 + 2*Math.PI*d.d*d.C/1e6,
+            kind: 'roundCross'
+        },
+        round_plug: {
+            name: 'Заглушка (круглая)',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:2000} ],
+            ends: 1, perimEnds: d => [Math.PI*d.D],
+            area: d => Math.PI*d.D*d.D/4/1e6,
+            kind: 'roundPlug'
+        },
+        round_insert: {
+            name: 'Врезка воротниковая',
+            dims: [ {id:'D',label:'Диаметр D',def:400,min:60,max:2000}, {id:'d',label:'Диаметр d',def:150,min:60,max:1000}, {id:'L',label:'Длина корпуса L',def:500,min:100,max:3000}, {id:'h',label:'Высота воротника h',def:100,min:30,max:500} ],
+            ends: 3, perimEnds: d => [Math.PI*d.D, Math.PI*d.D, Math.PI*d.d],
+            area: d => Math.PI*d.D*d.L/1e6 + Math.PI*d.d*d.h/1e6,
+            kind: 'roundInsert'
+        },
+        round_nipple: {
+            name: 'Ниппель',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:2000}, {id:'L',label:'Длина L',def:100,min:30,max:400} ],
+            ends: 2, perimEnds: d => [Math.PI*d.D, Math.PI*d.D],
+            area: d => Math.PI*d.D*d.L/1e6,
+            kind: 'roundNipple'
+        },
+        umbrella: {
+            name: 'Зонт вентиляционный',
+            dims: [ {id:'D',label:'Диаметр основания D',def:500,min:100,max:2000}, {id:'H',label:'Высота конуса H',def:150,min:30,max:1000} ],
+            ends: 1, perimEnds: d => [Math.PI*d.D],
+            area: d => { const r = d.D/2; return Math.PI*r*Math.hypot(r,d.H)/1e6; }, // боковая поверхность конуса
+            kind: 'umbrella'
+        },
+        adapter: {
+            name: 'Переход на гибкий',
+            dims: [ {id:'D',label:'Диаметр D',def:315,min:60,max:1500}, {id:'L',label:'Длина L',def:200,min:50,max:600} ],
+            ends: 2, perimEnds: d => [Math.PI*d.D, Math.PI*d.D],
+            area: d => Math.PI*d.D*d.L/1e6,
+            kind: 'roundNipple'
+        },
+        damper: {
+            name: 'Шибер (заслонка)',
+            dims: [ {id:'A',label:'Ширина A',def:300,min:60,max:1500}, {id:'B',label:'Высота B',def:200,min:60,max:1500} ],
+            ends: 1, perimEnds: d => [2*(d.A+d.B)],
+            area: d => d.A*d.B*2/1e6, // корпус + подвижная заслонка
+            kind: 'damper'
+        },
+        anemostat: {
+            name: 'Анемостат',
+            dims: [ {id:'D',label:'Диаметр D',def:200,min:80,max:800} ],
+            ends: 1, perimEnds: d => [Math.PI*d.D],
+            area: d => Math.PI*d.D*d.D/4/1e6,
+            kind: 'anemostat'
+        }
+    };
+
+    function rectElbowArea(A, B, R, angle) {
+        // две боковые щеки (кольцевой сектор шириной A) + внутренняя/наружная дуговые полосы высотой B
+        const cheeks = (angle/180) * Math.PI * (Math.pow(R+A,2) - Math.pow(R,2)); // обе щеки суммарно
+        const bands = 2 * B * (angle/180) * Math.PI * (R + A/2);
+        return (cheeks + bands) / 1e6;
+    }
+
+    /* ============================================================
+       СОСТОЯНИЕ
+    ============================================================ */
+    let cart = [];
+    let currentDims = {};
+    let currentProduct = null;
+    let currentProductKey = null;
+    let seq = 1;
+
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    const orderNumberInput = document.getElementById('orderNumber');
+    const clientNameInput = document.getElementById('clientName');
+    const orderDateInput = document.getElementById('orderDate');
+    const metalTypeSelect = document.getElementById('metalType');
+    const metalThicknessSelect = document.getElementById('metalThickness');
+    const productTypeSelect = document.getElementById('productType');
+    const dimensionsContainer = document.getElementById('dimensionsContainer');
+    const quantityInput = document.getElementById('quantity');
+    const pricePerM2Input = document.getElementById('pricePerM2');
+    const allowanceMmInput = document.getElementById('allowanceMm');
+    const useAllowanceInput = document.getElementById('useAllowance');
+    const warnBox = document.getElementById('warnBox');
+    const addBtn = document.getElementById('addBtn');
+
+    const STORAGE_KEY = 'ductCalc.v2';
+
+    /* ============================================================
+       ИНИЦИАЛИЗАЦИЯ / ПЕРСИСТЕНТНОСТЬ
+    ============================================================ */
+    function init() {
+        loadState();
+        if (!orderNumberInput.value) {
+            const now = new Date();
+            orderNumberInput.value = `З-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${String(seq).padStart(4,'0')}`;
+        }
+        if (!orderDateInput.value) orderDateInput.value = new Date().toISOString().split('T')[0];
+        updateDimensions(true);
+        renderCart();
+        bindEvents();
+    }
+
+    function bindEvents() {
+        productTypeSelect.addEventListener('change', () => updateDimensions(false));
+        metalTypeSelect.addEventListener('change', onFieldChange);
+        metalThicknessSelect.addEventListener('change', onFieldChange);
+        quantityInput.addEventListener('input', onFieldChange);
+        pricePerM2Input.addEventListener('input', onFieldChange);
+        allowanceMmInput.addEventListener('input', onFieldChange);
+        useAllowanceInput.addEventListener('change', onFieldChange);
+        clientNameInput.addEventListener('input', saveState);
+        orderDateInput.addEventListener('input', saveState);
+        window.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && document.activeElement && document.activeElement.tagName === 'INPUT') {
+                addToCart();
+            }
+        });
+    }
+
+    function onFieldChange() { updateCalculation(); drawCanvas(); saveState(); }
+
+    function saveState() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                orderNumber: orderNumberInput.value,
+                clientName: clientNameInput.value,
+                orderDate: orderDateInput.value,
+                cart, seq
+            }));
+        } catch (e) { /* localStorage may be unavailable — ignore silently */ }
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            if (data.orderNumber) orderNumberInput.value = data.orderNumber;
+            if (data.clientName) clientNameInput.value = data.clientName;
+            if (data.orderDate) orderDateInput.value = data.orderDate;
+            if (Array.isArray(data.cart)) cart = data.cart;
+            if (data.seq) seq = data.seq;
+        } catch (e) { /* corrupted storage — start fresh */ }
+    }
+
+    /* ============================================================
+       РАЗМЕРЫ / ВАЛИДАЦИЯ
+    ============================================================ */
+    function updateDimensions(silent) {
+        currentProductKey = productTypeSelect.value;
+        currentProduct = PRODUCTS[currentProductKey];
+        currentDims = {};
+        dimensionsContainer.innerHTML = '';
+
+        currentProduct.dims.forEach(dim => {
+            currentDims[dim.id] = dim.def;
+            const div = document.createElement('div');
+            const inputId = `dim_${dim.id}`;
+            div.innerHTML = `
+                <label class="label-text" for="${inputId}">${dim.label} (мм)</label>
+                <input type="number" id="${inputId}" class="input-field" data-dim="${dim.id}"
+                       value="${dim.def}" min="${dim.min ?? 0}" max="${dim.max ?? 5000}" step="1">
+                <span class="field-error" id="err_${dim.id}"></span>
+            `;
+            dimensionsContainer.appendChild(div);
+        });
+
+        dimensionsContainer.querySelectorAll('input[data-dim]').forEach(inp => {
+            inp.addEventListener('input', () => {
+                const id = inp.dataset.dim;
+                const meta = currentProduct.dims.find(d => d.id === id);
+                let val = parseFloat(inp.value);
+                if (isNaN(val)) val = 0;
+                currentDims[id] = val;
+                validateField(inp, meta);
+                validateShape();
+                updateCalculation();
+                drawCanvas();
+                saveState();
+            });
+        });
+
+        validateShape();
+        updateCalculation();
+        drawCanvas();
+        if (!silent) saveState();
+    }
+
+    function validateField(inp, meta) {
+        const val = parseFloat(inp.value);
+        const errEl = document.getElementById(`err_${meta.id}`);
+        let msg = '';
+        if (isNaN(val) || val <= 0) msg = 'Должно быть больше нуля';
+        else if (meta.min !== undefined && val < meta.min) msg = `Минимум ${meta.min} мм`;
+        else if (meta.max !== undefined && val > meta.max) msg = `Максимум ${meta.max} мм`;
+        inp.classList.toggle('error', !!msg);
+        if (errEl) errEl.textContent = msg;
+        return !msg;
+    }
+
+    // Проверки соотношений размеров конкретно по типу изделия — предупреждают, но не блокируют
+    function validateShape() {
+        const d = currentDims, key = currentProductKey;
+        const warns = [];
+        let blocking = false;
+
+        const checkAllFieldsValid = () => {
+            let ok = true;
+            dimensionsContainer.querySelectorAll('input[data-dim]').forEach(inp => {
+                const meta = currentProduct.dims.find(x => x.id === inp.dataset.dim);
+                if (!validateField(inp, meta)) ok = false;
+            });
+            return ok;
+        };
+        if (!checkAllFieldsValid()) blocking = true;
+
+        if (key === 'rect_transition' && d.a >= d.A && d.b >= d.B) {
+            warns.push('Размеры выхода (a×b) не меньше входа (A×B) — это не сужение. Проверьте направление перехода.');
+        }
+        if ((key === 'round_transition_rr') && d.d >= d.D) {
+            warns.push('Диаметр d не меньше D — переход не сужается.');
+        }
+        if (key.startsWith('rect_elbow') && d.R < d.A / 2) {
+            warns.push('Радиус R меньше половины ширины A — отвод получится с изломом, увеличьте R.');
+        }
+        if (key === 'round_elbow' && d.R < d.D / 2) {
+            warns.push('Радиус R меньше половины диаметра D — так отвод физически не гнётся.');
+        }
+        if ((key === 'rect_tee' || key === 'rect_cross') && d.a >= Math.min(d.A, d.C ? 99999 : d.A)) {
+            if (d.a >= d.A) warns.push('Ширина отвода a не должна превышать основной канал A.');
+        }
+        if ((key === 'round_tee' || key === 'round_cross') && d.d >= d.D) {
+            warns.push('Диаметр отвода d не должен превышать основной диаметр D.');
+        }
+        if (key.startsWith('rect_') && (d.A || d.B)) {
+            const per = 2 * ((d.A||0) + (d.B||0));
+            if (per / 2 > SHEET_W) warns.push(`Сторона разворачивается шире рулона (${SHEET_W} мм) — потребуется продольный стык.`);
+        }
+        // толщина металла vs габарит (упрощённое правило: чем крупнее канал, тем толще металл)
+        const maxSide = Math.max(d.A||0, d.B||0, d.D||0);
+        const thickness = parseFloat(metalThicknessSelect.value);
+        if (maxSide > 1000 && thickness < 0.9) warns.push('Для канала крупнее 1000 мм рекомендуется толщина металла от 0.9 мм.');
+        else if (maxSide > 500 && thickness < 0.7) warns.push('Для канала крупнее 500 мм рекомендуется толщина металла от 0.7 мм.');
+
+        if (warns.length) {
+            warnBox.innerHTML = '⚠️ ' + warns.join('<br>⚠️ ');
+            warnBox.classList.add('show');
+        } else {
+            warnBox.classList.remove('show');
+        }
+        addBtn.disabled = blocking;
+    }
+
+    /* ============================================================
+       РАСЧЁТЫ
+    ============================================================ */
+    function calcAreaBlank() {
+        if (!currentProduct) return { geom: 0, blank: 0 };
+        const dims = { ...currentDims };
+        currentProduct.dims.forEach(d => { if (!dims[d.id]) dims[d.id] = d.def; });
+        const geom = Math.max(0, currentProduct.area(dims));
+        let blank = geom;
+        if (useAllowanceInput.checked) {
+            const allowance = Math.max(0, parseFloat(allowanceMmInput.value) || 0);
+            const ends = currentProduct.perimEnds ? currentProduct.perimEnds(dims) : [];
+            const extra = ends.reduce((sum, p) => sum + p * allowance, 0) / 1e6;
+            blank = geom + extra;
+        }
+        return { geom, blank };
+    }
+
+    function calculateWeight(areaBlank) {
+        const thickness = parseFloat(metalThicknessSelect.value);
+        const density = METALS[metalTypeSelect.value].density;
+        return areaBlank * thickness * density / 1000;
+    }
+
+    function formatSum(amount) {
+        return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round(amount)) + ' сум';
+    }
+
+    function updateCalculation() {
+        const { geom, blank } = calcAreaBlank();
+        const weight = calculateWeight(blank);
+        const qty = Math.max(1, parseInt(quantityInput.value) || 1);
+        const priceMultiplier = METALS[metalTypeSelect.value].priceMultiplier;
+        const basePrice = parseFloat(pricePerM2Input.value) || 0;
+        const finalPrice = basePrice * priceMultiplier;
+        const total = blank * qty * finalPrice;
+
+        document.getElementById('calcArea').innerHTML = `${blank.toFixed(3)} м²<small>геометрия: ${geom.toFixed(3)} м²</small>`;
+        document.getElementById('calcWeight').textContent = `${weight.toFixed(2)} кг`;
+        document.getElementById('calcTotal').textContent = formatSum(total);
+
+        return { area: blank, areaGeom: geom, weight, total, finalPrice, qty };
+    }
+
+    /* ============================================================
+       КОРЗИНА
+    ============================================================ */
+    function addToCart() {
+        validateShape();
+        if (addBtn.disabled) { showToast('Исправьте ошибки в размерах', true); return; }
+
+        const { area, weight, total, finalPrice, qty } = updateCalculation();
+        const metalName = METALS[metalTypeSelect.value].name;
+        const thickness = metalThicknessSelect.value;
+
+        const dimStr = currentProduct.dims.map(d => `${d.label}=${currentDims[d.id] ?? d.def}мм`).join(', ');
+
+        cart.push({
+            id: seq++,
+            name: currentProduct.name,
+            productKey: currentProductKey,
+            dims: { ...currentDims },
+            dimStr,
+            metalKey: metalTypeSelect.value,
+            metalName,
+            thickness,
+            qty,
+            area,
+            weight,
+            price: finalPrice,
+            total
+        });
+
+        renderCart();
+        saveState();
+        showToast('Позиция добавлена в заказ');
+    }
+
+    function recalcItem(item) {
+        item.total = item.area * item.qty * item.price;
+    }
+
+    function renderCart() {
+        const tbody = document.getElementById('cartTableBody');
+
+        if (cart.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#94a3b8;padding:20px;">Корзина пуста</td></tr>';
+            return;
+        }
+
+        let html = '';
+        let totalQty = 0, totalArea = 0, totalWeight = 0, totalSum = 0;
+
+        cart.forEach((item, idx) => {
+            totalQty += item.qty;
+            totalArea += item.area * item.qty;
+            totalWeight += item.weight * item.qty;
+            totalSum += item.total;
+
+            html += `
+                <tr>
+                    <td data-label="№">${idx + 1}</td>
+                    <td data-label="Наименование"><strong>${escapeHtml(item.name)}</strong><br><small>${escapeHtml(item.dimStr)}</small></td>
+                    <td data-label="Металл">${escapeHtml(item.metalName)}</td>
+                    <td data-label="Толщ.">${escapeHtml(item.thickness)} мм</td>
+                    <td data-label="Кол-во"><input type="number" class="cell-input" min="1" step="1" value="${item.qty}" onchange="updateItemQty(${item.id}, this.value)"></td>
+                    <td data-label="Площадь (м²)">${(item.area * item.qty).toFixed(3)}</td>
+                    <td data-label="Вес (кг)">${(item.weight * item.qty).toFixed(2)}</td>
+                    <td data-label="Цена/м²"><input type="number" class="cell-input" min="0" step="1000" value="${Math.round(item.price)}" onchange="updateItemPrice(${item.id}, this.value)"></td>
+                    <td data-label="Сумма (сум)"><strong>${formatSum(item.total)}</strong></td>
+                    <td data-label="" class="no-print"><button class="btn btn-danger btn-small" onclick="deleteItem(${item.id})">✕</button></td>
+                </tr>
+            `;
+        });
+
+        html += `
+            <tr class="total-row">
+                <td colspan="4">ИТОГО:</td>
+                <td>${totalQty} шт</td>
+                <td>${totalArea.toFixed(3)} м²</td>
+                <td>${totalWeight.toFixed(2)} кг</td>
+                <td></td>
+                <td><strong>${formatSum(totalSum)}</strong></td>
+                <td class="no-print"></td>
+            </tr>
+        `;
+
+        tbody.innerHTML = html;
+    }
+
+    function updateItemQty(id, value) {
+        const item = cart.find(i => i.id === id);
+        if (!item) return;
+        item.qty = Math.max(1, parseInt(value) || 1);
+        recalcItem(item);
+        renderCart();
+        saveState();
+    }
+
+    function updateItemPrice(id, value) {
+        const item = cart.find(i => i.id === id);
+        if (!item) return;
+        item.price = Math.max(0, parseFloat(value) || 0);
+        recalcItem(item);
+        renderCart();
+        saveState();
+    }
+
+    function deleteItem(id) {
+        cart = cart.filter(item => item.id !== id);
+        renderCart();
+        saveState();
+    }
+
+    function clearCart() {
+        if (cart.length === 0) return;
+        if (confirm('Очистить корзину?')) {
+            cart = [];
+            renderCart();
+            saveState();
+            showToast('Корзина очищена');
+        }
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str ?? '';
+        return div.innerHTML;
+    }
+
+    function showToast(msg, isError) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.background = isError ? '#ef4444' : '#16a34a';
+        t.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    /* ============================================================
+       ЭКСПОРТ
+    ============================================================ */
+    function downloadPNG() {
+        drawCanvas();
+        const link = document.createElement('a');
+        link.download = `чертеж_${orderNumberInput.value}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    function exportToExcel() {
+        if (cart.length === 0) { showToast('Корзина пуста', true); return; }
+
+        const data = [
+            ['ЗАКАЗ №', orderNumberInput.value, '', 'ДАТА', orderDateInput.value],
+            ['КЛИЕНТ', clientNameInput.value || '—', '', '', ''],
+            [],
+            ['№', 'Наименование', 'Размеры', 'Металл', 'Толщ. (мм)', 'Кол-во (шт)', 'Площадь (м²)', 'Вес (кг)', 'Цена (сум/м²)', 'Сумма (сум)']
+        ];
+
+        cart.forEach((item, idx) => {
+            data.push([
+                idx + 1,
+                item.name,
+                item.dimStr,
+                item.metalName,
+                Number(item.thickness),
+                item.qty,
+                Number((item.area * item.qty).toFixed(3)),
+                Number((item.weight * item.qty).toFixed(2)),
+                Math.round(item.price),
+                Math.round(item.total)
+            ]);
+        });
+
+        const totalQty = cart.reduce((s,i) => s+i.qty, 0);
+        const totalArea = cart.reduce((s,i) => s+i.area*i.qty, 0);
+        const totalWeight = cart.reduce((s,i) => s+i.weight*i.qty, 0);
+        const totalSum = cart.reduce((s,i) => s+i.total, 0);
+        const totalRowIdx = data.length; // 0-based index of the row we're about to push
+        data.push(['', '', '', '', 'ИТОГО:', totalQty, Number(totalArea.toFixed(3)), Number(totalWeight.toFixed(2)), '', Math.round(totalSum)]);
+
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        ws['!cols'] = [{wch:4},{wch:28},{wch:34},{wch:10},{wch:10},{wch:10},{wch:12},{wch:10},{wch:14},{wch:16}];
+        // числовой формат для сумм
+        const headerRow = 4; // 1-based row with column titles
+        for (let r = headerRow; r <= data.length; r++) {
+            ['G','H','I','J'].forEach(col => {
+                const cell = ws[`${col}${r}`];
+                if (cell && typeof cell.v === 'number') cell.z = '#,##0';
+            });
+        }
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Заказ');
+        XLSX.writeFile(wb, `Заказ_${orderNumberInput.value}.xlsx`);
+    }
+
+    function printOrder() { window.print(); }
+
+    /* ============================================================
+       ДВИЖОК ЧЕРЧЕНИЯ — общие примитивы
+       Система координат: рабочая область чертежа [DRAW], справа-снизу штамп.
+    ============================================================ */
+    const CANVAS_W = 900, CANVAS_H = 700;
+    const STAMP_W = 300, STAMP_H = 120;
+    const MARGIN = 18;
+    const DRAW = { x: MARGIN, y: MARGIN, w: CANVAS_W - MARGIN*2, h: CANVAS_H - MARGIN*2 - STAMP_H - 14 };
+
+    const COL = { line: '#1e3a8a', thin: '#60a5fa', dim: '#0f172a', hatch: '#94a3b8', fill: '#eaf1fd', fill2: '#dbe8fc', axis: '#94a3b8', text: '#0f172a' };
+
+    function arrowHead(x, y, angle, size) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-size, size*0.38);
+        ctx.lineTo(-size, -size*0.38);
+        ctx.closePath();
+        ctx.fillStyle = COL.dim;
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function textWithHalo(text, x, y, opts) {
+        opts = opts || {};
+        ctx.save();
+        ctx.font = opts.font || 'bold 13px Arial';
+        ctx.textAlign = opts.align || 'center';
+        ctx.textBaseline = opts.baseline || 'middle';
+        const metrics = ctx.measureText(text);
+        const pad = 3;
+        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+        let hx = x - (opts.align === 'left' ? 0 : opts.align === 'right' ? metrics.width : metrics.width/2) - pad;
+        ctx.fillRect(hx, y - 8, metrics.width + pad*2, 16);
+        ctx.fillStyle = opts.color || COL.text;
+        ctx.fillText(text, x, y);
+        ctx.restore();
+    }
+
+    // Горизонтальная размерная линия под/над объектом с выносными линиями
+    function dimH(x1, x2, edgeY, dimY, label) {
+        ctx.save();
+        ctx.strokeStyle = COL.dim;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([]);
+        // выносные линии
+        ctx.beginPath();
+        ctx.moveTo(x1, edgeY); ctx.lineTo(x1, dimY);
+        ctx.moveTo(x2, edgeY); ctx.lineTo(x2, dimY);
+        ctx.stroke();
+        // размерная линия
+        ctx.beginPath();
+        ctx.moveTo(x1, dimY); ctx.lineTo(x2, dimY);
+        ctx.stroke();
+        const dir = x2 >= x1 ? 1 : -1;
+        arrowHead(x1, dimY, Math.atan2(0, -dir), 7);
+        arrowHead(x2, dimY, Math.atan2(0, dir), 7);
+        textWithHalo(label, (x1+x2)/2, dimY - 10);
+        ctx.restore();
+    }
+
+    function dimV(y1, y2, edgeX, dimX, label) {
+        ctx.save();
+        ctx.strokeStyle = COL.dim;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(edgeX, y1); ctx.lineTo(dimX, y1);
+        ctx.moveTo(edgeX, y2); ctx.lineTo(dimX, y2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(dimX, y1); ctx.lineTo(dimX, y2);
+        ctx.stroke();
+        const dir = y2 >= y1 ? 1 : -1;
+        arrowHead(dimX, y1, Math.atan2(-dir, 0), 7);
+        arrowHead(dimX, y2, Math.atan2(dir, 0), 7);
+        ctx.save();
+        ctx.translate(dimX - 12, (y1+y2)/2);
+        ctx.rotate(-Math.PI/2);
+        textWithHalo(label, 0, 0);
+        ctx.restore();
+        ctx.restore();
+    }
+
+    // Радиальная размерная линия (для отводов): от центра дуги к точке на дуге
+    function dimRadial(cx, cy, r, angleDeg, label) {
+        const a = toRad(angleDeg);
+        const x2 = cx + r*Math.cos(a), y2 = cy + r*Math.sin(a);
+        ctx.save();
+        ctx.strokeStyle = COL.dim;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5,3]);
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x2, y2); ctx.stroke();
+        ctx.setLineDash([]);
+        arrowHead(x2, y2, a + Math.PI, 7);
+        ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI*2); ctx.fillStyle = COL.dim; ctx.fill();
+        textWithHalo(label, (cx+x2)/2, (cy+y2)/2 - 8);
+        ctx.restore();
+    }
+
+    // Штриховка прямоугольного сечения (торец под 45°)
+    function hatchRect(x, y, w, h, step) {
+        step = step || 6;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+        ctx.strokeStyle = COL.hatch;
+        ctx.lineWidth = 1;
+        for (let i = -h; i < w + h; i += step) {
+            ctx.beginPath();
+            ctx.moveTo(x + i, y);
+            ctx.lineTo(x + i + h, y + h);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    function centerCross(x, y, size) {
+        ctx.save();
+        ctx.strokeStyle = COL.axis;
+        ctx.setLineDash([8,3,2,3]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x-size, y); ctx.lineTo(x+size, y);
+        ctx.moveTo(x, y-size); ctx.lineTo(x, y+size);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+    }
+
+    function drawBox(x, y, w, h, opts) {
+        opts = opts || {};
+        ctx.fillStyle = opts.fill || COL.fill;
+        ctx.fillRect(x, y, w, h);
+        ctx.strokeStyle = opts.stroke || COL.line;
+        ctx.lineWidth = opts.lw || 2;
+        ctx.strokeRect(x, y, w, h);
+    }
+
+    function fitScale(bboxW, bboxH, areaW, areaH) {
+        const s = Math.min(areaW / bboxW, areaH / bboxH);
+        return Math.max(0.02, s);
+    }
+
+    /* ============================================================
+       ОТРИСОВКА ЧЕРТЁЖА — диспетчер
+    ============================================================ */
+    const drawers = {
+        rectStraight(d) {
+            const pad = 90;
+            const s = fitScale(d.L + 60, Math.max(d.A, d.B) + 90, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.L*s, h = d.A*s;
+            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
+            drawBox(x, y, w, h);
+            // сечение-заглушка слева (штриховка = разрез/торец)
+            const secW = Math.min(24, w*0.08);
+            hatchRect(x, y, secW, h);
+            hatchRect(x + w - secW, y, secW, h);
+            dimH(x, x+w, y, y - 34, `L = ${d.L}`);
+            dimV(y, y+h, x, x - 34, `A = ${d.A}`);
+            textWithHalo(`B = ${d.B} (высота сеч.)`, x + w/2, y + h + 30, {font:'12px Arial'});
+        },
+        rectTransition(d) {
+            const pad = 100;
+            const s = fitScale(d.L + 80, Math.max(d.A, d.B) + 90, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.L*s, h1 = d.A*s, h2 = d.a*s;
+            const x = DRAW.x + (DRAW.w - w)/2, yMid = DRAW.y + 40 + (DRAW.h - 140)/2;
+            ctx.beginPath();
+            ctx.moveTo(x, yMid - h1/2);
+            ctx.lineTo(x + w, yMid - h2/2);
+            ctx.lineTo(x + w, yMid + h2/2);
+            ctx.lineTo(x, yMid + h1/2);
+            ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill();
+            ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            hatchRect(x, yMid - h1/2, Math.min(20,w*0.06), h1);
+            hatchRect(x + w - Math.min(20,w*0.06), yMid - h2/2, Math.min(20,w*0.06), h2);
+            dimH(x, x+w, yMid - Math.max(h1,h2)/2, yMid - Math.max(h1,h2)/2 - 34, `L = ${d.L}`);
+            dimV(yMid - h1/2, yMid + h1/2, x, x - 34, `A = ${d.A}`);
+            dimV(yMid - h2/2, yMid + h2/2, x + w, x + w + 34, `a = ${d.a}`);
+            textWithHalo(`B = ${d.B} → b = ${d.b}`, x + w/2, yMid + Math.max(h1,h2)/2 + 30, {font:'12px Arial'});
+        },
+        rectElbow(d, angleParam) {
+            const angle = typeof angleParam === 'function' ? angleParam(d) : angleParam;
+            const R = d.R, A = d.A, B = d.B;
+            const pad = 70;
+            const outerR = R + A;
+            const s = fitScale(outerR*1.25, outerR*1.25, DRAW.w - pad*2, DRAW.h - 100);
+            const cx = DRAW.x + 130, cy = DRAW.y + 40 + (DRAW.h - 140) - outerR*s*0.15;
+            const r1 = R*s, r2 = (R+A)*s;
+            const start = Math.PI, end = Math.PI + toRad(angle);
+            ctx.beginPath();
+            ctx.arc(cx, cy, r2, start, end, false);
+            ctx.arc(cx, cy, r1, end, start, true);
+            ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill();
+            ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            // штриховка входного и выходного торцов
+            const p1a = { x: cx + r1*Math.cos(start), y: cy + r1*Math.sin(start) };
+            const p1b = { x: cx + r2*Math.cos(start), y: cy + r2*Math.sin(start) };
+            const p2a = { x: cx + r1*Math.cos(end), y: cy + r1*Math.sin(end) };
+            const p2b = { x: cx + r2*Math.cos(end), y: cy + r2*Math.sin(end) };
+            ctx.save();
+            ctx.strokeStyle = COL.hatch; ctx.lineWidth = 1;
+            for (let t = 0; t <= 1; t += 0.18) {
+                ctx.beginPath();
+                ctx.moveTo(p1a.x + (p1b.x-p1a.x)*t, p1a.y + (p1b.y-p1a.y)*t - 6);
+                ctx.lineTo(p1a.x + (p1b.x-p1a.x)*t, p1a.y + (p1b.y-p1a.y)*t + 6);
+                ctx.moveTo(p2a.x + (p2b.x-p2a.x)*t, p2a.y + (p2b.y-p2a.y)*t - 6);
+                ctx.lineTo(p2a.x + (p2b.x-p2a.x)*t, p2a.y + (p2b.y-p2a.y)*t + 6);
+                ctx.stroke();
+            }
+            ctx.restore();
+            centerCross(cx, cy, 14);
+            dimRadial(cx, cy, r1, 180 + angle/2, `R = ${R}`);
+            textWithHalo(`A = ${A}, B = ${B}, угол = ${angle}°`, cx + Math.max(r2*0.6, 90), cy + r2*0.55, {align:'left', font:'12px Arial'});
+        },
+        rectTee(d) {
+            const pad = 90;
+            const s = fitScale(d.L + 40, d.A + d.C + 60, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.A*s, cw = d.a*s, ch = d.C*s;
+            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 60 + (DRAW.h - 160 - h);
+            const bx = x + w/2 - cw/2;
+            drawBox(bx, y - ch, cw, ch, { fill: COL.fill2 });
+            drawBox(x, y, w, h);
+            hatchRect(x, y, Math.min(18,w*0.05), h);
+            hatchRect(x + w - Math.min(18,w*0.05), y, Math.min(18,w*0.05), h);
+            hatchRect(bx, y - ch, cw, Math.min(18,ch*0.2));
+            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
+            dimV(y, y+h, x, x-34, `A = ${d.A}`);
+            dimV(y-ch, y, bx, bx-34, `C = ${d.C}`);
+            dimH(bx, bx+cw, y-ch, y-ch-20, `a = ${d.a}`);
+        },
+        rectCross(d) {
+            const pad = 90;
+            const s = fitScale(d.L + 40, d.A + 2*d.C + 60, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.A*s, cw = d.a*s, ch = d.C*s;
+            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 70 + (DRAW.h - 180 - h)/2 + ch;
+            const bx = x + w/2 - cw/2;
+            drawBox(bx, y - ch, cw, ch, { fill: COL.fill2 });
+            drawBox(bx, y + h, cw, ch, { fill: COL.fill2 });
+            drawBox(x, y, w, h);
+            hatchRect(x, y, Math.min(18,w*0.05), h);
+            hatchRect(x + w - Math.min(18,w*0.05), y, Math.min(18,w*0.05), h);
+            hatchRect(bx, y-ch, cw, Math.min(16,ch*0.25));
+            hatchRect(bx, y+h+ch-Math.min(16,ch*0.25), cw, Math.min(16,ch*0.25));
+            dimH(x, x+w, y+h, y+h+34+ch, `L = ${d.L}`);
+            dimV(y, y+h, x, x-34, `A = ${d.A}`);
+            dimV(y-ch, y, bx+cw, bx+cw+30, `C = ${d.C}`);
+            dimH(bx, bx+cw, y-ch, y-ch-16, `a = ${d.a}`);
+        },
+        rectPlug(d) {
+            const pad = 140;
+            const s = fitScale(d.A+60, d.B+60, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.A*s, h = d.B*s;
+            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
+            drawBox(x, y, w, h);
+            ctx.save();
+            ctx.strokeStyle = COL.thin; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+w,y+h); ctx.moveTo(x+w,y); ctx.lineTo(x,y+h); ctx.stroke();
+            ctx.restore();
+            // отбортовка по периметру
+            const bort = Math.max(4, 12*s*10);
+            ctx.strokeStyle = COL.line; ctx.setLineDash([2,2]);
+            ctx.strokeRect(x-6, y-6, w+12, h+12);
+            ctx.setLineDash([]);
+            dimH(x, x+w, y+h, y+h+34, `A = ${d.A}`);
+            dimV(y, y+h, x, x-34, `B = ${d.B}`);
+            textWithHalo('Отбортовка по контуру', x+w/2, y-16, {font:'11px Arial', color:'#64748b'});
+        },
+        roundPlug(d) {
+            const pad = 120;
+            const r = fitScale(d.D+40, d.D+40, DRAW.w - pad*2, DRAW.h - 100) * d.D / 2;
+            const cx = DRAW.x + DRAW.w/2, cy = DRAW.y + 40 + (DRAW.h-140)/2;
+            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+            ctx.fillStyle = COL.fill; ctx.fill();
+            ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            ctx.strokeStyle = COL.line; ctx.setLineDash([2,2]);
+            ctx.beginPath(); ctx.arc(cx, cy, r+7, 0, Math.PI*2); ctx.stroke();
+            ctx.setLineDash([]);
+            centerCross(cx, cy, r*0.5);
+            dimRadial(cx, cy, r, -35, `⌀ ${d.D} (R=${Math.round(d.D/2)})`);
+        },
+        roundStraight(d) {
+            const pad = 90;
+            const s = fitScale(d.L+60, d.D+90, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.L*s, h = d.D*s;
+            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
+            drawBox(x, y, w, h);
+            [x, x+w].forEach(ex => {
+                ctx.beginPath();
+                ctx.ellipse(ex, y+h/2, Math.max(6,h*0.08), h/2, 0, 0, Math.PI*2);
+                ctx.strokeStyle = COL.line; ctx.lineWidth = 1.5; ctx.stroke();
+            });
+            centerCross((x+x+w)/2 - w/2 + w/2, y+h/2, 0);
+            ctx.save(); ctx.strokeStyle = COL.axis; ctx.setLineDash([8,3,2,3]);
+            ctx.beginPath(); ctx.moveTo(x-14, y+h/2); ctx.lineTo(x+w+14, y+h/2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+            dimH(x, x+w, y, y-34, `L = ${d.L}`);
+            dimV(y, y+h, x+w, x+w+34, `⌀ D = ${d.D}`);
+        },
+        roundTransitionRR(d) {
+            const pad = 100;
+            const s = fitScale(d.L+80, Math.max(d.D,d.d)+90, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.L*s, h1 = d.D*s, h2 = d.d*s;
+            const x = DRAW.x + (DRAW.w - w)/2, yMid = DRAW.y + 40 + (DRAW.h-140)/2;
+            ctx.beginPath();
+            ctx.moveTo(x, yMid-h1/2); ctx.lineTo(x+w, yMid-h2/2); ctx.lineTo(x+w, yMid+h2/2); ctx.lineTo(x, yMid+h1/2); ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            [ [x, h1], [x+w, h2] ].forEach(([ex,h]) => {
+                ctx.beginPath(); ctx.ellipse(ex, yMid, Math.max(5,h*0.08), h/2, 0, 0, Math.PI*2);
+                ctx.strokeStyle = COL.line; ctx.lineWidth = 1.5; ctx.stroke();
+            });
+            dimH(x, x+w, yMid-Math.max(h1,h2)/2, yMid-Math.max(h1,h2)/2-34, `L = ${d.L}`);
+            dimV(yMid-h1/2, yMid+h1/2, x, x-34, `⌀ D = ${d.D}`);
+            dimV(yMid-h2/2, yMid+h2/2, x+w, x+w+34, `⌀ d = ${d.d}`);
+        },
+        roundTransitionRP(d) {
+            const pad = 100;
+            const s = fitScale(d.L+80, Math.max(d.D,d.A,d.B)+90, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.L*s, h1 = d.D*s, h2 = d.A*s;
+            const x = DRAW.x + (DRAW.w-w)/2, yMid = DRAW.y + 40 + (DRAW.h-140)/2;
+            ctx.beginPath();
+            ctx.moveTo(x, yMid-h1/2); ctx.lineTo(x+w, yMid-h2/2); ctx.lineTo(x+w, yMid+h2/2); ctx.lineTo(x, yMid+h1/2); ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(x, yMid, Math.max(5,h1*0.08), h1/2, 0, 0, Math.PI*2); ctx.stroke();
+            ctx.strokeRect(x+w-2, yMid-h2/2, 2, h2);
+            dimH(x, x+w, yMid-Math.max(h1,h2)/2, yMid-Math.max(h1,h2)/2-34, `L = ${d.L}`);
+            dimV(yMid-h1/2, yMid+h1/2, x, x-34, `⌀ D = ${d.D}`);
+            dimV(yMid-h2/2, yMid+h2/2, x+w, x+w+34, `A×B = ${d.A}×${d.B}`);
+        },
+        roundElbow(d) {
+            const R = d.R, D = d.D, angle = d.angle;
+            const pad = 70;
+            const outerR = R + D/2;
+            const s = fitScale(outerR*1.3, outerR*1.3, DRAW.w - pad*2, DRAW.h - 100);
+            const cx = DRAW.x + 140, cy = DRAW.y + 40 + (DRAW.h-140) - outerR*s*0.1;
+            const rr = R*s, rw = (D/2)*s;
+            const start = Math.PI, end = Math.PI + toRad(angle);
+            ctx.beginPath(); ctx.arc(cx, cy, rr, start, end, false); ctx.strokeStyle = COL.axis; ctx.setLineDash([8,3,2,3]); ctx.lineWidth=1; ctx.stroke(); ctx.setLineDash([]);
+            ctx.beginPath(); ctx.arc(cx, cy, rr+rw, start, end, false); ctx.arc(cx, cy, rr-rw, end, start, true); ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            [start, end].forEach(a => {
+                const p1 = { x: cx+(rr-rw)*Math.cos(a), y: cy+(rr-rw)*Math.sin(a) };
+                const p2 = { x: cx+(rr+rw)*Math.cos(a), y: cy+(rr+rw)*Math.sin(a) };
+                ctx.beginPath(); ctx.ellipse((p1.x+p2.x)/2,(p1.y+p2.y)/2, 5, rw, a+Math.PI/2, 0, Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
+            });
+            centerCross(cx, cy, 14);
+            dimRadial(cx, cy, rr, 180+angle/2, `R = ${R}`);
+            textWithHalo(`⌀ D = ${D}, угол = ${angle}°`, cx + (rr+rw)*0.7 + 40, cy + (rr+rw)*0.5, {align:'left', font:'12px Arial'});
+        },
+        roundTee(d) {
+            const pad = 90;
+            const s = fitScale(d.L+40, d.D+d.C+60, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.C*s;
+            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
+            const bx = x + w/2;
+            ctx.beginPath(); ctx.moveTo(bx-cw/2, y-ch); ctx.lineTo(bx+cw/2, y-ch); ctx.lineTo(bx+cw/2, y); ctx.lineTo(bx-cw/2,y); ctx.closePath();
+            ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            drawBox(x, y, w, h);
+            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.08), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
+            ctx.beginPath(); ctx.ellipse(bx, y-ch, cw/2, Math.max(4,cw*0.12), 0, 0, Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
+            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
+            dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
+            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `C = ${d.C}`);
+            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
+        },
+        roundCross(d) {
+            const pad = 90;
+            const s = fitScale(d.L+40, d.D+2*d.C+60, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.C*s;
+            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 70 + (DRAW.h-180-h)/2 + ch;
+            const bx = x + w/2;
+            [ [y-ch, y], [y+h, y+h+ch] ].forEach(([y1,y2]) => {
+                ctx.beginPath(); ctx.rect(bx-cw/2, y1, cw, y2-y1); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            });
+            drawBox(x, y, w, h);
+            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.08), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
+            dimH(x, x+w, y+h, y+h+34+ch, `L = ${d.L}`);
+            dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
+            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `C = ${d.C}`);
+            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-16, `⌀ d = ${d.d}`);
+        },
+        roundInsert(d) {
+            const pad = 90;
+            const s = fitScale(d.L+40, d.D+d.h+60, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.h*s;
+            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
+            const bx = x + w/2;
+            ctx.beginPath(); ctx.rect(bx-cw/2, y-ch, cw, ch); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            drawBox(x, y, w, h);
+            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.08), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
+            ctx.beginPath(); ctx.ellipse(bx, y-ch, cw/2, Math.max(4,cw*0.12), 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
+            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
+            dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
+            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `h = ${d.h}`);
+            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
+        },
+        roundNipple(d) {
+            const pad = 140;
+            const s = fitScale(d.L+60, d.D+90, DRAW.w - pad*2, DRAW.h - 100);
+            const w = Math.max(d.L*s, 60), h = d.D*s;
+            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 40 + (DRAW.h-140-h)/2;
+            drawBox(x, y, w, h);
+            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.1), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
+            // рифление ниппеля
+            ctx.strokeStyle = COL.thin; ctx.lineWidth = 1;
+            for (let i = x+8; i < x+w-8; i += 8) { ctx.beginPath(); ctx.moveTo(i, y+4); ctx.lineTo(i, y+h-4); ctx.stroke(); }
+            dimH(x, x+w, y, y-34, `L = ${d.L}`);
+            dimV(y, y+h, x+w, x+w+34, `⌀ D = ${d.D}`);
+        },
+        rectInsert(d) {
+            const pad = 90;
+            const s = fitScale(d.L+40, d.A+d.h+60, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.A*s, cw = d.d*s, ch = d.h*s;
+            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
+            const bx = x + w/2;
+            ctx.beginPath(); ctx.rect(bx-cw/2, y-ch, cw, ch); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            drawBox(x, y, w, h);
+            hatchRect(x, y, Math.min(18,w*0.05), h);
+            hatchRect(x+w-Math.min(18,w*0.05), y, Math.min(18,w*0.05), h);
+            ctx.beginPath(); ctx.ellipse(bx, y-ch, cw/2, Math.max(4,cw*0.12), 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
+            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
+            dimV(y, y+h, x, x-34, `A = ${d.A} (B=${d.B})`);
+            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `h = ${d.h}`);
+            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
+        },
+        rectDuck(d) {
+            const pad = 90;
+            const s = fitScale(d.L+d.offset+60, d.A+d.offset+80, DRAW.w - pad*2, DRAW.h - 120);
+            const w = d.L*s, h = d.A*s, off = d.offset*s;
+            const x = DRAW.x + (DRAW.w-w-off)/2, y = DRAW.y + 50 + (DRAW.h-160-h-off);
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, y); ctx.lineTo(x+w, y); ctx.lineTo(x+w+off, y+off+h); ctx.lineTo(x+off, y+off+h);
+            ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            ctx.restore();
+            hatchRect(x, y, Math.min(16,w*0.05), h*0.4);
+            dimH(x, x+w, y, y-30, `L = ${d.L}`);
+            dimV(y, y+h+off, x+w, x+w+off+30, `смещение = ${d.offset}`);
+            textWithHalo(`A×B = ${d.A}×${d.B}`, x+off/2+w/2, y+off+h+26, {font:'12px Arial'});
+        },
+        umbrella(d) {
+            const pad = 130;
+            const s = fitScale(d.D+40, d.D/2+d.H+60, DRAW.w - pad*2, DRAW.h - 100);
+            const r = d.D/2*s, h = d.H*s;
+            const cx = DRAW.x + DRAW.w/2, apexY = DRAW.y + 50, baseY = apexY + h;
+            ctx.beginPath();
+            ctx.moveTo(cx, apexY);
+            ctx.lineTo(cx - r, baseY);
+            ctx.quadraticCurveTo(cx, baseY + 14, cx + r, baseY);
+            ctx.closePath();
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(cx, baseY, r, 10, 0, 0, Math.PI*2); ctx.strokeStyle = COL.line; ctx.lineWidth = 1.3; ctx.stroke();
+            // патрубок/стойка вниз
+            drawBox(cx - r*0.28, baseY, r*0.56, h*0.55, { fill: COL.fill2 });
+            dimV(apexY, baseY, cx - r, cx - r - 34, `H = ${d.H}`);
+            dimH(cx-r, cx+r, baseY+12, baseY+40, `⌀ D = ${d.D}`);
+        },
+        damper(d) {
+            const pad = 130;
+            const s = fitScale(d.A+40, d.B+40, DRAW.w - pad*2, DRAW.h - 100);
+            const w = d.A*s, h = d.B*s;
+            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 40 + (DRAW.h-140-h)/2;
+            drawBox(x, y, w, h);
+            drawBox(x + w*0.12, y + h*0.1, w*0.76, h*0.15, { fill: COL.fill2, stroke: COL.thin, lw: 1.5 });
+            ctx.beginPath(); ctx.arc(x+w/2, y+h+14, 8, 0, Math.PI, true); ctx.strokeStyle = COL.line; ctx.lineWidth=1.5; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(x+w/2, y+h); ctx.lineTo(x+w/2, y+h+22); ctx.stroke();
+            dimH(x, x+w, y+h, y+h+40, `A = ${d.A}`);
+            dimV(y, y+h, x, x-34, `B = ${d.B}`);
+            textWithHalo('Подвижная заслонка', x+w/2, y+h*0.18, {font:'11px Arial', color:'#64748b'});
+        },
+        anemostat(d) {
+            const pad = 120;
+            const r = fitScale(d.D+40, d.D+40, DRAW.w - pad*2, DRAW.h - 100) * d.D/2;
+            const cx = DRAW.x + DRAW.w/2, cy = DRAW.y + 40 + (DRAW.h-140)/2;
+            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            for (let i = 1; i <= 3; i++) {
+                ctx.beginPath(); ctx.arc(cx, cy, r*i/4, 0, Math.PI*2); ctx.strokeStyle = COL.thin; ctx.lineWidth = 1; ctx.stroke();
+            }
+            for (let i = 0; i < 12; i++) {
+                const a = i*Math.PI/6;
+                ctx.beginPath(); ctx.moveTo(cx+r*0.15*Math.cos(a), cy+r*0.15*Math.sin(a)); ctx.lineTo(cx+r*Math.cos(a), cy+r*Math.sin(a));
+                ctx.strokeStyle = COL.thin; ctx.lineWidth = 1; ctx.stroke();
+            }
+            dimRadial(cx, cy, r, -40, `⌀ D = ${d.D}`);
+        }
+    };
+
+    /* ============================================================
+       ОТРИСОВКА ПОЛНОГО ЧЕРТЕЖА СО ШТАМПОМ
+    ============================================================ */
+    function drawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // внешняя рамка чертежа (ГОСТ-подобная, с внутренним полем)
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
+
+        // штамп
+        const stampX = canvas.width - STAMP_W - 14;
+        const stampY = canvas.height - STAMP_H - 14;
+        ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 1.5;
+        ctx.strokeRect(stampX, stampY, STAMP_W, STAMP_H);
+
+        const rowH = STAMP_H / 6;
+        for (let i = 1; i < 6; i++) {
+            ctx.beginPath();
+            ctx.moveTo(stampX, stampY + i*rowH);
+            ctx.lineTo(stampX + STAMP_W, stampY + i*rowH);
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.moveTo(stampX + 105, stampY);
+        ctx.lineTo(stampX + 105, stampY + STAMP_H);
+        ctx.stroke();
+
+        ctx.fillStyle = '#1a1a1a';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        const labels = ['Заказ:', 'Клиент:', 'Изделие:', 'Металл:', 'Кол-во:', 'Дата:'];
+        labels.forEach((lab, i) => ctx.fillText(lab, stampX + 5, stampY + rowH*(i+1) - 5));
+
+        ctx.fillStyle = '#1e40af';
+        ctx.font = 'bold 11px Arial';
+        const metal = METALS[metalTypeSelect.value];
+        const values = [
+            orderNumberInput.value,
+            clientNameInput.value || '—',
+            currentProduct ? currentProduct.name : '—',
+            `${metal.name}, ${metalThicknessSelect.value} мм`,
+            (quantityInput.value || 0) + ' шт',
+            orderDateInput.value
+        ];
+        values.forEach((val, i) => {
+            const txt = String(val).length > 22 ? String(val).slice(0,21)+'…' : String(val);
+            ctx.fillText(txt, stampX + 110, stampY + rowH*(i+1) - 5);
+        });
+
+        // Заголовок листа
+        ctx.fillStyle = '#1a1a1a';
+        ctx.font = 'bold 15px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText(currentProduct ? currentProduct.name : '', DRAW.x, DRAW.y + 14);
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(DRAW.x, DRAW.y + 22); ctx.lineTo(DRAW.x + DRAW.w, DRAW.y + 22); ctx.stroke();
+
+        // отрисовка изделия
+        if (currentProduct) {
+            const dims = { ...currentDims };
+            currentProduct.dims.forEach(dd => { if (!dims[dd.id]) dims[dd.id] = dd.def; });
+            const fn = drawers[currentProduct.kind];
+            if (fn) {
+                try { fn(dims, currentProduct.angle); }
+                catch (e) { /* защита от выхода за пределы при экстремальных размерах */ }
+            }
+        }
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('Все размеры в мм. Чертёж принципиальный, не для раскроя без ОТК.', DRAW.x, canvas.height - 10);
+        ctx.textAlign = 'right';
+        ctx.fillText(`Масштаб — авто, лист A4`, canvas.width - 20, DRAW.y - 4 + 24);
+    }
+
+    /* ============================================================
+       ЗАПУСК
+    ============================================================ */
+    init();
+    </script>
+</body>
+</html>
