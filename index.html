@@ -1433,6 +1433,18 @@
         ctx.restore();
     }
 
+    // Осевая линия (штрихпунктир) между двумя точками — ГОСТовское обозначение
+    // оси симметрии/центра, используется на видах с двумя проекциями.
+    function centerLine(x1, y1, x2, y2) {
+        ctx.save();
+        ctx.strokeStyle = COL.axis;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([14, 4, 2, 4]);
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+    }
+
     function drawBox(x, y, w, h, opts) {
         opts = opts || {};
         ctx.fillStyle = opts.fill || COL.fill;
@@ -1539,11 +1551,14 @@
             textWithHalo(`A = ${A}, B = ${B}, угол = ${angle}°`, DRAW.x + sidePad, cy + bbox.maxY*s + 28, {align:'left', font:'12px Arial'});
         },
         rectTee(d) {
-            const pad = 90;
-            const s = fitScale(d.L + 40, d.A + d.C + 60, DRAW.w - pad*2, DRAW.h - 120);
+            const zoneW = DRAW.w * 0.64, sideX = DRAW.x + zoneW + 36, sideW = DRAW.w - zoneW - 36;
+            const pad = 50;
+            const s = fitScale(d.L + 40, d.A + d.C + 60, zoneW - pad*2, DRAW.h - 120);
             const w = d.L*s, h = d.A*s, cw = d.a*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 60 + (DRAW.h - 160 - h);
+            const x = DRAW.x + pad + (zoneW - pad*2 - w)/2, y = DRAW.y + 60 + (DRAW.h - 160 - h);
             const bx = x + w/2 - cw/2;
+            centerLine(x - 20, y + h/2, x + w + 20, y + h/2);
+            centerLine(x + w/2, y - ch - 20, x + w/2, y + h + 20);
             drawBox(bx, y - ch, cw, ch, { fill: COL.fill2 });
             drawBox(x, y, w, h);
             hatchRect(x, y, Math.min(18,w*0.05), h);
@@ -1553,13 +1568,29 @@
             dimV(y, y+h, x, x-34, `A = ${d.A}`);
             dimV(y-ch, y, bx, bx-34, `C = ${d.C}`);
             dimH(bx, bx+cw, y-ch, y-ch-20, `a = ${d.a}`);
+
+            // вид сбоку (торец основного канала)
+            const evS = fitScale(d.A + 40, d.B + 40, sideW - 20, DRAW.h - 160);
+            const evW = d.A*evS, evH = d.B*evS;
+            const evX = sideX + (sideW - evW)/2, evY = y + h/2 - evH/2;
+            drawBox(evX, evY, evW, evH);
+            const evCw = Math.min(evW*0.9, d.a*evS);
+            ctx.save(); ctx.strokeStyle = COL.line; ctx.setLineDash([4,3]); ctx.lineWidth = 1.3;
+            ctx.strokeRect(evX + evW/2 - evCw/2, evY, evCw, evH); ctx.setLineDash([]); ctx.restore();
+            centerLine(evX - 14, evY + evH/2, evX + evW + 14, evY + evH/2);
+            centerLine(evX + evW/2, evY - 14, evX + evW/2, evY + evH + 14);
+            textWithHalo('Вид сбоку', evX + evW/2, evY - 22, {font:'11px Arial', color:'#64748b'});
+            dimH(evX, evX+evW, evY+evH, evY+evH+30, `B = ${d.B}`);
         },
         rectCross(d) {
-            const pad = 90;
-            const s = fitScale(d.L + 40, d.A + 2*d.C + 60, DRAW.w - pad*2, DRAW.h - 120);
+            const zoneW = DRAW.w * 0.64, sideX = DRAW.x + zoneW + 36, sideW = DRAW.w - zoneW - 36;
+            const pad = 50;
+            const s = fitScale(d.L + 40, d.A + 2*d.C + 60, zoneW - pad*2, DRAW.h - 120);
             const w = d.L*s, h = d.A*s, cw = d.a*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 70 + (DRAW.h - 180 - h)/2 + ch;
+            const x = DRAW.x + pad + (zoneW - pad*2 - w)/2, y = DRAW.y + 70 + (DRAW.h - 180 - h)/2 + ch;
             const bx = x + w/2 - cw/2;
+            centerLine(x - 20, y + h/2, x + w + 20, y + h/2);
+            centerLine(x + w/2, y - ch - 20, x + w/2, y + h + ch + 20);
             drawBox(bx, y - ch, cw, ch, { fill: COL.fill2 });
             drawBox(bx, y + h, cw, ch, { fill: COL.fill2 });
             drawBox(x, y, w, h);
@@ -1571,6 +1602,19 @@
             dimV(y, y+h, x, x-34, `A = ${d.A}`);
             dimV(y-ch, y, bx+cw, bx+cw+30, `C = ${d.C}`);
             dimH(bx, bx+cw, y-ch, y-ch-16, `a = ${d.a}`);
+
+            // вид сбоку (торец основного канала со следом обоих отводов)
+            const evS = fitScale(d.A + 40, d.B + 40, sideW - 20, DRAW.h - 160);
+            const evW = d.A*evS, evH = d.B*evS;
+            const evX = sideX + (sideW - evW)/2, evY = y + h/2 - evH/2;
+            drawBox(evX, evY, evW, evH);
+            const evCw = Math.min(evW*0.9, d.a*evS);
+            ctx.save(); ctx.strokeStyle = COL.line; ctx.setLineDash([4,3]); ctx.lineWidth = 1.3;
+            ctx.strokeRect(evX + evW/2 - evCw/2, evY, evCw, evH); ctx.setLineDash([]); ctx.restore();
+            centerLine(evX - 14, evY + evH/2, evX + evW + 14, evY + evH/2);
+            centerLine(evX + evW/2, evY - 14, evX + evW/2, evY + evH + 14);
+            textWithHalo('Вид сбоку', evX + evW/2, evY - 22, {font:'11px Arial', color:'#64748b'});
+            dimH(evX, evX+evW, evY+evH, evY+evH+30, `B = ${d.B}`);
         },
         rectPlug(d) {
             const pad = 140;
@@ -1673,11 +1717,14 @@
             textWithHalo(`⌀ D = ${D}, угол = ${angle}°`, DRAW.x + sidePad, cy + bbox.maxY*s + 28, {align:'left', font:'12px Arial'});
         },
         roundTee(d) {
-            const pad = 90;
-            const s = fitScale(d.L+40, d.D+d.C+60, DRAW.w - pad*2, DRAW.h - 120);
+            const zoneW = DRAW.w * 0.64, sideX = DRAW.x + zoneW + 36, sideW = DRAW.w - zoneW - 36;
+            const pad = 50;
+            const s = fitScale(d.L+40, d.D+d.C+60, zoneW - pad*2, DRAW.h - 120);
             const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
+            const x = DRAW.x + pad + (zoneW - pad*2 - w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
             const bx = x + w/2;
+            centerLine(x - 20, y + h/2, x + w + 20, y + h/2);
+            centerLine(bx, y - ch - 20, bx, y + 20);
             ctx.beginPath(); ctx.moveTo(bx-cw/2, y-ch); ctx.lineTo(bx+cw/2, y-ch); ctx.lineTo(bx+cw/2, y); ctx.lineTo(bx-cw/2,y); ctx.closePath();
             ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
             drawBox(x, y, w, h);
@@ -1687,13 +1734,27 @@
             dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
             dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `C = ${d.C}`);
             dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
+
+            // вид сбоку (торец основного канала)
+            const evR = fitScale(d.D+40, d.D+40, sideW-20, DRAW.h-160) * d.D/2;
+            const evCx = sideX + sideW/2, evCy = y + h/2;
+            ctx.beginPath(); ctx.arc(evCx, evCy, evR, 0, Math.PI*2);
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            ctx.save(); ctx.strokeStyle = COL.line; ctx.setLineDash([4,3]); ctx.lineWidth = 1.3;
+            ctx.beginPath(); ctx.arc(evCx, evCy, evR * (d.d/d.D), 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+            centerLine(evCx - evR - 14, evCy, evCx + evR + 14, evCy);
+            centerLine(evCx, evCy - evR - 14, evCx, evCy + evR + 14);
+            textWithHalo('Вид сбоку', evCx, evCy - evR - 20, {font:'11px Arial', color:'#64748b'});
         },
         roundCross(d) {
-            const pad = 90;
-            const s = fitScale(d.L+40, d.D+2*d.C+60, DRAW.w - pad*2, DRAW.h - 120);
+            const zoneW = DRAW.w * 0.64, sideX = DRAW.x + zoneW + 36, sideW = DRAW.w - zoneW - 36;
+            const pad = 50;
+            const s = fitScale(d.L+40, d.D+2*d.C+60, zoneW - pad*2, DRAW.h - 120);
             const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 70 + (DRAW.h-180-h)/2 + ch;
+            const x = DRAW.x + pad + (zoneW - pad*2 - w)/2, y = DRAW.y + 70 + (DRAW.h-180-h)/2 + ch;
             const bx = x + w/2;
+            centerLine(x - 20, y + h/2, x + w + 20, y + h/2);
+            centerLine(bx, y - ch - 20, bx, y + h + ch + 20);
             [ [y-ch, y], [y+h, y+h+ch] ].forEach(([y1,y2]) => {
                 ctx.beginPath(); ctx.rect(bx-cw/2, y1, cw, y2-y1); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
             });
@@ -1703,6 +1764,17 @@
             dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
             dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `C = ${d.C}`);
             dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-16, `⌀ d = ${d.d}`);
+
+            // вид сбоку (торец основного канала со следом обоих отводов)
+            const evR = fitScale(d.D+40, d.D+40, sideW-20, DRAW.h-160) * d.D/2;
+            const evCx = sideX + sideW/2, evCy = y + h/2;
+            ctx.beginPath(); ctx.arc(evCx, evCy, evR, 0, Math.PI*2);
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            ctx.save(); ctx.strokeStyle = COL.line; ctx.setLineDash([4,3]); ctx.lineWidth = 1.3;
+            ctx.beginPath(); ctx.arc(evCx, evCy, evR * (d.d/d.D), 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+            centerLine(evCx - evR - 14, evCy, evCx + evR + 14, evCy);
+            centerLine(evCx, evCy - evR - 14, evCx, evCy + evR + 14);
+            textWithHalo('Вид сбоку', evCx, evCy - evR - 20, {font:'11px Arial', color:'#64748b'});
         },
         roundInsert(d) {
             const pad = 90;
