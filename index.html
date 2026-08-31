@@ -1467,348 +1467,469 @@
     /* ============================================================
        ОТРИСОВКА ЧЕРТЁЖА — диспетчер
     ============================================================ */
+    /* ============================================================
+       ИЗОМЕТРИЧЕСКИЙ ДВИЖОК (стиль «объёмная иконка» — заливка в
+       3 тона имитирует освещение, как у типовых калькуляторов
+       вент.заводов). В отличие от статичных иконок-картинок форма
+       здесь параметрическая — реально меняется от введённых A/B/L/D.
+    ============================================================ */
+    const ISO_COS = Math.cos(Math.PI / 6), ISO_SIN = Math.sin(Math.PI / 6);
+    const ISO = { top: '#7ab8ea', left: '#3f7fbe', right: '#2a5d8f', dark: '#1c4166', stroke: '#122e4a', accentTop: '#a9d4f5' };
+    const ISO_ACCENT = { top: ISO.accentTop, left: ISO.left, right: ISO.right, dark: ISO.dark };
+
+    function projectRaw(p) { return { X: (p.x - p.z) * ISO_COS, Y: (p.x + p.z) * ISO_SIN - p.y }; }
+
+    // Считаем габарит проекции по «сырым» мм-координатам, затем подбираем
+    // масштаб и точку начала координат так, чтобы вся фигура влезла в
+    // область чертежа — тот же приём, что и в arcBBox, только для 3D.
+    // ВАЖНО: экстремумы изометрической проекции достигаются на вершинах
+    // фигуры, но не обязательно на «диагональных» углах — нужно передавать
+    // ВСЕ вершины/сэмплы контура (см. boxFitPts/cylFitPts/coneFitPts ниже),
+    // иначе масштаб посчитается неверно и фигура улетит за край холста.
+    function fitIso(points, padSide, padTop, padBottom) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        points.forEach(p => {
+            const r = projectRaw(p);
+            if (r.X < minX) minX = r.X; if (r.X > maxX) maxX = r.X;
+            if (r.Y < minY) minY = r.Y; if (r.Y > maxY) maxY = r.Y;
+        });
+        const w = Math.max(1, maxX - minX), h = Math.max(1, maxY - minY);
+        const availW = DRAW.w - padSide * 2, availH = DRAW.h - padTop - padBottom;
+        const s = fitScale(w, h, availW, availH);
+        const originX = DRAW.x + padSide - minX * s + Math.max(0, availW - w * s) / 2;
+        const originY = DRAW.y + padTop - minY * s;
+        return { s, originX, originY, project: (x, y, z) => ({ X: originX + (x - z) * s * ISO_COS, Y: originY + (x + z) * s * ISO_SIN - y * s }) };
+    }
+
+    function boxFitPts(x0, y0, z0, L, H, W) {
+        const pts = [];
+        [x0, x0 + L].forEach(x => [y0, y0 + H].forEach(y => [z0, z0 + W].forEach(z => pts.push({ x, y, z }))));
+        return pts;
+    }
+    function frustumFitPts(x0, y0, z0, L, H1, W1, H2, W2) {
+        const dy = (H1 - H2) / 2, dz = (W1 - W2) / 2;
+        return [
+            ...boxFitPts(x0, y0, z0, 0, H1, W1),
+            ...boxFitPts(x0 + L, y0 + dy, z0 + dz, 0, H2, W2)
+        ];
+    }
+    // axis: 'x' — цилиндр лежит вдоль длины воздуховода; 'y' — патрубок стоит вертикально (врезки/тройники)
+    function cylFitPts(originX, originY, originZ, length, r, steps, axis) {
+        axis = axis || 'x'; steps = steps || 16;
+        const pts = [];
+        for (let i = 0; i < steps; i++) {
+            const t = i / steps * Math.PI * 2;
+            if (axis === 'x') {
+                const yy = originY + r * Math.sin(t), zz = originZ + r * Math.cos(t);
+                pts.push({ x: originX, y: yy, z: zz }, { x: originX + length, y: yy, z: zz });
+            } else {
+                const xx = originX + r * Math.sin(t), zz = originZ + r * Math.cos(t);
+                pts.push({ x: xx, y: originY, z: zz }, { x: xx, y: originY + length, z: zz });
+            }
+        }
+        return pts;
+    }
+    function coneFitPts(xC, y0, zC, height, radius, steps) {
+        steps = steps || 16;
+        const pts = [{ x: xC, y: y0 + height, z: zC }];
+        for (let i = 0; i < steps; i++) {
+            const t = i / steps * Math.PI * 2;
+            pts.push({ x: xC + radius * Math.cos(t), y: y0, z: zC + radius * Math.sin(t) });
+        }
+        return pts;
+    }
+
+    function isoFace(project, pts3d, color) {
+        const p2 = pts3d.map(p => project(p.x, p.y, p.z));
+        ctx.beginPath();
+        p2.forEach((p, i) => i ? ctx.lineTo(p.X, p.Y) : ctx.moveTo(p.X, p.Y));
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = ISO.stroke;
+        ctx.lineWidth = 1.6;
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+    }
+
+    // Прямоугольный параллелепипед: x — длина, y — высота, z — ширина.
+    function isoBox(project, x0, y0, z0, L, H, W, colors) {
+        colors = colors || ISO;
+        const c = {
+            A0: { x: x0, y: y0, z: z0 }, A1: { x: x0, y: y0 + H, z: z0 }, A2: { x: x0, y: y0 + H, z: z0 + W }, A3: { x: x0, y: y0, z: z0 + W },
+            B0: { x: x0 + L, y: y0, z: z0 }, B1: { x: x0 + L, y: y0 + H, z: z0 }, B2: { x: x0 + L, y: y0 + H, z: z0 + W }, B3: { x: x0 + L, y: y0, z: z0 + W }
+        };
+        isoFace(project, [c.A2, c.B2, c.B1, c.A1], colors.top);
+        isoFace(project, [c.A3, c.B3, c.B2, c.A2], colors.right);
+        isoFace(project, [c.A0, c.A1, c.A2, c.A3], colors.left);
+        return c;
+    }
+
+    // Усечённая пирамида вдоль x (переход A×B → a×b), торцы центрированы.
+    function isoFrustum(project, x0, y0, z0, L, H1, W1, H2, W2, colors) {
+        colors = colors || ISO;
+        const dy = (H1 - H2) / 2, dz = (W1 - W2) / 2;
+        const A0 = { x: x0, y: y0, z: z0 }, A1 = { x: x0, y: y0 + H1, z: z0 }, A2 = { x: x0, y: y0 + H1, z: z0 + W1 }, A3 = { x: x0, y: y0, z: z0 + W1 };
+        const B0 = { x: x0 + L, y: y0 + dy, z: z0 + dz }, B1 = { x: x0 + L, y: y0 + dy + H2, z: z0 + dz }, B2 = { x: x0 + L, y: y0 + dy + H2, z: z0 + dz + W2 }, B3 = { x: x0 + L, y: y0 + dy, z: z0 + dz + W2 };
+        isoFace(project, [A2, B2, B1, A1], colors.top);
+        isoFace(project, [A3, B3, B2, A2], colors.right);
+        isoFace(project, [A0, A1, A2, A3], colors.left);
+        isoFace(project, [B0, B1, B2, B3], colors.dark); // видимый малый торец
+        return { A0, A1, A2, A3, B0, B1, B2, B3 };
+    }
+
+    // Цилиндр. axis='x' — вдоль длины воздуховода, axis='y' — вертикальный патрубок (врезка/тройник).
+    // Индексы «ближней» дуги окружности от minI до maxI (кратчайший путь по
+    // кругу из n точек). Простой `for(i=minI;i<=maxI;i++)` ломается, когда
+    // minI оказывается численно больше maxI (что зависит от ориентации
+    // окружности в проекции) — тогда цикл вообще не выполняется и боковая
+    // поверхность не рисуется (именно так пропадали патрубки врезок).
+    function arcIndices(minI, maxI, n) {
+        const fwd = (maxI - minI + n) % n, back = (minI - maxI + n) % n;
+        const idx = [];
+        if (fwd <= back) { for (let k = 0; k <= fwd; k++) idx.push((minI + k) % n); }
+        else { for (let k = 0; k <= back; k++) idx.push((maxI + k) % n); }
+        return idx;
+    }
+    // Дополнительная (дальняя) дуга — второй полукруг, разделённый теми же
+    // двумя точками minI/maxI, нужна для «дальней» видимой грани конуса.
+    function arcIndicesFar(minI, maxI, n) {
+        const fwd = (maxI - minI + n) % n, back = (minI - maxI + n) % n;
+        const idx = [];
+        if (fwd <= back) { for (let k = 0; k <= back; k++) idx.push((maxI + k) % n); }
+        else { for (let k = 0; k <= fwd; k++) idx.push((minI + k) % n); }
+        return idx;
+    }
+
+    function isoCylinder(project, originX, originY, originZ, length, radius, colors, steps, axis) {
+        colors = colors || ISO; steps = steps || 40; axis = axis || 'x';
+        function ringAt(paramVal) {
+            const pts = [];
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps * Math.PI * 2;
+                if (axis === 'x') pts.push({ x: paramVal, y: originY + radius * Math.sin(t), z: originZ + radius * Math.cos(t) });
+                else pts.push({ x: originX + radius * Math.sin(t), y: paramVal, z: originZ + radius * Math.cos(t) });
+            }
+            return pts;
+        }
+        const p0 = axis === 'x' ? originX : originY;
+        const back = ringAt(p0), front = ringAt(p0 + length);
+        const backP = back.map(p => project(p.x, p.y, p.z));
+        const frontP = front.map(p => project(p.x, p.y, p.z));
+        let bMin = 0, bMax = 0;
+        backP.forEach((p, i) => { if (p.X < backP[bMin].X) bMin = i; if (p.X > backP[bMax].X) bMax = i; });
+        const arc = arcIndices(bMin, bMax, steps);
+
+        ctx.beginPath();
+        arc.forEach((i, k) => { const p = backP[i]; k === 0 ? ctx.moveTo(p.X, p.Y) : ctx.lineTo(p.X, p.Y); });
+        for (let k = arc.length - 1; k >= 0; k--) { const fp = frontP[arc[k]]; ctx.lineTo(fp.X, fp.Y); }
+        ctx.closePath();
+        ctx.fillStyle = colors.right;
+        ctx.fill(); ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.4; ctx.stroke();
+
+        ctx.beginPath();
+        backP.forEach((p, i) => i ? ctx.lineTo(p.X, p.Y) : ctx.moveTo(p.X, p.Y));
+        ctx.closePath();
+        ctx.fillStyle = colors.dark;
+        ctx.fill();
+
+        ctx.beginPath();
+        frontP.forEach((p, i) => i ? ctx.lineTo(p.X, p.Y) : ctx.moveTo(p.X, p.Y));
+        ctx.closePath();
+        ctx.fillStyle = colors.top;
+        ctx.fill();
+        ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.6; ctx.stroke();
+
+        return { back: backP, front: frontP };
+    }
+
+    // Конус вдоль оси y, вершиной вверх (зонт).
+    function isoCone(project, xC, y0, zC, height, radius, colors, steps) {
+        colors = colors || ISO; steps = steps || 40;
+        const apex = { x: xC, y: y0 + height, z: zC };
+        const base = [];
+        for (let i = 0; i <= steps; i++) {
+            const t = i / steps * Math.PI * 2;
+            base.push({ x: xC + radius * Math.cos(t), y: y0, z: zC + radius * Math.sin(t) });
+        }
+        const baseP = base.map(p => project(p.x, p.y, p.z));
+        const apexP = project(apex.x, apex.y, apex.z);
+        let minIdx = 0, maxIdx = 0;
+        baseP.forEach((p, i) => { if (p.X < baseP[minIdx].X) minIdx = i; if (p.X > baseP[maxIdx].X) maxIdx = i; });
+        const nearArc = arcIndices(minIdx, maxIdx, steps);
+        const farArc = arcIndicesFar(minIdx, maxIdx, steps);
+        ctx.beginPath();
+        ctx.moveTo(apexP.X, apexP.Y);
+        nearArc.forEach(i => ctx.lineTo(baseP[i].X, baseP[i].Y));
+        ctx.closePath();
+        ctx.fillStyle = colors.left;
+        ctx.fill(); ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.6; ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(apexP.X, apexP.Y);
+        farArc.forEach(i => ctx.lineTo(baseP[i].X, baseP[i].Y));
+        ctx.closePath();
+        ctx.fillStyle = colors.right;
+        ctx.fill(); ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.6; ctx.stroke();
+        ctx.beginPath();
+        baseP.forEach((p, i) => i ? ctx.lineTo(p.X, p.Y) : ctx.moveTo(p.X, p.Y));
+        ctx.closePath();
+        ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.2; ctx.stroke();
+        return { apexP, baseP };
+    }
+
+    function isoPanel(project, x0, y0, z0, H, W, t, colors) {
+        return isoBox(project, x0, y0, z0, t, H, W, colors);
+    }
+
+    function isoLabel(project, p3d, text, dx, dy) {
+        const p = project(p3d.x, p3d.y, p3d.z);
+        const lx = p.X + dx, ly = p.Y + dy;
+        ctx.strokeStyle = '#7c8ea3'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(p.X, p.Y); ctx.lineTo(lx, ly); ctx.stroke();
+        ctx.beginPath(); ctx.arc(p.X, p.Y, 2, 0, Math.PI * 2); ctx.fillStyle = '#7c8ea3'; ctx.fill();
+        textWithHalo(text, lx + (dx >= 0 ? 5 : -5), ly, { align: dx >= 0 ? 'left' : 'right', font: 'bold 13px Arial', color: '#173352' });
+    }
+
+    // Круглый переход (радиус меняется вдоль x) — отдельная функция, т.к.
+    // isoCylinder рассчитан на постоянный радиус по всей длине.
+    function isoFrustumRound(project, x0, y0, z0, L, r1, r2, colors, steps) {
+        colors = colors || ISO; steps = steps || 40;
+        function ring(xAt, r) {
+            const pts = [];
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps * Math.PI * 2;
+                pts.push({ x: xAt, y: y0 + r * Math.sin(t), z: z0 + r * Math.cos(t) });
+            }
+            return pts;
+        }
+        const back = ring(x0, r1), front = ring(x0 + L, r2);
+        const backP = back.map(p => project(p.x, p.y, p.z));
+        const frontP = front.map(p => project(p.x, p.y, p.z));
+        let bMin = 0, bMax = 0;
+        backP.forEach((p, i) => { if (p.X < backP[bMin].X) bMin = i; if (p.X > backP[bMax].X) bMax = i; });
+        const arc = arcIndices(bMin, bMax, steps);
+        ctx.beginPath();
+        arc.forEach((i, k) => { const p = backP[i]; k === 0 ? ctx.moveTo(p.X, p.Y) : ctx.lineTo(p.X, p.Y); });
+        for (let k = arc.length - 1; k >= 0; k--) { const p = frontP[arc[k]]; ctx.lineTo(p.X, p.Y); }
+        ctx.closePath(); ctx.fillStyle = colors.right; ctx.fill(); ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.4; ctx.stroke();
+        ctx.beginPath(); backP.forEach((p, i) => i ? ctx.lineTo(p.X, p.Y) : ctx.moveTo(p.X, p.Y)); ctx.closePath();
+        ctx.fillStyle = colors.dark; ctx.fill();
+        ctx.beginPath(); frontP.forEach((p, i) => i ? ctx.lineTo(p.X, p.Y) : ctx.moveTo(p.X, p.Y)); ctx.closePath();
+        ctx.fillStyle = colors.top; ctx.fill(); ctx.strokeStyle = ISO.stroke; ctx.lineWidth = 1.6; ctx.stroke();
+    }
+
+    /* ============================================================
+       ОТРИСОВКА ЧЕРТЁЖА — диспетчер (изометрические иконки)
+    ============================================================ */
     const drawers = {
         rectStraight(d) {
-            const pad = 90;
-            const s = fitScale(d.L + 60, Math.max(d.A, d.B) + 90, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.L*s, h = d.A*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
-            drawBox(x, y, w, h);
-            // сечение-заглушка слева (штриховка = разрез/торец)
-            const secW = Math.min(24, w*0.08);
-            hatchRect(x, y, secW, h);
-            hatchRect(x + w - secW, y, secW, h);
-            dimH(x, x+w, y, y - 34, `L = ${d.L}`);
-            dimV(y, y+h, x, x - 34, `A = ${d.A}`);
-            textWithHalo(`B = ${d.B} (высота сеч.)`, x + w/2, y + h + 30, {font:'12px Arial'});
+            const L = d.L, H = d.B, W = d.A;
+            const { project } = fitIso(boxFitPts(0, 0, 0, L, H, W), 60, 40, 90);
+            isoBox(project, 0, 0, 0, L, H, W);
+            isoLabel(project, { x: L / 2, y: H, z: 0 }, `Д = ${L}`, 0, -22);
+            isoLabel(project, { x: 0, y: H / 2, z: 0 }, `В = ${H}`, -26, 0);
+            isoLabel(project, { x: 0, y: 0, z: W / 2 }, `Ш = ${W}`, -30, 24);
         },
         rectTransition(d) {
-            const pad = 100;
-            const s = fitScale(d.L + 80, Math.max(d.A, d.B) + 90, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.L*s, h1 = d.A*s, h2 = d.a*s;
-            const x = DRAW.x + (DRAW.w - w)/2, yMid = DRAW.y + 40 + (DRAW.h - 140)/2;
-            ctx.beginPath();
-            ctx.moveTo(x, yMid - h1/2);
-            ctx.lineTo(x + w, yMid - h2/2);
-            ctx.lineTo(x + w, yMid + h2/2);
-            ctx.lineTo(x, yMid + h1/2);
-            ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill();
-            ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            hatchRect(x, yMid - h1/2, Math.min(20,w*0.06), h1);
-            hatchRect(x + w - Math.min(20,w*0.06), yMid - h2/2, Math.min(20,w*0.06), h2);
-            dimH(x, x+w, yMid - Math.max(h1,h2)/2, yMid - Math.max(h1,h2)/2 - 34, `L = ${d.L}`);
-            dimV(yMid - h1/2, yMid + h1/2, x, x - 34, `A = ${d.A}`);
-            dimV(yMid - h2/2, yMid + h2/2, x + w, x + w + 34, `a = ${d.a}`);
-            textWithHalo(`B = ${d.B} → b = ${d.b}`, x + w/2, yMid + Math.max(h1,h2)/2 + 30, {font:'12px Arial'});
+            const L = d.L, H1 = d.B, W1 = d.A, H2 = d.b, W2 = d.a;
+            const { project } = fitIso(frustumFitPts(0, 0, 0, L, H1, W1, H2, W2), 60, 40, 90);
+            const c = isoFrustum(project, 0, 0, 0, L, H1, W1, H2, W2);
+            isoLabel(project, c.A1, `Ш1 = ${d.A}`, -20, -18);
+            isoLabel(project, c.A1, `В1 = ${d.B}`, -34, 6);
+            isoLabel(project, c.B1, `Ш2 = ${d.a}`, 18, -16);
+            isoLabel(project, c.B0, `В2 = ${d.b}`, 22, 10);
+            isoLabel(project, { x: L / 2, y: (H1 + H2) / 4, z: 0 }, `Д = ${L}`, -6, 26);
         },
         rectElbow(d, angleParam) {
             const angle = typeof angleParam === 'function' ? angleParam(d) : angleParam;
-            const R = d.R, A = d.A, B = d.B;
-            const start = Math.PI, end = Math.PI + toRad(angle);
-            const bbox = arcBBox(start, end, R, R + A);
-            const topPad = 56, sidePad = 40, bottomPad = 90;
-            const s = fitScale(bbox.w, bbox.h, DRAW.w - sidePad*2, DRAW.h - topPad - bottomPad);
-            const cx = DRAW.x + sidePad - bbox.minX*s;
-            const cy = DRAW.y + topPad - bbox.minY*s;
-            const r1 = R*s, r2 = (R+A)*s;
-            ctx.beginPath();
-            ctx.arc(cx, cy, r2, start, end, false);
-            ctx.arc(cx, cy, r1, end, start, true);
-            ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill();
-            ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            // штриховка входного и выходного торцов
-            const p1a = { x: cx + r1*Math.cos(start), y: cy + r1*Math.sin(start) };
-            const p1b = { x: cx + r2*Math.cos(start), y: cy + r2*Math.sin(start) };
-            const p2a = { x: cx + r1*Math.cos(end), y: cy + r1*Math.sin(end) };
-            const p2b = { x: cx + r2*Math.cos(end), y: cy + r2*Math.sin(end) };
-            ctx.save();
-            ctx.strokeStyle = COL.hatch; ctx.lineWidth = 1;
-            for (let t = 0; t <= 1; t += 0.18) {
-                ctx.beginPath();
-                ctx.moveTo(p1a.x + (p1b.x-p1a.x)*t, p1a.y + (p1b.y-p1a.y)*t - 6);
-                ctx.lineTo(p1a.x + (p1b.x-p1a.x)*t, p1a.y + (p1b.y-p1a.y)*t + 6);
-                ctx.moveTo(p2a.x + (p2b.x-p2a.x)*t, p2a.y + (p2b.y-p2a.y)*t - 6);
-                ctx.lineTo(p2a.x + (p2b.x-p2a.x)*t, p2a.y + (p2b.y-p2a.y)*t + 6);
-                ctx.stroke();
-            }
-            ctx.restore();
-            centerCross(cx, cy, 14);
-            dimRadial(cx, cy, r1, 180 + angle/2, `R = ${R}`);
-            textWithHalo(`A = ${A}, B = ${B}, угол = ${angle}°`, DRAW.x + sidePad, cy + bbox.maxY*s + 28, {align:'left', font:'12px Arial'});
+            const A = d.A, B = d.B, R = d.R;
+            const leg1 = Math.max(A * 1.1, R * 0.9), leg2 = Math.max(A * 1.1, R * 0.9);
+            const fitPts = [...boxFitPts(0, 0, 0, leg1, B, A), ...boxFitPts(leg1 - A, B, 0, A, leg2, A)];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoBox(project, 0, 0, 0, leg1, B, A);
+            isoBox(project, leg1 - A, B, 0, A, leg2, A, ISO_ACCENT);
+            isoLabel(project, { x: leg1 / 2, y: B, z: 0 }, `Ш = ${A}, В = ${B}`, 0, -22);
+            isoLabel(project, { x: leg1 - A / 2, y: B + leg2, z: A / 2 }, `R = ${R}, ${angle}°`, 18, 0);
         },
         rectTee(d) {
-            const pad = 90;
-            const s = fitScale(d.L + 40, d.A + d.C + 60, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.A*s, cw = d.a*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 60 + (DRAW.h - 160 - h);
-            const bx = x + w/2 - cw/2;
-            drawBox(bx, y - ch, cw, ch, { fill: COL.fill2 });
-            drawBox(x, y, w, h);
-            hatchRect(x, y, Math.min(18,w*0.05), h);
-            hatchRect(x + w - Math.min(18,w*0.05), y, Math.min(18,w*0.05), h);
-            hatchRect(bx, y - ch, cw, Math.min(18,ch*0.2));
-            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
-            dimV(y, y+h, x, x-34, `A = ${d.A}`);
-            dimV(y-ch, y, bx, bx-34, `C = ${d.C}`);
-            dimH(bx, bx+cw, y-ch, y-ch-20, `a = ${d.a}`);
+            const L = d.L, A = d.A, B = d.B, a = d.a, C = d.C;
+            const fitPts = [...boxFitPts(0, 0, 0, L, B, A), ...boxFitPts(L / 2 - a / 2, B, A / 2 - a / 2, a, C, a)];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoBox(project, 0, 0, 0, L, B, A);
+            isoBox(project, L / 2 - a / 2, B, A / 2 - a / 2, a, C, a, ISO_ACCENT);
+            isoLabel(project, { x: L / 2, y: 0, z: 0 }, `Д = ${L}`, 0, 30);
+            isoLabel(project, { x: 0, y: B / 2, z: 0 }, `В = ${B}, Ш = ${A}`, -26, 0);
+            isoLabel(project, { x: L / 2, y: B + C, z: A / 2 }, `Отвод a=${a}, C=${C}`, 16, -12);
         },
         rectCross(d) {
-            const pad = 90;
-            const s = fitScale(d.L + 40, d.A + 2*d.C + 60, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.A*s, cw = d.a*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 70 + (DRAW.h - 180 - h)/2 + ch;
-            const bx = x + w/2 - cw/2;
-            drawBox(bx, y - ch, cw, ch, { fill: COL.fill2 });
-            drawBox(bx, y + h, cw, ch, { fill: COL.fill2 });
-            drawBox(x, y, w, h);
-            hatchRect(x, y, Math.min(18,w*0.05), h);
-            hatchRect(x + w - Math.min(18,w*0.05), y, Math.min(18,w*0.05), h);
-            hatchRect(bx, y-ch, cw, Math.min(16,ch*0.25));
-            hatchRect(bx, y+h+ch-Math.min(16,ch*0.25), cw, Math.min(16,ch*0.25));
-            dimH(x, x+w, y+h, y+h+34+ch, `L = ${d.L}`);
-            dimV(y, y+h, x, x-34, `A = ${d.A}`);
-            dimV(y-ch, y, bx+cw, bx+cw+30, `C = ${d.C}`);
-            dimH(bx, bx+cw, y-ch, y-ch-16, `a = ${d.a}`);
+            const L = d.L, A = d.A, B = d.B, a = d.a, C = d.C;
+            const fitPts = [
+                ...boxFitPts(0, 0, 0, L, B, A),
+                ...boxFitPts(L / 2 - a / 2, B, A / 2 - a / 2, a, C, a),
+                ...boxFitPts(L / 2 - a / 2, -C, A / 2 - a / 2, a, C, a)
+            ];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoBox(project, L / 2 - a / 2, -C, A / 2 - a / 2, a, C, a, ISO_ACCENT);
+            isoBox(project, 0, 0, 0, L, B, A);
+            isoBox(project, L / 2 - a / 2, B, A / 2 - a / 2, a, C, a, ISO_ACCENT);
+            isoLabel(project, { x: L / 2, y: 0, z: 0 }, `Д = ${L}`, 0, 30);
+            isoLabel(project, { x: 0, y: B / 2, z: 0 }, `В = ${B}, Ш = ${A}`, -26, 0);
+            isoLabel(project, { x: L / 2, y: B + C, z: A / 2 }, `Отводы a=${a}, C=${C}`, 16, -12);
         },
         rectPlug(d) {
-            const pad = 140;
-            const s = fitScale(d.A+60, d.B+60, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.A*s, h = d.B*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
-            drawBox(x, y, w, h);
-            ctx.save();
-            ctx.strokeStyle = COL.thin; ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+w,y+h); ctx.moveTo(x+w,y); ctx.lineTo(x,y+h); ctx.stroke();
-            ctx.restore();
-            // отбортовка по периметру
-            const bort = Math.max(4, 12*s*10);
-            ctx.strokeStyle = COL.line; ctx.setLineDash([2,2]);
-            ctx.strokeRect(x-6, y-6, w+12, h+12);
-            ctx.setLineDash([]);
-            dimH(x, x+w, y+h, y+h+34, `A = ${d.A}`);
-            dimV(y, y+h, x, x-34, `B = ${d.B}`);
-            textWithHalo('Отбортовка по контуру', x+w/2, y-16, {font:'11px Arial', color:'#64748b'});
+            const A = d.A, B = d.B, t = Math.max(6, Math.min(A, B) * 0.06);
+            const { project } = fitIso(boxFitPts(0, 0, 0, t, B, A), 90, 60, 90);
+            isoPanel(project, 0, 0, 0, B, A, t);
+            isoLabel(project, { x: 0, y: B / 2, z: 0 }, `В = ${B}`, -26, 0);
+            isoLabel(project, { x: 0, y: B, z: A / 2 }, `Ш = ${A}`, 0, -20);
         },
         roundPlug(d) {
-            const pad = 120;
-            const r = fitScale(d.D+40, d.D+40, DRAW.w - pad*2, DRAW.h - 100) * d.D / 2;
-            const cx = DRAW.x + DRAW.w/2, cy = DRAW.y + 40 + (DRAW.h-140)/2;
-            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
-            ctx.fillStyle = COL.fill; ctx.fill();
-            ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            ctx.strokeStyle = COL.line; ctx.setLineDash([2,2]);
-            ctx.beginPath(); ctx.arc(cx, cy, r+7, 0, Math.PI*2); ctx.stroke();
-            ctx.setLineDash([]);
-            centerCross(cx, cy, r*0.5);
-            dimRadial(cx, cy, r, -35, `⌀ ${d.D} (R=${Math.round(d.D/2)})`);
+            const D = d.D, t = Math.max(6, D * 0.05);
+            const { project } = fitIso(cylFitPts(0, 0, 0, t, D / 2, 24, 'x'), 90, 60, 90);
+            isoCylinder(project, 0, 0, 0, t, D / 2);
+            isoLabel(project, { x: 0, y: 0, z: D / 2 }, `⌀ D = ${D}`, 24, 0);
         },
         roundStraight(d) {
-            const pad = 90;
-            const s = fitScale(d.L+60, d.D+90, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.L*s, h = d.D*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
-            drawBox(x, y, w, h);
-            [x, x+w].forEach(ex => {
-                ctx.beginPath();
-                ctx.ellipse(ex, y+h/2, Math.max(6,h*0.08), h/2, 0, 0, Math.PI*2);
-                ctx.strokeStyle = COL.line; ctx.lineWidth = 1.5; ctx.stroke();
-            });
-            centerCross((x+x+w)/2 - w/2 + w/2, y+h/2, 0);
-            ctx.save(); ctx.strokeStyle = COL.axis; ctx.setLineDash([8,3,2,3]);
-            ctx.beginPath(); ctx.moveTo(x-14, y+h/2); ctx.lineTo(x+w+14, y+h/2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
-            dimH(x, x+w, y, y-34, `L = ${d.L}`);
-            dimV(y, y+h, x+w, x+w+34, `⌀ D = ${d.D}`);
+            const L = d.L, r = d.D / 2;
+            const { project } = fitIso(cylFitPts(0, 0, 0, L, r, 24, 'x'), 60, 40, 90);
+            isoCylinder(project, 0, 0, 0, L, r);
+            isoLabel(project, { x: L / 2, y: r, z: 0 }, `Д = ${L}`, 0, -22);
+            isoLabel(project, { x: 0, y: 0, z: r }, `⌀ D = ${D}`, -30, 8);
         },
         roundTransitionRR(d) {
-            const pad = 100;
-            const s = fitScale(d.L+80, Math.max(d.D,d.d)+90, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.L*s, h1 = d.D*s, h2 = d.d*s;
-            const x = DRAW.x + (DRAW.w - w)/2, yMid = DRAW.y + 40 + (DRAW.h-140)/2;
-            ctx.beginPath();
-            ctx.moveTo(x, yMid-h1/2); ctx.lineTo(x+w, yMid-h2/2); ctx.lineTo(x+w, yMid+h2/2); ctx.lineTo(x, yMid+h1/2); ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            [ [x, h1], [x+w, h2] ].forEach(([ex,h]) => {
-                ctx.beginPath(); ctx.ellipse(ex, yMid, Math.max(5,h*0.08), h/2, 0, 0, Math.PI*2);
-                ctx.strokeStyle = COL.line; ctx.lineWidth = 1.5; ctx.stroke();
-            });
-            dimH(x, x+w, yMid-Math.max(h1,h2)/2, yMid-Math.max(h1,h2)/2-34, `L = ${d.L}`);
-            dimV(yMid-h1/2, yMid+h1/2, x, x-34, `⌀ D = ${d.D}`);
-            dimV(yMid-h2/2, yMid+h2/2, x+w, x+w+34, `⌀ d = ${d.d}`);
+            const L = d.L, r1 = d.D / 2, r2 = d.d / 2;
+            const fitPts = [...cylFitPts(0, 0, 0, 0, r1, 24, 'x'), ...cylFitPts(L, 0, 0, 0, r2, 24, 'x')];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoFrustumRound(project, 0, 0, 0, L, r1, r2);
+            isoLabel(project, { x: 0, y: 0, z: r1 }, `⌀ D = ${d.D}`, -30, 6);
+            isoLabel(project, { x: L, y: 0, z: r2 }, `⌀ d = ${d.d}`, 20, -6);
+            isoLabel(project, { x: L / 2, y: r1, z: 0 }, `Д = ${L}`, 0, -22);
         },
         roundTransitionRP(d) {
-            const pad = 100;
-            const s = fitScale(d.L+80, Math.max(d.D,d.A,d.B)+90, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.L*s, h1 = d.D*s, h2 = d.A*s;
-            const x = DRAW.x + (DRAW.w-w)/2, yMid = DRAW.y + 40 + (DRAW.h-140)/2;
-            ctx.beginPath();
-            ctx.moveTo(x, yMid-h1/2); ctx.lineTo(x+w, yMid-h2/2); ctx.lineTo(x+w, yMid+h2/2); ctx.lineTo(x, yMid+h1/2); ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            ctx.beginPath(); ctx.ellipse(x, yMid, Math.max(5,h1*0.08), h1/2, 0, 0, Math.PI*2); ctx.stroke();
-            ctx.strokeRect(x+w-2, yMid-h2/2, 2, h2);
-            dimH(x, x+w, yMid-Math.max(h1,h2)/2, yMid-Math.max(h1,h2)/2-34, `L = ${d.L}`);
-            dimV(yMid-h1/2, yMid+h1/2, x, x-34, `⌀ D = ${d.D}`);
-            dimV(yMid-h2/2, yMid+h2/2, x+w, x+w+34, `A×B = ${d.A}×${d.B}`);
+            const L = d.L, r1 = d.D / 2, H2 = d.B, W2 = d.A;
+            const fitPts = [...cylFitPts(0, 0, 0, 0, r1, 24, 'x'), ...boxFitPts(L, -H2 / 2, -W2 / 2, 0, H2, W2)];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoCylinder(project, 0, 0, 0, L, r1);
+            const rectCorners = [
+                { x: L, y: -H2 / 2, z: -W2 / 2 }, { x: L, y: H2 / 2, z: -W2 / 2 }, { x: L, y: H2 / 2, z: W2 / 2 }, { x: L, y: -H2 / 2, z: W2 / 2 }
+            ];
+            isoFace(project, rectCorners, ISO.dark);
+            isoLabel(project, { x: 0, y: 0, z: r1 }, `⌀ D = ${d.D}`, -30, 6);
+            isoLabel(project, { x: L, y: H2 / 2, z: 0 }, `${d.A}×${d.B}`, 20, -6);
+            isoLabel(project, { x: L / 2, y: r1, z: 0 }, `Д = ${L}`, 0, -22);
         },
         roundElbow(d) {
-            const R = d.R, D = d.D, angle = d.angle;
-            const start = Math.PI, end = Math.PI + toRad(angle);
-            const bbox = arcBBox(start, end, R - D/2, R + D/2);
-            const topPad = 56, sidePad = 40, bottomPad = 90;
-            const s = fitScale(bbox.w, bbox.h, DRAW.w - sidePad*2, DRAW.h - topPad - bottomPad);
-            const cx = DRAW.x + sidePad - bbox.minX*s;
-            const cy = DRAW.y + topPad - bbox.minY*s;
-            const rr = R*s, rw = (D/2)*s;
-            ctx.beginPath(); ctx.arc(cx, cy, rr, start, end, false); ctx.strokeStyle = COL.axis; ctx.setLineDash([8,3,2,3]); ctx.lineWidth=1; ctx.stroke(); ctx.setLineDash([]);
-            ctx.beginPath(); ctx.arc(cx, cy, rr+rw, start, end, false); ctx.arc(cx, cy, rr-rw, end, start, true); ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            [start, end].forEach(a => {
-                const p1 = { x: cx+(rr-rw)*Math.cos(a), y: cy+(rr-rw)*Math.sin(a) };
-                const p2 = { x: cx+(rr+rw)*Math.cos(a), y: cy+(rr+rw)*Math.sin(a) };
-                ctx.beginPath(); ctx.ellipse((p1.x+p2.x)/2,(p1.y+p2.y)/2, 5, rw, a+Math.PI/2, 0, Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
-            });
-            centerCross(cx, cy, 14);
-            dimRadial(cx, cy, rr, 180+angle/2, `R = ${R}`);
-            textWithHalo(`⌀ D = ${D}, угол = ${angle}°`, DRAW.x + sidePad, cy + bbox.maxY*s + 28, {align:'left', font:'12px Arial'});
+            const D = d.D, R = d.R, angle = d.angle, r = D / 2;
+            const leg = Math.max(D * 1.2, R * 0.9);
+            const fitPts = [...cylFitPts(0, 0, 0, leg, r, 24, 'x'), ...cylFitPts(leg - r, 0, 0, leg, r, 24, 'x')];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoCylinder(project, 0, 0, 0, leg, r);
+            isoCylinder(project, leg - r, 0, 0, leg, r, ISO_ACCENT);
+            isoLabel(project, { x: leg / 2, y: 0, z: r }, `⌀ D = ${D}`, 0, -22);
+            isoLabel(project, { x: leg, y: leg / 2, z: 0 }, `R = ${R}, ${angle}°`, 20, 0);
         },
         roundTee(d) {
-            const pad = 90;
-            const s = fitScale(d.L+40, d.D+d.C+60, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
-            const bx = x + w/2;
-            ctx.beginPath(); ctx.moveTo(bx-cw/2, y-ch); ctx.lineTo(bx+cw/2, y-ch); ctx.lineTo(bx+cw/2, y); ctx.lineTo(bx-cw/2,y); ctx.closePath();
-            ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            drawBox(x, y, w, h);
-            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.08), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
-            ctx.beginPath(); ctx.ellipse(bx, y-ch, cw/2, Math.max(4,cw*0.12), 0, 0, Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
-            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
-            dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
-            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `C = ${d.C}`);
-            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
+            const D = d.D, dd = d.d, L = d.L, C = d.C;
+            const fitPts = [...cylFitPts(0, 0, 0, L, D / 2, 24, 'x'), ...cylFitPts(L / 2, D / 2, 0, C, dd / 2, 24, 'y')];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoCylinder(project, 0, 0, 0, L, D / 2);
+            isoCylinder(project, L / 2, D / 2, 0, C, dd / 2, ISO_ACCENT, 32, 'y');
+            isoLabel(project, { x: L / 2, y: 0, z: D / 2 }, `Д1 = ${L}`, 0, 26);
+            isoLabel(project, { x: 0, y: 0, z: D / 2 }, `⌀ D1 = ${D}`, -30, 0);
+            isoLabel(project, { x: L / 2, y: D / 2 + C, z: 0 }, `⌀ D2=${dd}, Д2=${C}`, 16, -10);
         },
         roundCross(d) {
-            const pad = 90;
-            const s = fitScale(d.L+40, d.D+2*d.C+60, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.C*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 70 + (DRAW.h-180-h)/2 + ch;
-            const bx = x + w/2;
-            [ [y-ch, y], [y+h, y+h+ch] ].forEach(([y1,y2]) => {
-                ctx.beginPath(); ctx.rect(bx-cw/2, y1, cw, y2-y1); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            });
-            drawBox(x, y, w, h);
-            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.08), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
-            dimH(x, x+w, y+h, y+h+34+ch, `L = ${d.L}`);
-            dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
-            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `C = ${d.C}`);
-            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-16, `⌀ d = ${d.d}`);
+            const D = d.D, dd = d.d, L = d.L, C = d.C;
+            const fitPts = [
+                ...cylFitPts(0, 0, 0, L, D / 2, 24, 'x'),
+                ...cylFitPts(L / 2, D / 2, 0, C, dd / 2, 24, 'y'),
+                ...cylFitPts(L / 2, -C, 0, C, dd / 2, 24, 'y')
+            ];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoCylinder(project, L / 2, -C, 0, C, dd / 2, ISO_ACCENT, 32, 'y');
+            isoCylinder(project, 0, 0, 0, L, D / 2);
+            isoCylinder(project, L / 2, D / 2, 0, C, dd / 2, ISO_ACCENT, 32, 'y');
+            isoLabel(project, { x: L / 2, y: 0, z: D / 2 }, `Д = ${L}`, 0, 26);
+            isoLabel(project, { x: 0, y: 0, z: D / 2 }, `⌀ D = ${D}`, -30, 0);
+            isoLabel(project, { x: L / 2, y: D / 2 + C, z: 0 }, `⌀ d=${dd}, C=${C}`, 16, -10);
         },
         roundInsert(d) {
-            const pad = 90;
-            const s = fitScale(d.L+40, d.D+d.h+60, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.D*s, cw = d.d*s, ch = d.h*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
-            const bx = x + w/2;
-            ctx.beginPath(); ctx.rect(bx-cw/2, y-ch, cw, ch); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            drawBox(x, y, w, h);
-            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.08), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
-            ctx.beginPath(); ctx.ellipse(bx, y-ch, cw/2, Math.max(4,cw*0.12), 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
-            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
-            dimV(y, y+h, x, x-34, `⌀ D = ${d.D}`);
-            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `h = ${d.h}`);
-            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
-        },
-        roundNipple(d) {
-            const pad = 140;
-            const s = fitScale(d.L+60, d.D+90, DRAW.w - pad*2, DRAW.h - 100);
-            const w = Math.max(d.L*s, 60), h = d.D*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 40 + (DRAW.h-140-h)/2;
-            drawBox(x, y, w, h);
-            [x, x+w].forEach(ex => { ctx.beginPath(); ctx.ellipse(ex, y+h/2, Math.max(5,h*0.1), h/2, 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke(); });
-            // рифление ниппеля
-            ctx.strokeStyle = COL.thin; ctx.lineWidth = 1;
-            for (let i = x+8; i < x+w-8; i += 8) { ctx.beginPath(); ctx.moveTo(i, y+4); ctx.lineTo(i, y+h-4); ctx.stroke(); }
-            dimH(x, x+w, y, y-34, `L = ${d.L}`);
-            dimV(y, y+h, x+w, x+w+34, `⌀ D = ${d.D}`);
+            const D = d.D, dd = d.d, L = d.L, h = d.h;
+            const fitPts = [...cylFitPts(0, 0, 0, L, D / 2, 24, 'x'), ...cylFitPts(L / 2, D / 2, 0, h, dd / 2, 24, 'y')];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoCylinder(project, 0, 0, 0, L, D / 2);
+            isoCylinder(project, L / 2, D / 2, 0, h, dd / 2, ISO_ACCENT, 32, 'y');
+            isoLabel(project, { x: L / 2, y: 0, z: D / 2 }, `Д = ${L}`, 0, 26);
+            isoLabel(project, { x: 0, y: 0, z: D / 2 }, `⌀ D = ${D}`, -30, 0);
+            isoLabel(project, { x: L / 2, y: D / 2 + h, z: 0 }, `⌀ d=${dd}, h=${h}`, 16, -14);
         },
         rectInsert(d) {
-            const pad = 90;
-            const s = fitScale(d.L+40, d.A+d.h+60, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.A*s, cw = d.d*s, ch = d.h*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 60 + (DRAW.h-160-h);
-            const bx = x + w/2;
-            ctx.beginPath(); ctx.rect(bx-cw/2, y-ch, cw, ch); ctx.fillStyle = COL.fill2; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            drawBox(x, y, w, h);
-            hatchRect(x, y, Math.min(18,w*0.05), h);
-            hatchRect(x+w-Math.min(18,w*0.05), y, Math.min(18,w*0.05), h);
-            ctx.beginPath(); ctx.ellipse(bx, y-ch, cw/2, Math.max(4,cw*0.12), 0,0,Math.PI*2); ctx.strokeStyle=COL.line; ctx.lineWidth=1.3; ctx.stroke();
-            dimH(x, x+w, y+h, y+h+34, `L = ${d.L}`);
-            dimV(y, y+h, x, x-34, `A = ${d.A} (B=${d.B})`);
-            dimV(y-ch, y, bx+cw/2, bx+cw/2+30, `h = ${d.h}`);
-            dimH(bx-cw/2, bx+cw/2, y-ch, y-ch-18, `⌀ d = ${d.d}`);
+            const A = d.A, B = d.B, L = d.L, dd = d.d, h = d.h;
+            const fitPts = [...boxFitPts(0, 0, 0, L, B, A), ...cylFitPts(L / 2, B, A / 2, h, dd / 2, 24, 'y')];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoBox(project, 0, 0, 0, L, B, A);
+            isoCylinder(project, L / 2, B, A / 2, h, dd / 2, ISO_ACCENT, 32, 'y');
+            isoLabel(project, { x: L / 2, y: 0, z: 0 }, `Д = ${L}`, 0, 30);
+            isoLabel(project, { x: 0, y: B / 2, z: 0 }, `В=${B}, Ш=${A}`, -26, 0);
+            isoLabel(project, { x: L / 2, y: B + h, z: A / 2 }, `⌀ d=${dd}, h=${h}`, 16, -12);
         },
         rectDuck(d) {
-            const pad = 90;
-            const s = fitScale(d.L+d.offset+60, d.A+d.offset+80, DRAW.w - pad*2, DRAW.h - 120);
-            const w = d.L*s, h = d.A*s, off = d.offset*s;
-            const x = DRAW.x + (DRAW.w-w-off)/2, y = DRAW.y + 50 + (DRAW.h-160-h-off);
-            ctx.save();
-            ctx.beginPath();
-            ctx.moveTo(x, y); ctx.lineTo(x+w, y); ctx.lineTo(x+w+off, y+off+h); ctx.lineTo(x+off, y+off+h);
-            ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            ctx.restore();
-            hatchRect(x, y, Math.min(16,w*0.05), h*0.4);
-            dimH(x, x+w, y, y-30, `L = ${d.L}`);
-            dimV(y, y+h+off, x+w, x+w+off+30, `смещение = ${d.offset}`);
-            textWithHalo(`A×B = ${d.A}×${d.B}`, x+off/2+w/2, y+off+h+26, {font:'12px Arial'});
+            const A = d.A, B = d.B, L = d.L, off = d.offset;
+            const seg = L * 0.55;
+            const fitPts = [...boxFitPts(0, 0, 0, seg, B, A), ...boxFitPts(seg - A * 0.15, B * 0.15, 0, seg, B, A)];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoBox(project, 0, 0, 0, seg, B, A);
+            isoBox(project, seg - A * 0.15, B * 0.15, 0, seg, B, A, ISO_ACCENT);
+            isoLabel(project, { x: seg * 0.4, y: 0, z: 0 }, `Д = ${L}`, 0, 30);
+            isoLabel(project, { x: 0, y: B / 2, z: 0 }, `В=${B}, Ш=${A}`, -26, 0);
+            isoLabel(project, { x: seg * 1.6, y: B * 1.15 + B, z: A }, `Смещение = ${off}`, 16, -8);
+        },
+        roundNipple(d) {
+            const L = d.L, r = d.D / 2;
+            const { project } = fitIso(cylFitPts(0, 0, 0, L, r, 24, 'x'), 90, 50, 90);
+            isoCylinder(project, 0, 0, 0, L, r, ISO, 48);
+            isoLabel(project, { x: L / 2, y: r, z: 0 }, `Д = ${L}`, 0, -20);
+            isoLabel(project, { x: 0, y: 0, z: r }, `⌀ D = ${d.D}`, -30, 6);
         },
         umbrella(d) {
-            const pad = 130;
-            const s = fitScale(d.D+40, d.D/2+d.H+60, DRAW.w - pad*2, DRAW.h - 100);
-            const r = d.D/2*s, h = d.H*s;
-            const cx = DRAW.x + DRAW.w/2, apexY = DRAW.y + 50, baseY = apexY + h;
-            ctx.beginPath();
-            ctx.moveTo(cx, apexY);
-            ctx.lineTo(cx - r, baseY);
-            ctx.quadraticCurveTo(cx, baseY + 14, cx + r, baseY);
-            ctx.closePath();
-            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            ctx.beginPath(); ctx.ellipse(cx, baseY, r, 10, 0, 0, Math.PI*2); ctx.strokeStyle = COL.line; ctx.lineWidth = 1.3; ctx.stroke();
-            // патрубок/стойка вниз
-            drawBox(cx - r*0.28, baseY, r*0.56, h*0.55, { fill: COL.fill2 });
-            dimV(apexY, baseY, cx - r, cx - r - 34, `H = ${d.H}`);
-            dimH(cx-r, cx+r, baseY+12, baseY+40, `⌀ D = ${d.D}`);
+            const D = d.D, H = d.H, r = D / 2;
+            const fitPts = [...coneFitPts(0, 0, 0, H, r, 24), ...boxFitPts(-r * 0.22, -H * 0.4, -r * 0.22, H * 0.4, H * 0.4, r * 0.44)];
+            const { project } = fitIso(fitPts, 60, 40, 90);
+            isoCone(project, 0, 0, 0, H, r);
+            isoBox(project, -r * 0.22, -H * 0.4, -r * 0.22, H * 0.4, H * 0.4, r * 0.44, ISO_ACCENT);
+            isoLabel(project, { x: 0, y: H, z: 0 }, `H = ${H}`, 0, -20);
+            isoLabel(project, { x: r, y: 0, z: 0 }, `⌀ D = ${D}`, 20, 6);
+        },
+        adapter(d) {
+            const L = d.L, r = d.D / 2;
+            const { project } = fitIso(cylFitPts(0, 0, 0, L, r, 24, 'x'), 90, 50, 90);
+            isoCylinder(project, 0, 0, 0, L, r, ISO, 48);
+            isoLabel(project, { x: L / 2, y: r, z: 0 }, `Д = ${L}`, 0, -20);
+            isoLabel(project, { x: 0, y: 0, z: r }, `⌀ D = ${d.D}`, -30, 6);
         },
         damper(d) {
-            const pad = 130;
-            const s = fitScale(d.A+40, d.B+40, DRAW.w - pad*2, DRAW.h - 100);
-            const w = d.A*s, h = d.B*s;
-            const x = DRAW.x + (DRAW.w-w)/2, y = DRAW.y + 40 + (DRAW.h-140-h)/2;
-            drawBox(x, y, w, h);
-            drawBox(x + w*0.12, y + h*0.1, w*0.76, h*0.15, { fill: COL.fill2, stroke: COL.thin, lw: 1.5 });
-            ctx.beginPath(); ctx.arc(x+w/2, y+h+14, 8, 0, Math.PI, true); ctx.strokeStyle = COL.line; ctx.lineWidth=1.5; ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(x+w/2, y+h); ctx.lineTo(x+w/2, y+h+22); ctx.stroke();
-            dimH(x, x+w, y+h, y+h+40, `A = ${d.A}`);
-            dimV(y, y+h, x, x-34, `B = ${d.B}`);
-            textWithHalo('Подвижная заслонка', x+w/2, y+h*0.18, {font:'11px Arial', color:'#64748b'});
+            const A = d.A, B = d.B, t = Math.max(8, Math.min(A, B) * 0.08);
+            const { project } = fitIso(boxFitPts(0, 0, 0, t, B, A), 90, 50, 90);
+            isoBox(project, 0, 0, 0, t, B, A);
+            isoFace(project, [
+                { x: t * 1.02, y: B * 0.1, z: A * 0.14 }, { x: t * 1.02, y: B * 0.9, z: A * 0.14 },
+                { x: t * 1.02, y: B * 0.9, z: A * 0.24 }, { x: t * 1.02, y: B * 0.1, z: A * 0.24 }
+            ], ISO.accentTop);
+            isoLabel(project, { x: 0, y: 0, z: A / 2 }, `Ш = ${A}`, 0, 26);
+            isoLabel(project, { x: 0, y: B / 2, z: 0 }, `В = ${B}`, -26, 0);
         },
         anemostat(d) {
-            const pad = 120;
-            const r = fitScale(d.D+40, d.D+40, DRAW.w - pad*2, DRAW.h - 100) * d.D/2;
-            const cx = DRAW.x + DRAW.w/2, cy = DRAW.y + 40 + (DRAW.h-140)/2;
-            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
-            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
-            for (let i = 1; i <= 3; i++) {
-                ctx.beginPath(); ctx.arc(cx, cy, r*i/4, 0, Math.PI*2); ctx.strokeStyle = COL.thin; ctx.lineWidth = 1; ctx.stroke();
+            const D = d.D, r = D / 2, t = Math.max(4, D * 0.04);
+            const { project } = fitIso(cylFitPts(0, 0, 0, t, r, 24, 'x'), 90, 50, 90);
+            isoCylinder(project, 0, 0, 0, t, r, ISO, 48);
+            for (let i = 0; i < 8; i++) {
+                const a = i * Math.PI / 4;
+                const p1 = project(t, r * 0.15 * Math.sin(a), r * 0.15 * Math.cos(a));
+                const p2 = project(t, r * 0.85 * Math.sin(a), r * 0.85 * Math.cos(a));
+                ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(p1.X, p1.Y); ctx.lineTo(p2.X, p2.Y); ctx.stroke();
             }
-            for (let i = 0; i < 12; i++) {
-                const a = i*Math.PI/6;
-                ctx.beginPath(); ctx.moveTo(cx+r*0.15*Math.cos(a), cy+r*0.15*Math.sin(a)); ctx.lineTo(cx+r*Math.cos(a), cy+r*Math.sin(a));
-                ctx.strokeStyle = COL.thin; ctx.lineWidth = 1; ctx.stroke();
-            }
-            dimRadial(cx, cy, r, -40, `⌀ D = ${d.D}`);
+            isoLabel(project, { x: t, y: 0, z: r }, `⌀ D = ${D}`, 20, 0);
         }
     };
 
