@@ -1,6 +1,7 @@
 # Suno cheat sheet: Kumush Razzoqova — "Men seni hech kimga bermayman"
 
 Source: https://www.youtube.com/watch?v=ryhUGKzOFrA
+Cyrillic version: SUNO_KUMUSH_BERMAYMAN_KIRILL.md
 Everything below is written in the language Suno understands (English).
 Copy block 1 into **Style of Music**, block 2 into **Lyrics**.
 
