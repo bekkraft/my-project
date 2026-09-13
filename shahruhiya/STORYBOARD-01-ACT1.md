@@ -181,7 +181,7 @@ Cinematic film still, extreme close-up, a male hand dropping away from an unbutt
 
 **12a**
 ```
-Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-storey brick apartment block in Tashkent early morning, wet asphalt after night rain with puddles reflecting the sky, an elderly Uzbek man in a tubeteika cap and striped robe sweeping slowly with a long broom in the middle distance, a tandoor bakery in an open garage to the right with live fire inside and smoke drifting under the awning, laundry lines strung between trees, a grey Daewoo Nexia sedan parked by an entrance, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
+Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-storey brick apartment block in Tashkent early morning, wet asphalt after night rain with puddles reflecting the sky, an elderly Uzbek man in a tubeteika cap and striped robe sweeping slowly with a long broom in the middle distance, a tandoor bakery in an open garage to the right with live fire inside and smoke drifting under the awning, laundry lines strung between trees, a grey Ravon Nexia R3 sedan parked by an entrance, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
 ```
 
 **12b**
@@ -235,12 +235,12 @@ Cinematic film still, insert close-up of the same instrument cluster now live, n
 
 **16a**
 ```
-Cinematic film still, wide shot, very low angle near the ground, a large still puddle on wet courtyard asphalt in front of a parked grey Daewoo Nexia sedan, the headlights dark, the water holding only a dull grey sky, overcast morning, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, wide shot, very low angle near the ground, a large still puddle on wet courtyard asphalt in front of a parked grey Ravon Nexia R3 sedan, the headlights dark, the water holding only a dull grey sky, overcast morning, [COLD], 24mm lens, [SUFFIX]
 ```
 
 **16b**
 ```
-Cinematic film still, wide shot, very low angle near the ground, the headlights of the grey Daewoo Nexia now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, the only warm light in an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
+Cinematic film still, wide shot, very low angle near the ground, the headlights of the grey Ravon Nexia R3 now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, the only warm light in an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
 ```
 
 # КАДР 17. Пробка (1 панель)

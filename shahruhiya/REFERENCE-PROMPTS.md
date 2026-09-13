@@ -152,8 +152,9 @@ motivated lighting, shallow depth of field, subtle halation, 16:9
 ## #6. НЕКСИЯ («ТЕМИР ОТ»)
 
 ```
-Cinematic film still, three-quarter rear view, low angle, a grey Daewoo Nexia
-III sedan with faded sun-worn paint, a deep unrepaired scratch down to the
+Cinematic film still, three-quarter rear view, low angle, a grey Ravon Nexia R3
+sedan (a Chevrolet Aveo T250 based four-door saloon, NOT the older boxy
+Nexia N150) with faded sun-worn paint, a deep unrepaired scratch down to the
 primer on the right side of the rear bumper, a slightly clouded right wing
 mirror, parked on wet asphalt in a Soviet-era apartment courtyard after night
 rain, puddles reflecting the sky, bare trees behind, soft overcast morning
@@ -367,7 +368,7 @@ halation, 16:9
 | 4a | Темур в шатре | ПЕРЕДЕЛАТЬ по каноническому портрету | клиент дал канонический референс — подставлять как image reference. КОРОНА (решение клиента: во всех сценах), подушки в шатре вместо трона |
 | 4b | Темур перед войском | НОВЫЙ | полный канон с золотой короной и белым пером, закат, войско за спиной |
 | 5 | Командир отряда | ПРИНЯТ с правкой | убрать знамя со львом на заднем плане |
-| 6 | Нексия | ПРИНЯТ | серая выцветшая, потёртость до грунта на правой задней части, мокрый двор с лужами. СОХРАНИТЬ РАКУРС: кадр 111 (бампер со следом сабли) снимается с того же угла |
+| 6 | Нексия | ПРИНЯТ | NEXIA R3 (кузов на базе Aveo T250), серая выцветшая, потёртость до грунта на правой задней части, мокрый двор с лужами. СОХРАНИТЬ РАКУРС: кадр 111 (бампер со следом сабли) снимается с того же угла |
 | 7 | Перстень | ПРИНЯТ | потемневшее серебро, тёмно-красный камень, арабская вязь по ободку, кожа, тёплый рейкинг-свет |
 | 8 | Л1 спальня | ПРИНЯТ | белая обычная, незастеленная, телефон на подушке, шкаф, окно слева, холодный плоский свет |
 | 9 | Л3 двор | ПРИНЯТ | лучше задуманного: тандыр как пекарня в гараже. При раскадровке поставить у подъезда серую Нексию |
