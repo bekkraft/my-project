@@ -193,7 +193,7 @@ Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the
 
 **13a**
 ```
-Cinematic film still, insert shot, top-down, a bunch of car keys falling through the air a hand's width above a puddle on wet courtyard asphalt, the sky and bare branches mirrored in the still water below, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert shot, top-down, a bunch of car keys falling through the air a hand's width above a puddle on wet courtyard asphalt, the sky and green tree branches mirrored in the still water below, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
 ```
 
 **13b**
@@ -211,24 +211,24 @@ Cinematic film still, insert shot, top-down, a male hand plunging into a puddle 
 
 **14a**
 ```
-Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] sitting in the driver's seat of a worn grey sedan, one hand pushing the key into the ignition, eyes down on his hand, the dusty dashboard and grey courtyard visible through the windscreen, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] sitting in the driver's seat of a worn grey Ravon Nexia R3, one hand pushing the key into the ignition, eyes down on his hand, the dusty dashboard and grey courtyard visible through the windscreen, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
 ```
 
 **14b**
 ```
-Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] in the driver's seat of a worn grey sedan, lips parted mid-word speaking quietly to no one, gaze already forward through the windscreen, hand still on the key, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] in the driver's seat of a worn grey Ravon Nexia R3, lips parted mid-word speaking quietly to no one, gaze already forward through the windscreen, hand still on the key, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 15. Приборка и лампа бензина (2 панели) — ПОСЕВ
 
 **15a**
 ```
-Cinematic film still, insert close-up of the instrument cluster of an old sedan, needles resting at zero, every warning lamp dark, a fine layer of dust on the plastic, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert close-up of the instrument cluster of a Ravon Nexia R3, two round dials with an orange needle each and a small digital display between them, needles resting at zero, every warning lamp dark, a fine layer of dust on the plastic, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 **15b**
 ```
-Cinematic film still, insert close-up of the same instrument cluster now live, needles swung up, and a single orange low-fuel warning lamp burning bright against the grey dial faces, the only warm colour in the frame, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert close-up of the same Ravon Nexia R3 instrument cluster now live, identical framing and scale, the two round dials with their needles swung up, and a single orange low-fuel warning lamp burning bright against the grey dial faces, the only warm colour in the frame, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 16. Фары на луже (2 панели)
@@ -240,7 +240,7 @@ Cinematic film still, wide shot, very low angle near the ground, a large still p
 
 **16b**
 ```
-Cinematic film still, wide shot, very low angle near the ground, the headlights of the grey Ravon Nexia R3 now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, the only warm light in an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
+Cinematic film still, wide shot, very low angle near the ground, the headlights of the grey Ravon Nexia R3 now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, warm light spilling across an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
 ```
 
 # КАДР 17. Пробка (1 панель)
@@ -248,7 +248,7 @@ Cinematic film still, wide shot, very low angle near the ground, the headlights 
 
 **17a**
 ```
-Cinematic film still, medium shot from the rear seat over the driver's shoulder, looking through the windscreen of an old sedan at three lanes of Tashkent traffic packed bumper to bumper, wipers mid-stroke, rain beads on the glass, red brake lights, trolleybus wires overhead, billboards and high-rises beyond, overcast daylight, [COLD] with red brake lights as the only accents, 35mm lens, [SUFFIX]
+Cinematic film still, medium shot from the rear seat over the driver's shoulder, looking through the windscreen of an old sedan at three lanes of Tashkent traffic packed bumper to bumper, mostly white and grey Uzbek-market sedans, wipers mid-stroke, rain beads on the glass, red brake lights, trolleybus wires overhead, billboards and high-rises beyond, overcast daylight, [COLD] with red brake lights as the only accents, 35mm lens, [SUFFIX]
 ```
 
 # КАДР 18. Телефон за рулём (3 панели)
@@ -272,7 +272,7 @@ Cinematic film still, close-up, eye level, [SHOHRUH] in the driver's seat with h
 
 **19a**
 ```
-Cinematic film still, insert close-up of the instrument cluster of an old sedan, the orange low-fuel lamp still burning, the small digital clock reading 8:02, dust on the plastic, flat grey daylight, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert close-up of the same Ravon Nexia R3 instrument cluster, identical framing and scale, the orange low-fuel lamp still burning exactly as before, the small digital display reading 8:02, dust on the plastic, flat grey daylight, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 20. Заправка мимо (2 панели) — ВЫСТРЕЛ ПОСЕВА
@@ -391,7 +391,7 @@ Cinematic film still, a completely blank pure white frame with the faintest poss
 - **Одна панель-TRANSITION по существу:** 24b (морф бетона в камень).
   Остальные переходы — жёсткие склейки, панели не нужны
 - **Три сознательные статики:** 10a (зеркало), 12a–12b (двор), 23a–23c (туннель)
-- **Единственное тёплое пятно акта:** 16b (фары на луже)
+- **Тёплые пятна в холодном акте, их всего два:** 12a (огонь тандыра) и 16b (фары на луже)
 - **Посевы, которые обязаны читаться:** 12a (старик), 13b (ключи в луже),
   14b (Бисмиллоҳ), 15b (лампа бензина), 20b (заправка уходит)
 
