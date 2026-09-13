@@ -260,18 +260,37 @@ in layers, ochre and dusty brown and leather with steel and dark red banners,
 shallow depth of field, subtle halation, 16:9
 ```
 
-## #14. Л9 — ШАТЁР АМИРА ТЕМУРА (интерьер)
+## #14. Л9 — ШАТЁР АМИРА ТЕМУРА (интерьер)  [v2, после первой генерации]
+
+ПРОВАЛ ПЕРВОЙ ПОПЫТКИ — САМЫЙ ОПАСНЫЙ ИЗ ТРЁХ. Композиция, свет и
+пространство вышли идеально: клин дневного света из входа, подушки на
+коврах, жаровня с углями, центральная симметрия, лоу-кей от ламп. Но воины
+по бокам оказались ЕВРОПЕЙСКИМИ КРЕСТОНОСЦАМИ — кольчуги, сюрко с красными
+крестами, европейские лица. Генератор соединил «tent» + «14th century» и
+выдал лагерь крестового похода. В фильме про Амира Темура это разрушение
+мира, а не погрешность стиля.
 
 ```
 Cinematic film still, wide shot, centred symmetrical composition, the interior
-of an enormous 14th century command tent, layered carpets covering the floor,
-candles and oil lamps as the only light sources, low cushions in the centre,
-a brazier of coals, warriors standing in rows along both sides like walls,
-a high vaulted roof lost in shadow, a wedge of hard daylight falling through
-the entrance flap, low-key lighting from below and the side, amber and deep
-red with black shadows and golden highlights, 24mm lens, cinematic film still,
-35mm film grain, natural motivated lighting, shallow depth of field, subtle
-halation, 16:9
+of an enormous 14th century CENTRAL ASIAN TIMURID military command tent,
+layered Persian carpets covering the entire floor, low cushions arranged in
+the centre, a brazier of glowing coals, oil lamps and candles as the only
+light sources, a high fabric roof lost in shadow, a wedge of hard daylight
+falling through the entrance flap at the far end, TWO ROWS OF TIMURID WARRIORS
+standing along both sides like walls, Central Asian and Turkic men with dark
+almond eyes and thin beards, wearing QUILTED ROBES in ochre and dark green
+belted with cloth sashes, LAMELLAR PLATE ARMOUR, leather bracers, CURVED
+SABRES at the hip, POINTED HELMETS with mail aventails, low-key lighting from
+below and the side, amber and deep red with black shadows and golden
+highlights, 24mm lens, cinematic film still, 35mm film grain, natural
+motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+НЕГАТИВНЫЙ ПРОМПТ (без него повторится):
+```
+no crusaders, no red crosses, no christian symbols, no european knights,
+no chainmail hauberks, no surcoats, no tabards, no straight swords,
+no european faces, no medieval european armour, no heraldry
 ```
 
 ## #15. Л10 — ГОРНАЯ ДОРОГА / УЩЕЛЬЕ
@@ -304,25 +323,27 @@ shallow depth of field, subtle halation, 16:9
 
 # СТАТУС ГЕНЕРАЦИИ
 
-| # | Эталон | Статус | Что не так |
+| # | Эталон | Статус | Комментарий |
 |---|---|---|---|
-| 1 | Шохрух, лицо | не сгенерирован | — |
-| 2 | Шохрух, полный рост | не сгенерирован | — |
-| 3 | Бобур | ПРИНЯТ | тумор, косичка, халат, сабля, наручи, шапка — всё по паспорту. Открыт вопрос об этнических чертах |
+| 1 | Шохрух, лицо | ПРИНЯТ — РЕФЕРЕНС-ПАНЕЛЬ ГЕРОЯ | шрам на левой брови виден, тени под глазами, неровная щетина, миндалевидные тёмно-карие. Подставляется во ВСЕ панели с героем |
+| 2 | Шохрух, полный рост | ПРИНЯТ | бомбер криво, мокрая рубашка, джинсы, часы на левом запястье, сутулость. Мелочь: обувь вышла как резиновые сапоги — в раскадровке заменить на ботинки |
+| 3 | Бобур | ПРИНЯТ | тумор, косичка, халат, сабля, наручи, шапка. Открыт вопрос об этнических чертах |
 | 4 | Амир Темур | ПЕРЕДЕЛАТЬ | корона вместо чалмы, золото вместо простого халата, тёмные глаза вместо светло-серых, короткая борода, трон во дворце вместо подушек в шатре |
 | 5 | Командир отряда | ПРИНЯТ с правкой | убрать знамя со львом на заднем плане |
-| 6 | Нексия | не сгенерирован | — |
-| 7 | Перстень | не сгенерирован | — |
-| 8 | Л1 спальня | не сгенерирован | — |
-| 9 | Л3 двор | ПРИНЯТ | лучше задуманного: тандыр как пекарня в гараже — деталь достовернее, вносим в канон. При раскадровке поставить у подъезда серую Нексию |
-| 10 | Л5 улицы Ташкента | не сгенерирован | — |
+| 6 | Нексия | ПРИНЯТ | серая выцветшая, потёртость до грунта на правой задней части, мокрый двор с лужами. СОХРАНИТЬ РАКУРС: кадр 111 (бампер со следом сабли) снимается с того же угла |
+| 7 | Перстень | ПРИНЯТ | потемневшее серебро, тёмно-красный камень, арабская вязь по ободку, кожа, тёплый рейкинг-свет |
+| 8 | Л1 спальня | ПРИНЯТ | белая обычная, незастеленная, телефон на подушке, шкаф, окно слева, холодный плоский свет |
+| 9 | Л3 двор | ПРИНЯТ | лучше задуманного: тандыр как пекарня в гараже. При раскадровке поставить у подъезда серую Нексию |
+| 10 | Л5 улицы Ташкента | ПРИНЯТ | вид из салона, дворники и капли, пробка, красные стоп-сигналы на сером, провода, реальные узбекские бренды на билбордах |
 | 11 | Л6 туннель, интерьер | ПЕРЕДЕЛАТЬ | снят снаружи с моста вместо вида изнутри |
 | 11b | Л6 въезд снаружи | ПРИНЯТ как бонус | используется в кадре 21, не как эталон локации |
-| 12 | Л7 степь | не сгенерирован | — |
-| 13 | Л8 лагерь | не сгенерирован | — |
-| 14 | Л9 шатёр | не сгенерирован | — |
-| 15 | Л10 горная дорога | не сгенерирован | — |
-| 16 | Л12 Ташкент финал | не сгенерирован | — |
+| 12 | Л7 степь | ПРИНЯТ | дышащие холмы, мокрая земля с лужами на переднем плане, дымы на горизонте, огромное небо, ни одного провода |
+| 13 | Л8 лагерь | ПРИНЯТ | ЗНАМЁНА С ТРЕМЯ КОЛЬЦАМИ, сотни юрт до горизонта, копья, круглые щиты, котлы, костры, пыль слоями |
+| 14 | Л9 шатёр | ПЕРЕДЕЛАТЬ — КРИТИЧНО | композиция, свет и пространство идеальны, но воины оказались ЕВРОПЕЙСКИМИ КРЕСТОНОСЦАМИ в сюрко с красными крестами |
+| 15 | Л10 горная дорога | ПРИНЯТ | разбитая колея, грязь и лужи, валуны, ущелье вдали, контровой закат, оранжевое против синих теней |
+| 16 | Л12 Ташкент финал | ПРИНЯТ | памятник с рукой на восток, женщина с лепёшками, ребёнок за автобусом, тёплый золотой, мокрый асфальт |
+
+**Итого: 13 принято, 3 переделать (Темур, шатёр, туннель изнутри).**
 
 ---
 
