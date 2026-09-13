@@ -79,35 +79,39 @@ still, 35mm film grain, natural motivated lighting, shallow depth of field,
 subtle halation, 16:9
 ```
 
-## #4a. АМИР ТЕМУР — В ШАТРЕ  [v3, по каноническому портрету]
+## #4a. АМИР ТЕМУР — В ШАТРЕ  [v4, канонический портрет + корона]
 
 КЛИЕНТ ПРЕДОСТАВИЛ КАНОНИЧЕСКИЙ ПОРТРЕТ. Подставлять его как IMAGE
-REFERENCE — тогда лицо совпадёт точно, а не «примерно». В шатре он без
-короны: в короне и парадном халате ночью в военном шатре выходит костюмная
-драма. Корона приберегается для сцены перед войском (#4b).
+REFERENCE — тогда лицо совпадёт точно, а не «примерно».
+РЕШЕНИЕ КЛИЕНТА: КОРОНА ВО ВСЕХ СЦЕНАХ, включая шатёр. Темур один и тот же
+в каждом кадре, канонический образ не размывается. В лоу-кее шатра золото
+короны даёт один горящий блик при половине лица в тени — власть читается
+раньше лица.
 
 ```
 Cinematic film still, medium shot, camera at the eye level of a seated man,
 a Central Asian ruler of about 60 with a broad strong-jawed weathered face,
 heavy dark eyebrows, DARK DEEP-SET EYES with a heavy gaze from beneath the
 brows, tanned skin, lines on the forehead and around the eyes, a SHORT WEDGE
-BEARD dark and heavily streaked with grey, moustache, wearing a dark KARAKUL
-LAMB-FUR CAP, dressed in a white fur-trimmed robe with GOLD FLORAL
-EMBROIDERY over a patterned blue and deep red brocade tunic and a white
-undershirt, NO CROWN, seated cross-legged on LOW CUSHIONS directly on layered
-Persian carpets, leaning on his left arm, his right arm resting motionless on
-his knee, a massive tarnished silver ring with a dark red carnelian on his
-right ring finger, inside a large 14th century Timurid military command TENT,
-fabric walls and carpets, oil lamps and candles as the only light, half his
-face in shadow, amber and deep red palette with black shadows, 85mm lens,
-cinematic film still, 35mm film grain, natural motivated lighting, shallow
-depth of field, subtle halation, 16:9
+BEARD dark and heavily streaked with grey, moustache, wearing a GOLDEN DOMED
+CROWN SET WITH DARK RED GEMSTONES AND TOPPED WITH A WHITE FEATHER PLUME,
+dressed in a white fur-trimmed robe with GOLD FLORAL EMBROIDERY over a
+patterned blue and deep red brocade tunic and a white undershirt, seated
+cross-legged on LOW CUSHIONS directly on layered Persian carpets, leaning on
+his left arm, his right arm resting motionless on his knee, a massive
+tarnished silver ring with a dark red carnelian on his right ring finger,
+inside a large 14th century TIMURID military command TENT, fabric walls and
+carpets, oil lamps and candles as the only light, ONE BURNING HIGHLIGHT ON
+THE GOLD OF THE CROWN, half his face in shadow, amber and deep red palette
+with black shadows, 85mm lens, cinematic film still, 35mm film grain, natural
+motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
 НЕГАТИВНЫЙ ПРОМПТ:
 ```
-no crown, no feather, no throne, no wooden chair, no tiled walls,
-no palace interior, no long beard, no grey eyes, no modern objects
+no throne, no wooden chair, no tiled walls, no palace interior, no long white
+beard, no grey eyes, no turban, no crusaders, no red crosses, no european
+armour, no modern objects
 ```
 
 ## #4b. АМИР ТЕМУР — ПЕРЕД ВОЙСКОМ (полный канон, кадры 87–100)
@@ -360,7 +364,7 @@ halation, 16:9
 | 1 | Шохрух, лицо | ПРИНЯТ — РЕФЕРЕНС-ПАНЕЛЬ ГЕРОЯ | шрам на левой брови виден, тени под глазами, неровная щетина, миндалевидные тёмно-карие. Подставляется во ВСЕ панели с героем |
 | 2 | Шохрух, полный рост | ПРИНЯТ | бомбер криво, мокрая рубашка, джинсы, часы на левом запястье, сутулость. Мелочь: обувь вышла как резиновые сапоги — в раскадровке заменить на ботинки |
 | 3 | Бобур | ПРИНЯТ | тумор, косичка, халат, сабля, наручи, шапка. Открыт вопрос об этнических чертах |
-| 4a | Темур в шатре | ПЕРЕДЕЛАТЬ по каноническому портрету | клиент дал канонический референс — подставлять как image reference. Каракулевая шапка вместо короны, подушки в шатре вместо трона |
+| 4a | Темур в шатре | ПЕРЕДЕЛАТЬ по каноническому портрету | клиент дал канонический референс — подставлять как image reference. КОРОНА (решение клиента: во всех сценах), подушки в шатре вместо трона |
 | 4b | Темур перед войском | НОВЫЙ | полный канон с золотой короной и белым пером, закат, войско за спиной |
 | 5 | Командир отряда | ПРИНЯТ с правкой | убрать знамя со львом на заднем плане |
 | 6 | Нексия | ПРИНЯТ | серая выцветшая, потёртость до грунта на правой задней части, мокрый двор с лужами. СОХРАНИТЬ РАКУРС: кадр 111 (бампер со следом сабли) снимается с того же угла |
