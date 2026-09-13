@@ -79,24 +79,39 @@ still, 35mm film grain, natural motivated lighting, shallow depth of field,
 subtle halation, 16:9
 ```
 
-## #4. АМИР ТЕМУР — сидящий
+## #4. АМИР ТЕМУР — сидящий  [v2, после первой генерации]
+
+ПРОВАЛ ПЕРВОЙ ПОПЫТКИ: генератор выдал царя в золотой короне с пером, в
+парадном халате, на резном троне во дворце с изразцами, с тёмными глазами
+и короткой бородой. Сломано сразу четыре вещи: скромность (вся идея
+персонажа — власть не нуждается в украшениях), светло-серые глаза (по ним
+зритель узнаёт его в каждом кадре), длинная борода и МЕСТО ДЕЙСТВИЯ —
+он в военном шатре, а не в Самарканде. Промпт усилен и снабжён запретами.
 
 ```
 Cinematic film still, medium shot, camera at the eye level of a seated man,
 a Central Asian ruler past 60, tall and broad-boned with a lean sinewy body,
-long narrow face, sharp cheekbones, hollow cheeks, VERY PALE LIGHT GREY EYES
-unusually light against his tanned skin, motionless unwavering gaze, heavy
-grey eyebrows, large hooked nose, thin lips, a long narrow well-kept grey
-beard reaching mid-chest, drooping grey moustache, white turban, deep
-wrinkles around the eyes, gnarled fingers, wearing a plain dark blue robe with
-no gold ornament over a white undershirt and a leather belt, seated on low
-cushions leaning on his left arm, his right arm resting still on his knee,
-a massive tarnished silver ring with a large dark red carnelian and worn
-Arabic engraving on his right ring finger, inside a vast tent with layered
-carpets, low-key lighting from oil lamps and candles below and to the side,
-half his face in shadow, amber and deep red palette with black shadows,
-85mm lens, cinematic film still, 35mm film grain, natural motivated lighting,
-shallow depth of field, subtle halation, 16:9
+long narrow face, sharp cheekbones, hollow cheeks, PALE LIGHT GREY EYES,
+strikingly light against his tanned weathered skin, motionless unwavering
+gaze, heavy grey eyebrows, large hooked nose, thin lips, a LONG NARROW
+WELL-KEPT GREY BEARD REACHING THE MIDDLE OF HIS CHEST, drooping grey
+moustache, wearing a SIMPLE WHITE CLOTH TURBAN wound around his head,
+dressed in a PLAIN DARK BLUE ROBE OF UNDECORATED CLOTH over a white
+undershirt with a plain leather belt, seated cross-legged on LOW CUSHIONS
+directly on layered carpets, leaning on his left arm, his right arm resting
+motionless on his knee, a massive tarnished silver ring with a dark red
+carnelian on his right ring finger, inside a large 14th century military
+command TENT, fabric walls and carpets, oil lamps and candles as the only
+light, half his face in shadow, amber and deep red palette with black
+shadows, 85mm lens, cinematic film still, 35mm film grain, natural motivated
+lighting, shallow depth of field, subtle halation, 16:9
+```
+
+НЕГАТИВНЫЙ ПРОМПТ (обязателен):
+```
+no crown, no feather, no jewels, no gold embroidery, no brocade, no throne,
+no wooden chair, no tiled walls, no palace interior, no dark brown eyes,
+no short beard, no modern objects
 ```
 
 ## #5. КОМАНДИР ОТРЯДА
@@ -109,8 +124,8 @@ dark narrowed eyes, greying medium-length beard, a scar running through his
 right eyebrow and cheekbone, wearing a dark green robe under lamellar plate
 armour, leather bracers, boots, a sabre at his hip and a round shield on his
 back, a pointed helmet held under his arm, standing in a military camp,
-hard clear daylight with sharp shadows, ochre and steel palette with dark red
-banners behind, 50mm lens, cinematic film still, 35mm film grain, natural
+dark red banners bearing ONLY a three-circle emblem behind him,
+hard clear daylight with sharp shadows, ochre and steel palette, 50mm lens, cinematic film still, 35mm film grain, natural
 motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
@@ -186,18 +201,37 @@ still, 35mm film grain, natural motivated lighting, shallow depth of field,
 subtle halation, 16:9
 ```
 
-## #11. Л6 — ТУННЕЛЬ (ПОРТАЛ)
+## #11. Л6 — ТУННЕЛЬ, ИНТЕРЬЕР (ПОРТАЛ)  [v2, после первой генерации]
+
+ПРОВАЛ ПЕРВОЙ ПОПЫТКИ: генератор снял въезд в туннель СНАРУЖИ, с моста,
+с городом и машинами. Тот кадр сохранён отдельно как эталон для кадра 21
+(поворот к туннелю), но главный эталон — вид ИЗНУТРИ — нужен заново.
 
 ```
-Cinematic film still, wide shot, centred symmetrical composition looking down
-a road tunnel that stretches impossibly far into darkness, orange sodium
-ceiling lamps receding into the distance with several already dark, lane
-markings on the road, concrete walls that give way to rough ancient stone with
-veins like the hide of an old animal further in, empty of cars, only car
-headlights raking the walls in the foreground, amber orange fading into
-coal black, 24mm lens, cinematic film still, 35mm film grain, natural motivated
-lighting, shallow depth of field, subtle halation, 16:9
+Cinematic film still, wide shot from the driver's point of view inside a car,
+looking straight down the INTERIOR of a road tunnel, perfectly centred
+symmetrical composition, the tunnel stretching impossibly far into darkness
+with no end visible, a long receding row of orange sodium lamps along the
+ceiling, SEVERAL LAMPS ALREADY DARK breaking the rhythm, lane markings
+running away from the camera, bare concrete walls close on both sides that
+give way further in to ROUGH ANCIENT STONE WITH VEINS LIKE OLD ANIMAL HIDE,
+no other cars, only headlights raking the walls in the foreground, amber
+orange fading into coal black, claustrophobic, 24mm lens, cinematic film
+still, 35mm film grain, natural motivated lighting, shallow depth of field,
+subtle halation, 16:9
 ```
+
+НЕГАТИВНЫЙ ПРОМПТ (обязателен):
+```
+no exterior view, no bridge, no sky, no daylight, no city skyline,
+no other vehicles, no people, no street lamps outside
+```
+
+## #11b. Л6 — ВЪЕЗД В ТУННЕЛЬ, СНАРУЖИ (для кадра 21)
+
+ПОЛУЧЕН с первой попытки — сохранить. Вид с эстакады на въезд в туннель
+у цирка, оранжевое свечение внутри, сумеречный город. Используется в
+кадре 21 («поворот к туннелю»), но НЕ как эталон локации Л6.
 
 ## #12. Л7 — СТЕПЬ (ТОЧКА ПРИБЫТИЯ)
 
@@ -265,6 +299,30 @@ and ochre palette, the exact opposite of the earlier cold steel grey,
 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting,
 shallow depth of field, subtle halation, 16:9
 ```
+
+---
+
+# СТАТУС ГЕНЕРАЦИИ
+
+| # | Эталон | Статус | Что не так |
+|---|---|---|---|
+| 1 | Шохрух, лицо | не сгенерирован | — |
+| 2 | Шохрух, полный рост | не сгенерирован | — |
+| 3 | Бобур | ПРИНЯТ | тумор, косичка, халат, сабля, наручи, шапка — всё по паспорту. Открыт вопрос об этнических чертах |
+| 4 | Амир Темур | ПЕРЕДЕЛАТЬ | корона вместо чалмы, золото вместо простого халата, тёмные глаза вместо светло-серых, короткая борода, трон во дворце вместо подушек в шатре |
+| 5 | Командир отряда | ПРИНЯТ с правкой | убрать знамя со львом на заднем плане |
+| 6 | Нексия | не сгенерирован | — |
+| 7 | Перстень | не сгенерирован | — |
+| 8 | Л1 спальня | не сгенерирован | — |
+| 9 | Л3 двор | ПРИНЯТ | лучше задуманного: тандыр как пекарня в гараже — деталь достовернее, вносим в канон. При раскадровке поставить у подъезда серую Нексию |
+| 10 | Л5 улицы Ташкента | не сгенерирован | — |
+| 11 | Л6 туннель, интерьер | ПЕРЕДЕЛАТЬ | снят снаружи с моста вместо вида изнутри |
+| 11b | Л6 въезд снаружи | ПРИНЯТ как бонус | используется в кадре 21, не как эталон локации |
+| 12 | Л7 степь | не сгенерирован | — |
+| 13 | Л8 лагерь | не сгенерирован | — |
+| 14 | Л9 шатёр | не сгенерирован | — |
+| 15 | Л10 горная дорога | не сгенерирован | — |
+| 16 | Л12 Ташкент финал | не сгенерирован | — |
 
 ---
 
