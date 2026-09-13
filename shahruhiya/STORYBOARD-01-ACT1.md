@@ -23,6 +23,19 @@ a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brow
 desaturated cold steel-grey palette
 ```
 
+### [CAR] — снаружи
+НИКОГДА не писать «Nexia R3» или «Daewoo Nexia»: генератор не знает эту
+региональную модель и подставляет обобщённый старый седан. Работает только
+ОПИСАНИЕ КУЗОВА — базу Chevrolet Aveo T250 модель знает хорошо.
+```
+a grey compact four-door saloon of the late-2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint
+```
+
+### [CAR-INT] — салон
+```
+the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic
+```
+
 ## ПРАВИЛА БЛОКА
 
 1. **Движение камеры НЕ входит в промпты.** Панель — застывший момент.
@@ -32,7 +45,10 @@ desaturated cold steel-grey palette
 3. **Акт 1 весь холодный и десатурированный** — кроме туннеля (янтарь) и
    кадра 16 (фары — единственное тёплое пятно акта).
 4. **Негативный промпт для всего блока:**
-   `no text overlay, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration`
+   `no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration`
+
+   Панель 14b в первой генерации вышла с подписью «Bismillah» прямо в кадре —
+   отсюда `no subtitles, no captions, no lettering`.
 
 ---
 
@@ -177,19 +193,20 @@ Cinematic film still, extreme close-up, a male hand dropping away from an unbutt
 ```
 
 # КАДР 12. Двор (2 панели) — СОЗНАТЕЛЬНАЯ СТАТИКА
-Эталон: двор (#9) — ПРИНЯТ
+Прикреплять: эталон двора #9
 
 **12a**
 ```
-Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-storey brick apartment block in Tashkent early morning, wet asphalt after night rain with puddles reflecting the sky, an elderly Uzbek man in a tubeteika cap and striped robe sweeping slowly with a long broom in the middle distance, a tandoor bakery in an open garage to the right with live fire inside and smoke drifting under the awning, laundry lines strung between trees, a grey Ravon Nexia R3 sedan parked by an entrance, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
+Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-storey brick apartment block in Tashkent early morning, wet asphalt after night rain with puddles reflecting the sky, an elderly Uzbek man in a tubeteika cap and striped robe sweeping slowly with a long broom in the middle distance, a tandoor bakery in an open garage to the right with live fire inside and smoke drifting under the awning, laundry lines strung between trees, [CAR] parked by an entrance, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
 ```
 
 **12b**
 ```
-Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the old man still sweeping unchanged in the middle distance, [SHOHRUH] crossing the very foreground close to the lens and heavily out of focus, only a blurred dark shape in motion, the sharp world behind him untouched, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
+Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the old man still sweeping unchanged in the middle distance and the same parked car untouched, [SHOHRUH] crossing the very foreground close to the lens and heavily out of focus, only a blurred dark shape in motion, the sharp world behind him unchanged, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
 ```
 
 # КАДР 13. Ключи в лужу (3 панели)
+Прикреплять: эталон двора #9
 
 **13a**
 ```
@@ -198,60 +215,65 @@ Cinematic film still, insert shot, top-down, a bunch of car keys falling through
 
 **13b**
 ```
-Cinematic film still, insert shot, top-down, a bunch of car keys striking a puddle on wet courtyard asphalt, a crown of water bursting upward, the mirrored sky shattered into ripples, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert shot, top-down, a bunch of car keys striking the same puddle on wet courtyard asphalt, a crown of water bursting upward, the mirrored sky and green branches shattered into ripples, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
 ```
 
 **13c**
 ```
-Cinematic film still, insert shot, top-down, a male hand plunging into a puddle on wet courtyard asphalt and closing around a bunch of car keys, water running off the knuckles, the reflection still broken, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert shot, top-down, a male hand plunging into the same puddle on wet courtyard asphalt and closing around the bunch of car keys, water running off the knuckles, the reflection still broken, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 14. Ключ и «Бисмиллоҳ» (2 панели)
-Эталон: Нексия (#6) — ПРИНЯТ
+Прикреплять: карта Шохруха #C1 + эталон лица #1
 
 **14a**
 ```
-Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] sitting in the driver's seat of a worn grey Ravon Nexia R3, one hand pushing the key into the ignition, eyes down on his hand, the dusty dashboard and grey courtyard visible through the windscreen, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] sitting in the driver's seat, [CAR-INT], one hand pushing the key into the ignition, eyes down on his hand, the grey courtyard visible through the windscreen, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
 ```
 
 **14b**
 ```
-Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] in the driver's seat of a worn grey Ravon Nexia R3, lips parted mid-word speaking quietly to no one, gaze already forward through the windscreen, hand still on the key, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up from the passenger side, profile, identical framing, [SHOHRUH] in the driver's seat, [CAR-INT], lips parted mid-word speaking quietly to no one, gaze already forward through the windscreen, hand still on the key, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 15. Приборка и лампа бензина (2 панели) — ПОСЕВ
+СНАЧАЛА сгенерировать 15b, довести до нужного вида, ПОТОМ подставлять её
+как image reference в 15a, 19a и позже в 112. Иначе получатся четыре разные
+приборки и рифма через весь фильм не прочитается.
 
 **15a**
 ```
-Cinematic film still, insert close-up of the instrument cluster of a Ravon Nexia R3, two round dials with an orange needle each and a small digital display between them, needles resting at zero, every warning lamp dark, a fine layer of dust on the plastic, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert close-up of a car instrument cluster, [CAR-INT], two round dials framed by the top of the steering wheel, needles resting at zero, every warning lamp dark, the display blank, a fine layer of dust on the plastic, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 **15b**
 ```
-Cinematic film still, insert close-up of the same Ravon Nexia R3 instrument cluster now live, identical framing and scale, the two round dials with their needles swung up, and a single orange low-fuel warning lamp burning bright against the grey dial faces, the only warm colour in the frame, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert close-up of the same car instrument cluster in identical framing and scale, [CAR-INT], the dials now lit with cool green backlighting, both needles swung up, and a single ORANGE LOW-FUEL WARNING LAMP burning bright among them, the only warm colour in the frame, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 16. Фары на луже (2 панели)
+Прикреплять: ПРИНЯТЫЙ ЭТАЛОН МАШИНЫ #6 — обязательно, иначе кузов уедет
 
 **16a**
 ```
-Cinematic film still, wide shot, very low angle near the ground, a large still puddle on wet courtyard asphalt in front of a parked grey Ravon Nexia R3 sedan, the headlights dark, the water holding only a dull grey sky, overcast morning, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, wide shot, very low angle near the ground, a large still puddle on wet courtyard asphalt directly in front of [CAR] parked facing the camera, the headlights dark, the water holding only a dull grey sky, overcast morning, [COLD], 24mm lens, [SUFFIX]
 ```
 
 **16b**
 ```
-Cinematic film still, wide shot, very low angle near the ground, the headlights of the grey Ravon Nexia R3 now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, warm light spilling across an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
+Cinematic film still, wide shot, very low angle near the ground, identical framing, the headlights of the same [CAR] now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, warm light spilling across an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
 ```
 
 # КАДР 17. Пробка (1 панель)
-Эталон: улицы Ташкента (#10) — ПРИНЯТ
+Прикреплять: эталон улиц #10
 
 **17a**
 ```
-Cinematic film still, medium shot from the rear seat over the driver's shoulder, looking through the windscreen of an old sedan at three lanes of Tashkent traffic packed bumper to bumper, mostly white and grey Uzbek-market sedans, wipers mid-stroke, rain beads on the glass, red brake lights, trolleybus wires overhead, billboards and high-rises beyond, overcast daylight, [COLD] with red brake lights as the only accents, 35mm lens, [SUFFIX]
+Cinematic film still, medium shot from the rear seat over the driver's shoulder, [CAR-INT], looking through the windscreen at three lanes of Tashkent traffic packed bumper to bumper, mostly white and grey Uzbek-market sedans, wipers mid-stroke, rain beads on the glass, red brake lights, trolleybus wires overhead, billboards and high-rises beyond, overcast daylight, [COLD] with red brake lights as the only accents, 35mm lens, [SUFFIX]
 ```
 
 # КАДР 18. Телефон за рулём (3 панели)
+Прикреплять: карта Шохруха #C1 + эталон лица #1
 
 **18a**
 ```
@@ -260,39 +282,40 @@ Cinematic film still, close-up, eye level, [SHOHRUH] in the driver's seat holdin
 
 **18b**
 ```
-Cinematic film still, close-up, eye level, [SHOHRUH] in the driver's seat with his chin lifted and eyes snapped forward onto the road, the phone still held low in his hand, screen glow gone from his face, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, close-up, eye level, identical framing, [SHOHRUH] in the driver's seat with his chin lifted and eyes snapped forward onto the road, the phone still held low in his hand, screen glow gone from his face, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 **18c**
 ```
-Cinematic film still, close-up, eye level, [SHOHRUH] in the driver's seat with his eyes cast down at the phone screen again, the same downward glow on his face, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, close-up, eye level, identical framing, [SHOHRUH] in the driver's seat with his eyes cast down at the phone screen again, the same downward glow on his face, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 19. 8:02 (1 панель)
+Прикреплять: утверждённую панель 15b как image reference
 
 **19a**
 ```
-Cinematic film still, insert close-up of the same Ravon Nexia R3 instrument cluster, identical framing and scale, the orange low-fuel lamp still burning exactly as before, the small digital display reading 8:02, dust on the plastic, flat grey daylight, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, insert close-up of the same car instrument cluster in identical framing and scale, [CAR-INT], the dials lit with the same cool green backlighting, the ORANGE LOW-FUEL WARNING LAMP still burning exactly as before, the small digital display reading 8:02, dust on the plastic, flat grey daylight, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 20. Заправка мимо (2 панели) — ВЫСТРЕЛ ПОСЕВА
 
 **20a**
 ```
-Cinematic film still, medium shot from inside a car looking out through the side window, a petrol station with its canopy and pumps entering frame at the edge of the glass, rain beads on the window, wet road, overcast daylight, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium shot from inside a car looking out through the side window, a petrol station with its canopy and pumps entering frame at the near edge of the glass, rain beads on the window, wet road, overcast daylight, [COLD], 35mm lens, [SUFFIX]
 ```
 
 **20b**
 ```
-Cinematic film still, medium shot from inside a car looking out through the side window, the petrol station now sliding off the far edge of the frame and almost gone, only the end of its canopy left, rain beads on the glass, overcast daylight, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium shot from inside a car looking out through the side window, identical framing, the same petrol station now sliding off the far edge of the frame and almost gone, only the end of its canopy left, rain beads on the glass, overcast daylight, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 21. Поворот к туннелю (2 панели)
-Эталон: въезд в туннель снаружи (#11b) — ПРИНЯТ
+Прикреплять: эталон въезда в туннель #11b
 
 **21a**
 ```
-Cinematic film still, medium shot from behind the driver, both male hands turning a worn steering wheel hard to the right, the dusty dashboard below, wet road swinging across the windscreen, overcast daylight, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, medium shot from behind the driver, [CAR-INT], both male hands turning the worn three-spoke steering wheel hard to the right, wet road swinging across the windscreen, overcast daylight, [COLD], 24mm lens, [SUFFIX]
 ```
 
 **21b**
@@ -301,6 +324,7 @@ Cinematic film still, insert shot through a rain-beaded windscreen, a road sign 
 ```
 
 # КАДР 22. Лампы бегут по лицу (2 панели)
+Прикреплять: карта Шохруха #C1 + эталон лица #1
 
 **22a**
 ```
@@ -309,11 +333,12 @@ Cinematic film still, medium close-up, profile from the passenger side, [SHOHRUH
 
 **22b**
 ```
-Cinematic film still, medium close-up, profile from the passenger side, [SHOHRUH] driving with a hard band of orange sodium light laid across his eyes and cheekbone, the rest of the frame black, dark concrete beyond the side window, amber and black palette, 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up, profile from the passenger side, identical framing, [SHOHRUH] driving with a hard band of orange sodium light laid across his eyes and cheekbone, the rest of the frame black, dark concrete beyond the side window, amber and black palette, 35mm lens, [SUFFIX]
 ```
 
 # КАДР 23. Лампы гаснут (3 панели)
-Эталон: туннель изнутри (#11)
+Прикреплять: эталон туннеля изнутри #11. Три панели — ОДНА И ТА ЖЕ геометрия,
+меняются только лампы. Сгенерировать 23a, потом её как reference в 23b и 23c.
 
 **23a**
 ```
@@ -322,12 +347,12 @@ Cinematic film still, wide shot from the driver's point of view, perfectly centr
 
 **23b**
 ```
-Cinematic film still, wide shot from the driver's point of view, the same centred symmetrical tunnel interior, roughly half the ceiling lamps now dark and breaking the rhythm of the row, the far end swallowed in blackness, lane markings running away, amber orange fading into coal black, 24mm lens, [SUFFIX]
+Cinematic film still, wide shot from the driver's point of view, the same centred symmetrical tunnel interior in identical framing, roughly half the ceiling lamps now dark and breaking the rhythm of the row, the far end swallowed in blackness, lane markings running away, amber orange fading into coal black, 24mm lens, [SUFFIX]
 ```
 
 **23c**
 ```
-Cinematic film still, wide shot from the driver's point of view, the same centred symmetrical tunnel interior with only two or three lamps still burning close to the camera, the tunnel stretching impossibly far into total darkness with no end visible, headlights raking the near walls, amber orange against coal black, 24mm lens, [SUFFIX]
+Cinematic film still, wide shot from the driver's point of view, the same centred symmetrical tunnel interior in identical framing with only two or three lamps still burning close to the camera, the tunnel stretching impossibly far into total darkness with no end visible, headlights raking the near walls, amber orange against coal black, 24mm lens, [SUFFIX]
 ```
 
 # КАДР 24. БЕТОН → КАМЕНЬ (3 панели) — ОПТИЧЕСКИЙ ПЕРЕХОД, МОРФ БЕЗ СКЛЕЙКИ
