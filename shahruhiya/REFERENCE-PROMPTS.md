@@ -79,39 +79,51 @@ still, 35mm film grain, natural motivated lighting, shallow depth of field,
 subtle halation, 16:9
 ```
 
-## #4. АМИР ТЕМУР — сидящий  [v2, после первой генерации]
+## #4a. АМИР ТЕМУР — В ШАТРЕ  [v3, по каноническому портрету]
 
-ПРОВАЛ ПЕРВОЙ ПОПЫТКИ: генератор выдал царя в золотой короне с пером, в
-парадном халате, на резном троне во дворце с изразцами, с тёмными глазами
-и короткой бородой. Сломано сразу четыре вещи: скромность (вся идея
-персонажа — власть не нуждается в украшениях), светло-серые глаза (по ним
-зритель узнаёт его в каждом кадре), длинная борода и МЕСТО ДЕЙСТВИЯ —
-он в военном шатре, а не в Самарканде. Промпт усилен и снабжён запретами.
+КЛИЕНТ ПРЕДОСТАВИЛ КАНОНИЧЕСКИЙ ПОРТРЕТ. Подставлять его как IMAGE
+REFERENCE — тогда лицо совпадёт точно, а не «примерно». В шатре он без
+короны: в короне и парадном халате ночью в военном шатре выходит костюмная
+драма. Корона приберегается для сцены перед войском (#4b).
 
 ```
 Cinematic film still, medium shot, camera at the eye level of a seated man,
-a Central Asian ruler past 60, tall and broad-boned with a lean sinewy body,
-long narrow face, sharp cheekbones, hollow cheeks, PALE LIGHT GREY EYES,
-strikingly light against his tanned weathered skin, motionless unwavering
-gaze, heavy grey eyebrows, large hooked nose, thin lips, a LONG NARROW
-WELL-KEPT GREY BEARD REACHING THE MIDDLE OF HIS CHEST, drooping grey
-moustache, wearing a SIMPLE WHITE CLOTH TURBAN wound around his head,
-dressed in a PLAIN DARK BLUE ROBE OF UNDECORATED CLOTH over a white
-undershirt with a plain leather belt, seated cross-legged on LOW CUSHIONS
-directly on layered carpets, leaning on his left arm, his right arm resting
-motionless on his knee, a massive tarnished silver ring with a dark red
-carnelian on his right ring finger, inside a large 14th century military
-command TENT, fabric walls and carpets, oil lamps and candles as the only
-light, half his face in shadow, amber and deep red palette with black
-shadows, 85mm lens, cinematic film still, 35mm film grain, natural motivated
-lighting, shallow depth of field, subtle halation, 16:9
+a Central Asian ruler of about 60 with a broad strong-jawed weathered face,
+heavy dark eyebrows, DARK DEEP-SET EYES with a heavy gaze from beneath the
+brows, tanned skin, lines on the forehead and around the eyes, a SHORT WEDGE
+BEARD dark and heavily streaked with grey, moustache, wearing a dark KARAKUL
+LAMB-FUR CAP, dressed in a white fur-trimmed robe with GOLD FLORAL
+EMBROIDERY over a patterned blue and deep red brocade tunic and a white
+undershirt, NO CROWN, seated cross-legged on LOW CUSHIONS directly on layered
+Persian carpets, leaning on his left arm, his right arm resting motionless on
+his knee, a massive tarnished silver ring with a dark red carnelian on his
+right ring finger, inside a large 14th century Timurid military command TENT,
+fabric walls and carpets, oil lamps and candles as the only light, half his
+face in shadow, amber and deep red palette with black shadows, 85mm lens,
+cinematic film still, 35mm film grain, natural motivated lighting, shallow
+depth of field, subtle halation, 16:9
 ```
 
-НЕГАТИВНЫЙ ПРОМПТ (обязателен):
+НЕГАТИВНЫЙ ПРОМПТ:
 ```
-no crown, no feather, no jewels, no gold embroidery, no brocade, no throne,
-no wooden chair, no tiled walls, no palace interior, no dark brown eyes,
-no short beard, no modern objects
+no crown, no feather, no throne, no wooden chair, no tiled walls,
+no palace interior, no long beard, no grey eyes, no modern objects
+```
+
+## #4b. АМИР ТЕМУР — ПЕРЕД ВОЙСКОМ (полный канон, кадры 87–100)
+
+```
+Cinematic film still, medium shot, low angle, the same Central Asian ruler of
+about 60, broad strong-jawed weathered face, heavy dark eyebrows, DARK
+DEEP-SET EYES, short wedge beard dark and heavily streaked with grey,
+wearing a GOLDEN DOMED CROWN SET WITH DARK RED GEMSTONES AND TOPPED WITH A
+WHITE FEATHER PLUME, a white fur-trimmed cloak with gold floral embroidery
+over a patterned blue and deep red brocade robe, standing before an army on
+an open steppe field at sunset, thousands of warriors and banners behind him
+out of focus, horizontal golden hour light almost level with the ground,
+dust burning in the air, bronze skin tones, red and gold palette, 50mm lens,
+cinematic film still, 35mm film grain, natural motivated lighting, shallow
+depth of field, subtle halation, 16:9
 ```
 
 ## #5. КОМАНДИР ОТРЯДА
@@ -321,6 +333,26 @@ shallow depth of field, subtle halation, 16:9
 
 ---
 
+## #17. СКВЕР АМИРА ТЕМУРА, ВИД СВЕРХУ (кадр 121, финальный подъём камеры)
+
+Референс предоставлен клиентом. Решает финальный кадр: город раскрывается
+как КОЛЕСО, а в центре — тот, кто дал герою имя. Рифма к полю, где тысячи
+воинов стояли кольцом вокруг Темура.
+
+```
+Cinematic film still, extreme wide aerial shot rising above a city square,
+a large CIRCULAR PARK with radial tree-lined paths converging on an
+equestrian monument at the exact centre on a round pedestal, the rider's arm
+raised pointing east, a ring road encircling the park, dense green trees,
+neoclassical buildings around the perimeter, a modern Central Asian city
+skyline beyond, early morning sun low and warm, wet asphalt still drying on
+the ring road, warm golden and green palette, 24mm lens, cinematic film still,
+35mm film grain, natural motivated lighting, shallow depth of field, subtle
+halation, 16:9
+```
+
+---
+
 # СТАТУС ГЕНЕРАЦИИ
 
 | # | Эталон | Статус | Комментарий |
@@ -328,7 +360,8 @@ shallow depth of field, subtle halation, 16:9
 | 1 | Шохрух, лицо | ПРИНЯТ — РЕФЕРЕНС-ПАНЕЛЬ ГЕРОЯ | шрам на левой брови виден, тени под глазами, неровная щетина, миндалевидные тёмно-карие. Подставляется во ВСЕ панели с героем |
 | 2 | Шохрух, полный рост | ПРИНЯТ | бомбер криво, мокрая рубашка, джинсы, часы на левом запястье, сутулость. Мелочь: обувь вышла как резиновые сапоги — в раскадровке заменить на ботинки |
 | 3 | Бобур | ПРИНЯТ | тумор, косичка, халат, сабля, наручи, шапка. Открыт вопрос об этнических чертах |
-| 4 | Амир Темур | ПЕРЕДЕЛАТЬ | корона вместо чалмы, золото вместо простого халата, тёмные глаза вместо светло-серых, короткая борода, трон во дворце вместо подушек в шатре |
+| 4a | Темур в шатре | ПЕРЕДЕЛАТЬ по каноническому портрету | клиент дал канонический референс — подставлять как image reference. Каракулевая шапка вместо короны, подушки в шатре вместо трона |
+| 4b | Темур перед войском | НОВЫЙ | полный канон с золотой короной и белым пером, закат, войско за спиной |
 | 5 | Командир отряда | ПРИНЯТ с правкой | убрать знамя со львом на заднем плане |
 | 6 | Нексия | ПРИНЯТ | серая выцветшая, потёртость до грунта на правой задней части, мокрый двор с лужами. СОХРАНИТЬ РАКУРС: кадр 111 (бампер со следом сабли) снимается с того же угла |
 | 7 | Перстень | ПРИНЯТ | потемневшее серебро, тёмно-красный камень, арабская вязь по ободку, кожа, тёплый рейкинг-свет |
@@ -342,8 +375,9 @@ shallow depth of field, subtle halation, 16:9
 | 14 | Л9 шатёр | ПЕРЕДЕЛАТЬ — КРИТИЧНО | композиция, свет и пространство идеальны, но воины оказались ЕВРОПЕЙСКИМИ КРЕСТОНОСЦАМИ в сюрко с красными крестами |
 | 15 | Л10 горная дорога | ПРИНЯТ | разбитая колея, грязь и лужи, валуны, ущелье вдали, контровой закат, оранжевое против синих теней |
 | 16 | Л12 Ташкент финал | ПРИНЯТ | памятник с рукой на восток, женщина с лепёшками, ребёнок за автобусом, тёплый золотой, мокрый асфальт |
+| 17 | Сквер сверху (кадр 121) | НОВЫЙ | референс от клиента: круглый парк, радиальные аллеи, памятник в центре, кольцевая дорога |
 
-**Итого: 13 принято, 3 переделать (Темур, шатёр, туннель изнутри).**
+**Итого: 13 принято. Осталось 5: Темур в шатре (4a), Темур перед войском (4b), шатёр (14), туннель изнутри (11), сквер сверху (17).**
 
 ---
 
