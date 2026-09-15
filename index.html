@@ -81,6 +81,8 @@
             border-radius: 8px; padding: 10px 12px; font-size: 12px; margin-bottom: 12px; display:none;
         }
         .warn-box.show { display: block; }
+        .warn-box.blocking { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+        .warn-box a.fix-link { color: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
         .check-row { display:flex; align-items:center; gap:8px; font-size: 13px; color:#334155; }
         canvas {
             border: 2px solid #e2e8f0;
@@ -226,12 +228,14 @@
                         <label class="label-text" for="metalThickness">Толщина металла</label>
                         <select id="metalThickness" class="input-field">
                             <option value="0.5">0.5 мм</option>
+                            <option value="0.6">0.6 мм</option>
                             <option value="0.7">0.7 мм</option>
                             <option value="0.9">0.9 мм</option>
                             <option value="1.0">1.0 мм</option>
                             <option value="1.2">1.2 мм</option>
                             <option value="1.5">1.5 мм</option>
                         </select>
+                        <span class="field-error" id="err_thickness"></span>
                     </div>
                 </div>
 
@@ -392,6 +396,29 @@
     // Стандартный ряд размеров (для подсказок/предупреждений)
     const STD_ROUND = [100,110,125,140,160,180,200,224,250,280,315,355,400,450,500,560,630,710,800,900,1000];
     const SHEET_W = 1250; // ширина листа/рулона, мм — ограничение на разворачиваемый периметр без стыка
+
+    // Минимальная толщина металла по наибольшему размеру сечения — ГОСТ 21.602-2016 / СП 60.13330.2020
+    const THICKNESS_TABLE = [
+        { max: 250,      min: 0.5 },
+        { max: 500,      min: 0.6 },
+        { max: 800,      min: 0.7 },
+        { max: 1250,     min: 0.9 },
+        { max: 1600,     min: 1.0 },
+        { max: 2000,     min: 1.2 },
+        { max: Infinity, min: 1.5 }
+    ];
+    function requiredThickness(maxSide) {
+        const row = THICKNESS_TABLE.find(r => maxSide <= r.max);
+        return row ? row.min : 1.5;
+    }
+
+    // Стандартные углы отводов по ГОСТ 21.602 — прочие требуют индивидуального
+    // изготовления и наценки.
+    const STANDARD_ANGLES = [90, 45, 30, 15];
+    const NONSTANDARD_ANGLE_SURCHARGE = 0.35; // +35% к цене позиции
+    function isStandardAngle(angle) {
+        return STANDARD_ANGLES.some(a => Math.abs(a - angle) < 0.01);
+    }
 
     function toRad(deg) { return deg * Math.PI / 180; }
 
@@ -645,7 +672,7 @@
         });
     }
 
-    function onFieldChange() { updateCalculation(); drawCanvas(); saveState(); }
+    function onFieldChange() { validateShape(); updateCalculation(); drawCanvas(); saveState(); }
 
     function saveState() {
         try {
@@ -947,19 +974,58 @@
             const per = 2 * ((d.A||0) + (d.B||0));
             if (per / 2 > SHEET_W) warns.push(`Сторона разворачивается шире рулона (${SHEET_W} мм) — потребуется продольный стык.`);
         }
-        // толщина металла vs габарит (упрощённое правило: чем крупнее канал, тем толще металл)
+
+        // Толщина металла vs габарит — обязательная норма (ГОСТ 21.602-2016 / СП 60.13330.2020),
+        // не рекомендация: заказ с недостаточной толщиной блокируется.
+        const errors = [];
         const maxSide = Math.max(d.A||0, d.B||0, d.D||0);
         const thickness = parseFloat(metalThicknessSelect.value);
-        if (maxSide > 1000 && thickness < 0.9) warns.push('Для канала крупнее 1000 мм рекомендуется толщина металла от 0.9 мм.');
-        else if (maxSide > 500 && thickness < 0.7) warns.push('Для канала крупнее 500 мм рекомендуется толщина металла от 0.7 мм.');
+        const errThicknessEl = document.getElementById('err_thickness');
+        const required = requiredThickness(maxSide);
+        if (maxSide > 0 && thickness < required) {
+            errors.push(
+                `Толщина ${thickness} мм меньше минимально допустимой ${required} мм для сечения ${Math.round(maxSide)} мм по ГОСТ 21.602-2016 ` +
+                `<a class="fix-link" onclick="applyRequiredThickness(${required})">Подставить ${required} мм</a>`
+            );
+            metalThicknessSelect.classList.add('error');
+            if (errThicknessEl) errThicknessEl.textContent = `Требуется от ${required} мм`;
+            blocking = true;
+        } else {
+            metalThicknessSelect.classList.remove('error');
+            if (errThicknessEl) errThicknessEl.textContent = '';
+        }
 
-        if (warns.length) {
-            warnBox.innerHTML = '⚠️ ' + warns.join('<br>⚠️ ');
+        // Нестандартный угол отвода — заказать можно, но это индивидуальное
+        // изготовление: предупреждаем и закладываем наценку в цену (не блокирует).
+        if ((key === 'rect_elbow_custom' || key === 'round_elbow') && d.angle && !isStandardAngle(d.angle)) {
+            warns.push(`Угол ${d.angle}° нестандартный (базовые: ${STANDARD_ANGLES.join('°, ')}°) — индивидуальное изготовление, к цене позиции добавлена наценка +${Math.round(NONSTANDARD_ANGLE_SURCHARGE*100)}%.`);
+        }
+
+        const allMsgs = [...errors, ...warns];
+        if (allMsgs.length) {
+            const icon = m => errors.includes(m) ? '⛔' : '⚠️';
+            warnBox.innerHTML = allMsgs.map(m => `${icon(m)} ${m}`).join('<br>');
             warnBox.classList.add('show');
+            warnBox.classList.toggle('blocking', errors.length > 0);
         } else {
             warnBox.classList.remove('show');
+            warnBox.classList.remove('blocking');
         }
         addBtn.disabled = blocking;
+    }
+
+    // Кнопка в тексте предупреждения — подставляет минимально допустимую толщину одним кликом.
+    function applyRequiredThickness(value) {
+        const val = String(value);
+        const hasOption = Array.from(metalThicknessSelect.options).some(o => o.value === val);
+        if (!hasOption) {
+            const opt = document.createElement('option');
+            opt.value = val; opt.textContent = `${val} мм`;
+            metalThicknessSelect.appendChild(opt);
+        }
+        metalThicknessSelect.value = val;
+        onFieldChange();
+        showToast(`Толщина металла установлена: ${val} мм`);
     }
 
     /* ============================================================
@@ -990,20 +1056,26 @@
         return new Intl.NumberFormat('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round(amount)) + ' сум';
     }
 
+    function isNonstandardAngleItem() {
+        const key = currentProductKey, d = currentDims;
+        return (key === 'rect_elbow_custom' || key === 'round_elbow') && d.angle && !isStandardAngle(d.angle);
+    }
+
     function updateCalculation() {
         const { geom, blank } = calcAreaBlank();
         const weight = calculateWeight(blank);
         const qty = Math.max(1, parseInt(quantityInput.value) || 1);
         const priceMultiplier = METALS[metalTypeSelect.value].priceMultiplier;
         const basePrice = parseFloat(pricePerM2Input.value) || 0;
-        const finalPrice = basePrice * priceMultiplier;
+        const surcharge = isNonstandardAngleItem() ? (1 + NONSTANDARD_ANGLE_SURCHARGE) : 1;
+        const finalPrice = basePrice * priceMultiplier * surcharge;
         const total = blank * qty * finalPrice;
 
         document.getElementById('calcArea').innerHTML = `${blank.toFixed(3)} м²<small>геометрия: ${geom.toFixed(3)} м²</small>`;
         document.getElementById('calcWeight').textContent = `${weight.toFixed(2)} кг`;
-        document.getElementById('calcTotal').textContent = formatSum(total);
+        document.getElementById('calcTotal').innerHTML = formatSum(total) + (surcharge > 1 ? '<small>вкл. +35% за угол</small>' : '');
 
-        return { area: blank, areaGeom: geom, weight, total, finalPrice, qty };
+        return { area: blank, areaGeom: geom, weight, total, finalPrice, qty, surcharge };
     }
 
     /* ============================================================
@@ -1013,11 +1085,12 @@
         validateShape();
         if (addBtn.disabled) { showToast('Исправьте ошибки в размерах', true); return; }
 
-        const { area, weight, total, finalPrice, qty } = updateCalculation();
+        const { area, weight, total, finalPrice, qty, surcharge } = updateCalculation();
         const metalName = METALS[metalTypeSelect.value].name;
         const thickness = metalThicknessSelect.value;
 
-        const dimStr = currentProduct.dims.map(d => `${d.label}=${currentDims[d.id] ?? d.def}мм`).join(', ');
+        let dimStr = currentProduct.dims.map(d => `${d.label}=${currentDims[d.id] ?? d.def}мм`).join(', ');
+        if (surcharge > 1) dimStr += ` · нестандартный угол +${Math.round(NONSTANDARD_ANGLE_SURCHARGE*100)}%`;
 
         cart.push({
             id: seq++,
