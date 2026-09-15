@@ -2298,12 +2298,16 @@
             const leg1 = Math.max(W * 1.1, R * 0.9), leg2 = leg1;
             group.add(meshWithEdges(buildLoftGeometry(leg1, prof, prof), mat));
             addProfileFlange(group, prof, Math.max(H, W), 0, mat, 'x');
-            const seg2 = meshWithEdges(buildLoftGeometry(leg2, prof, prof, 48, 'y'), mat);
-            seg2.position.set(leg1 - W, H, 0);
+            // seg2 утоплен до ЦЕНТРА seg1 (не до его верхней грани H/2) — иначе
+            // на реальном рендере видна щель/точечное касание между трубами
+            // вместо сплошного «сросшегося» колена.
+            const seg2Len = leg2 + H / 2;
+            const seg2 = meshWithEdges(buildLoftGeometry(seg2Len, prof, prof, 48, 'y'), mat);
+            seg2.position.set(leg1 - W, -H / 2, 0);
             group.add(seg2);
-            addProfileFlange(group, prof, Math.max(H, W), H + leg2, mat, 'y');
+            addProfileFlange(group, prof, Math.max(H, W), leg2, mat, 'y');
             labels.push({ anchor: { x: leg1 * 0.4, y: 0, z: 0 }, text: `Ш=${d.A}, В=${d.B}`, offX: 0, offY: -30 });
-            labels.push({ anchor: { x: leg1 - W / 2, y: H + leg2 * 0.5, z: 0 }, text: `R=${d.R}`, offX: 40, offY: 0 });
+            labels.push({ anchor: { x: leg1 - W / 2, y: leg2 * 0.5, z: 0 }, text: `R=${d.R}`, offX: 40, offY: 0 });
         } else if (kind === 'rectTee' || kind === 'rectCross') {
             const H = d.B * SCALE, W = d.A * SCALE, L = d.L * SCALE, a = d.a * SCALE, C = d.C * SCALE;
             const prof = rectProfile(H, W), branchProf = rectProfile(a, a);
@@ -2378,12 +2382,15 @@
             const leg = Math.max(r * 2.2, R * 0.9);
             group.add(meshWithEdges(buildLoftGeometry(leg, prof, prof), mat));
             addFlangeRing(group, r, 0, mat);
-            const seg2 = meshWithEdges(buildLoftGeometry(leg, prof, prof, 48, 'y'), mat);
-            seg2.position.set(leg - r, r, 0);
+            // seg2 утоплен до центра seg1 (y=0), а не просто касается его верхней
+            // образующей (y=r) — иначе труба «висит», едва соприкасаясь с основной.
+            const seg2Len = leg + r;
+            const seg2 = meshWithEdges(buildLoftGeometry(seg2Len, prof, prof, 48, 'y'), mat);
+            seg2.position.set(leg - r, 0, 0);
             group.add(seg2);
-            addProfileFlange(group, prof, r, r + leg, mat, 'y');
+            addProfileFlange(group, prof, r, leg, mat, 'y');
             labels.push({ anchor: { x: leg * 0.4, y: 0, z: r }, text: `⌀ D = ${d.D}`, offX: 0, offY: -28 });
-            labels.push({ anchor: { x: leg - r / 2, y: r + leg * 0.5, z: 0 }, text: `R=${d.R}, ${angle}°`, offX: 40, offY: 0 });
+            labels.push({ anchor: { x: leg - r / 2, y: leg * 0.5, z: 0 }, text: `R=${d.R}, ${angle}°`, offX: 40, offY: 0 });
         } else if (kind === 'roundTee') {
             const R = d.D / 2 * SCALE, r = d.d / 2 * SCALE, L = d.L * SCALE, C = d.C * SCALE;
             const main = meshWithEdges(new THREE.CylinderGeometry(R, R, L, 48, 1, true), mat);
