@@ -1323,6 +1323,10 @@
     const CANVAS_W = 900, CANVAS_H = 700;
     const STAMP_W = 300, STAMP_H = 120;
     const MARGIN = 18;
+    // Полоса под статичный 3D-снимок сверху листа — только для типов из
+    // SNAPSHOT_TYPES (см. секцию 3D ниже). Для остальных изделий лист
+    // остаётся прежней высоты, чтобы не плодить пустое место.
+    const SNAPSHOT_BAND = 250;
     const DRAW = { x: MARGIN, y: MARGIN, w: CANVAS_W - MARGIN*2, h: CANVAS_H - MARGIN*2 - STAMP_H - 14 };
 
     const COL = { line: '#1e3a8a', thin: '#60a5fa', dim: '#0f172a', hatch: '#94a3b8', fill: '#eaf1fd', fill2: '#dbe8fc', axis: '#94a3b8', text: '#0f172a' };
@@ -1664,21 +1668,29 @@
             dimRadial(cx, cy, r, -35, `⌀ ${d.D} (R=${Math.round(d.D/2)})`);
         },
         roundStraight(d) {
-            const pad = 90;
-            const s = fitScale(d.L+60, d.D+90, DRAW.w - pad*2, DRAW.h - 100);
+            const zoneW = DRAW.w * 0.68, sideX = DRAW.x + zoneW + 36, sideW = DRAW.w - zoneW - 36;
+            const pad = 50;
+            const s = fitScale(d.L+60, d.D+90, zoneW - pad*2, DRAW.h - 100);
             const w = d.L*s, h = d.D*s;
-            const x = DRAW.x + (DRAW.w - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
+            const x = DRAW.x + pad + (zoneW - pad*2 - w)/2, y = DRAW.y + 40 + (DRAW.h - 140 - h)/2;
+            centerLine(x - 20, y + h/2, x + w + 20, y + h/2);
             drawBox(x, y, w, h);
             [x, x+w].forEach(ex => {
                 ctx.beginPath();
                 ctx.ellipse(ex, y+h/2, Math.max(6,h*0.08), h/2, 0, 0, Math.PI*2);
                 ctx.strokeStyle = COL.line; ctx.lineWidth = 1.5; ctx.stroke();
             });
-            centerCross((x+x+w)/2 - w/2 + w/2, y+h/2, 0);
-            ctx.save(); ctx.strokeStyle = COL.axis; ctx.setLineDash([8,3,2,3]);
-            ctx.beginPath(); ctx.moveTo(x-14, y+h/2); ctx.lineTo(x+w+14, y+h/2); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
             dimH(x, x+w, y, y-34, `L = ${d.L}`);
             dimV(y, y+h, x+w, x+w+34, `⌀ D = ${d.D}`);
+
+            // вид сбоку (торец)
+            const evR = fitScale(d.D+40, d.D+40, sideW-20, DRAW.h-160) * d.D/2;
+            const evCx = sideX + sideW/2, evCy = y + h/2;
+            ctx.beginPath(); ctx.arc(evCx, evCy, evR, 0, Math.PI*2);
+            ctx.fillStyle = COL.fill; ctx.fill(); ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.stroke();
+            centerLine(evCx - evR - 14, evCy, evCx + evR + 14, evCy);
+            centerLine(evCx, evCy - evR - 14, evCx, evCy + evR + 14);
+            textWithHalo('Вид сбоку', evCx, evCy - evR - 20, {font:'11px Arial', color:'#64748b'});
         },
         roundTransitionRR(d) {
             const pad = 100;
@@ -1903,9 +1915,20 @@
        ОТРИСОВКА ПОЛНОГО ЧЕРТЕЖА СО ШТАМПОМ
     ============================================================ */
     function drawCanvas() {
+        const useSnapshot = currentProduct && typeof SUPPORTED_3D !== 'undefined' && SUPPORTED_3D.has(currentProduct.kind);
+        canvas.width = CANVAS_W;
+        canvas.height = CANVAS_H + (useSnapshot ? SNAPSHOT_BAND : 0);
+        DRAW.y = MARGIN + (useSnapshot ? SNAPSHOT_BAND : 0);
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (useSnapshot) {
+            drawSnapshotBand(MARGIN + 4, MARGIN + 4, CANVAS_W - (MARGIN + 4) * 2, SNAPSHOT_BAND - 14);
+            ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(MARGIN + 4, MARGIN + SNAPSHOT_BAND - 6); ctx.lineTo(CANVAS_W - MARGIN - 4, MARGIN + SNAPSHOT_BAND - 6); ctx.stroke();
+        }
 
         // внешняя рамка чертежа (ГОСТ-подобная, с внутренним полем)
         ctx.strokeStyle = '#1a1a1a';
@@ -2101,6 +2124,85 @@
         const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
         ring.position.y = y;
         group.add(ring);
+    }
+
+    /* ------------------------------------------------------------
+       Офскрин-рендер 3D-модели в фиксированном ракурсе — для печати
+       вращать мышкой нельзя, поэтому это ОТДЕЛЬНЫЙ рендерер от
+       интерактивного (не привязан к позиции камеры, которую крутит
+       пользователь во вкладке «3D-превью»), с постоянным «выгодным»
+       трёхчетвертным углом.
+    ------------------------------------------------------------ */
+    let snapshot3D = null; // { renderer, scene, camera, group }
+
+    function ensureSnapshot3D() {
+        if (snapshot3D || typeof THREE === 'undefined') return;
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+        renderer.setSize(1400, 620, false);
+        renderer.setPixelRatio(1);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(38, 1400 / 620, 0.1, 100);
+
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 0.95));
+        const key = new THREE.DirectionalLight(0xffffff, 1.2);
+        key.position.set(4, 6, 5);
+        scene.add(key);
+        const fill = new THREE.DirectionalLight(0xbcd2ff, 0.55);
+        fill.position.set(-5, -2, -4);
+        scene.add(fill);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        snapshot3D = { renderer, scene, camera, group };
+    }
+
+    // Рисует статичный 3D-снимок изделия в область (x,y,w,h) канваса чертежа.
+    // Если Three.js не загрузился (нет сети) — рисует нейтральную заглушку,
+    // чтобы лист всё равно оставался пригодным для печати/скачивания.
+    function drawSnapshotBand(x, y, w, h) {
+        ensureSnapshot3D();
+        if (!snapshot3D || !currentProduct) {
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fillRect(x, y, w, h);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('3D-иллюстрация недоступна (нет соединения)', x + w/2, y + h/2);
+            return;
+        }
+        while (snapshot3D.group.children.length) {
+            const obj = snapshot3D.group.children.pop();
+            obj.traverse(node => node.geometry && node.geometry.dispose());
+            snapshot3D.group.remove(obj);
+        }
+        const dims = { ...currentDims };
+        currentProduct.dims.forEach(dd => { if (!dims[dd.id]) dims[dd.id] = dd.def; });
+        const built = build3DGeometry(currentProduct.kind, dims);
+        snapshot3D.group.add(built);
+
+        const box = new THREE.Box3().setFromObject(snapshot3D.group);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        snapshot3D.group.position.sub(center);
+        const dist = Math.max(size.x, size.y, size.z, 0.5) * 2.3;
+        snapshot3D.camera.position.set(dist * 0.75, dist * 0.5, dist * 0.95);
+        snapshot3D.camera.lookAt(0, 0, 0);
+
+        snapshot3D.renderer.render(snapshot3D.scene, snapshot3D.camera);
+
+        // вписываем 1400×620 рендер в отведённую область без искажения пропорций
+        const srcAR = 1400 / 620, dstAR = w / h;
+        let dw = w, dh = h, dx = x, dy = y;
+        if (srcAR > dstAR) { dh = w / srcAR; dy = y + (h - dh) / 2; }
+        else { dw = h * srcAR; dx = x + (w - dw) / 2; }
+        ctx.drawImage(snapshot3D.renderer.domElement, dx, dy, dw, dh);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('3D-иллюстрация (принципиальная, не для замера)', x + 2, y + h - 4);
     }
 
     function update3DModel() {
