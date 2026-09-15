@@ -2045,16 +2045,7 @@
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
 
-        scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 0.9));
-        const key = new THREE.DirectionalLight(0xffffff, 1.1);
-        key.position.set(4, 6, 5);
-        scene.add(key);
-        const fill = new THREE.DirectionalLight(0xbcd2ff, 0.5);
-        fill.position.set(-5, -2, -4);
-        scene.add(fill);
-        const rim = new THREE.PointLight(0xffffff, 0.6);
-        rim.position.set(-3, 4, -5);
-        scene.add(rim);
+        setupCadLights(scene);
 
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
@@ -2079,51 +2070,83 @@
         three.camera.updateProjectionMatrix();
     }
 
+    // Мягкий рассеянный свет без резких бликов + матовый материал —
+    // имитация типового CAD-рендера (SolidWorks/Inventor), а не глянцевого
+    // фото металла. Общая функция для интерактивной вкладки и офскрин-снимка,
+    // чтобы стиль не расходился между ними.
+    function setupCadLights(scene) {
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x8a94a0, 1.05));
+        const key = new THREE.DirectionalLight(0xffffff, 0.55);
+        key.position.set(4, 6, 5);
+        scene.add(key);
+        const fill = new THREE.DirectionalLight(0xffffff, 0.35);
+        fill.position.set(-5, 2, -4);
+        scene.add(fill);
+    }
+
     function metalMaterial() {
-        return new THREE.MeshStandardMaterial({ color: 0xb7c0c9, metalness: 0.85, roughness: 0.32 });
+        return new THREE.MeshStandardMaterial({ color: 0xd7dade, metalness: 0.15, roughness: 0.7 });
+    }
+
+    // Оборачивает геометрию в мини-группу «меш + тонкий контур по рёбрам»
+    // (THREE.EdgesGeometry) — именно это даёт характерный чистый вид
+    // CAD-рендера вместо «мыльной» болванки без границ граней.
+    function meshWithEdges(geometry, mat) {
+        const holder = new THREE.Group();
+        holder.add(new THREE.Mesh(geometry, mat));
+        holder.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), new THREE.LineBasicMaterial({ color: 0x3a4552 })));
+        return holder;
     }
 
     function addFlangeRing(group, radius, x, mat) {
-        const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
+        const ring = meshWithEdges(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
         ring.rotation.z = Math.PI / 2;
         ring.position.x = x;
         group.add(ring);
     }
 
+    function addFlangeRing2Y(group, radius, y, mat) {
+        const ring = meshWithEdges(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
+        ring.position.y = y;
+        group.add(ring);
+    }
+
+    // Возвращает { group, labels } — labels это подписи ⌀D/⌀d прямо на
+    // 3D-иллюстрации (как на референсе), с точкой-анкером в ЛОКАЛЬНЫХ
+    // координатах group (пересчёт в мировые — на стороне drawSnapshotBand,
+    // после центрирования модели).
     function build3DGeometry(kind, d) {
         const group = new THREE.Group();
         const mat = metalMaterial();
         const SCALE = 1 / 120; // мм → условные единицы сцены
+        const labels = [];
 
         if (kind === 'roundStraight') {
             const r = d.D / 2 * SCALE, L = d.L * SCALE;
-            const pipe = new THREE.Mesh(new THREE.CylinderGeometry(r, r, L, 48, 1, true), mat);
+            const pipe = meshWithEdges(new THREE.CylinderGeometry(r, r, L, 48, 1, true), mat);
             pipe.rotation.z = Math.PI / 2;
             group.add(pipe);
             addFlangeRing(group, r, -L / 2, mat);
             addFlangeRing(group, r, L / 2, mat);
+            labels.push({ anchor: { x: -L * 0.12, y: r * 0.7, z: r * 0.7 }, text: `⌀ D = ${d.D}`, offX: 46, offY: -30 });
         } else if (kind === 'roundCross') {
             const R = d.D / 2 * SCALE, r = d.d / 2 * SCALE, L = d.L * SCALE, C = d.C * SCALE;
-            const main = new THREE.Mesh(new THREE.CylinderGeometry(R, R, L, 48, 1, true), mat);
+            const main = meshWithEdges(new THREE.CylinderGeometry(R, R, L, 48, 1, true), mat);
             main.rotation.z = Math.PI / 2;
             group.add(main);
             addFlangeRing(group, R, -L / 2, mat);
             addFlangeRing(group, R, L / 2, mat);
 
             [1, -1].forEach(dir => {
-                const branch = new THREE.Mesh(new THREE.CylinderGeometry(r, r, C + R, 40, 1, true), mat);
+                const branch = meshWithEdges(new THREE.CylinderGeometry(r, r, C + R, 40, 1, true), mat);
                 branch.position.y = dir * (R + C / 2 - R / 2);
                 group.add(branch);
                 addFlangeRing2Y(group, r, dir * (R + C), mat);
             });
+            labels.push({ anchor: { x: -L * 0.32, y: R * 0.65, z: R * 0.65 }, text: `⌀ D = ${d.D}`, offX: -50, offY: -22 });
+            labels.push({ anchor: { x: r * 0.6, y: R + C * 0.55, z: r * 0.4 }, text: `⌀ d = ${d.d}`, offX: 44, offY: -18 });
         }
-        return group;
-    }
-
-    function addFlangeRing2Y(group, radius, y, mat) {
-        const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
-        ring.position.y = y;
-        group.add(ring);
+        return { group, labels };
     }
 
     /* ------------------------------------------------------------
@@ -2144,13 +2167,7 @@
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(38, 1400 / 620, 0.1, 100);
 
-        scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 0.95));
-        const key = new THREE.DirectionalLight(0xffffff, 1.2);
-        key.position.set(4, 6, 5);
-        scene.add(key);
-        const fill = new THREE.DirectionalLight(0xbcd2ff, 0.55);
-        fill.position.set(-5, -2, -4);
-        scene.add(fill);
+        setupCadLights(scene);
 
         const group = new THREE.Group();
         scene.add(group);
@@ -2179,7 +2196,7 @@
         }
         const dims = { ...currentDims };
         currentProduct.dims.forEach(dd => { if (!dims[dd.id]) dims[dd.id] = dd.def; });
-        const built = build3DGeometry(currentProduct.kind, dims);
+        const { group: built, labels } = build3DGeometry(currentProduct.kind, dims);
         snapshot3D.group.add(built);
 
         const box = new THREE.Box3().setFromObject(snapshot3D.group);
@@ -2189,6 +2206,7 @@
         const dist = Math.max(size.x, size.y, size.z, 0.5) * 2.3;
         snapshot3D.camera.position.set(dist * 0.75, dist * 0.5, dist * 0.95);
         snapshot3D.camera.lookAt(0, 0, 0);
+        snapshot3D.camera.updateMatrixWorld();
 
         snapshot3D.renderer.render(snapshot3D.scene, snapshot3D.camera);
 
@@ -2198,6 +2216,24 @@
         if (srcAR > dstAR) { dh = w / srcAR; dy = y + (h - dh) / 2; }
         else { dw = h * srcAR; dx = x + (w - dw) / 2; }
         ctx.drawImage(snapshot3D.renderer.domElement, dx, dy, dw, dh);
+
+        // подписи ⌀D/⌀d прямо на иллюстрации — как на референсе, а не только
+        // в чертеже снизу. Анкер задан в локальных координатах built, поэтому
+        // сначала переводим в мировые (built.localToWorld учитывает и сдвиг
+        // центрирования group.position.sub(center) выше).
+        labels.forEach(lab => {
+            const world = built.localToWorld(new THREE.Vector3(lab.anchor.x, lab.anchor.y, lab.anchor.z));
+            const ndc = world.clone().project(snapshot3D.camera);
+            const sx = dx + (ndc.x * 0.5 + 0.5) * dw;
+            const sy = dy + (1 - (ndc.y * 0.5 + 0.5)) * dh;
+            const lx = sx + lab.offX, ly = sy + lab.offY;
+            ctx.save();
+            ctx.strokeStyle = '#1e40af'; ctx.lineWidth = 1.3;
+            ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(lx, ly); ctx.stroke();
+            ctx.beginPath(); ctx.arc(sx, sy, 2.5, 0, Math.PI*2); ctx.fillStyle = '#1e40af'; ctx.fill();
+            ctx.restore();
+            textWithHalo(lab.text, lx + (lab.offX >= 0 ? 4 : -4), ly, { align: lab.offX >= 0 ? 'left' : 'right', font: 'bold 12px Arial', color: '#1e40af' });
+        });
 
         ctx.fillStyle = '#94a3b8';
         ctx.font = '10px Arial';
@@ -2226,7 +2262,7 @@
         }
         const dims = { ...currentDims };
         currentProduct.dims.forEach(dd => { if (!dims[dd.id]) dims[dd.id] = dd.def; });
-        const built = build3DGeometry(currentProduct.kind, dims);
+        const built = build3DGeometry(currentProduct.kind, dims).group;
         three.group.add(built);
 
         const box = new THREE.Box3().setFromObject(three.group);
