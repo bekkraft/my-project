@@ -306,11 +306,24 @@
 
             <!-- ЧЕРТЁЖ -->
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                     <h2 style="font-size: 18px; font-weight: bold;">📏 Чертёж изделия</h2>
-                    <button class="btn btn-primary no-print" onclick="downloadPNG()">📥 Скачать PNG</button>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <div class="no-print" style="display:flex; border:2px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+                            <button type="button" id="tabView2D" class="btn" style="border-radius:0; background:#1e40af; color:#fff;" onclick="setViewMode('2d')">📐 Чертёж</button>
+                            <button type="button" id="tabView3D" class="btn btn-secondary" style="border-radius:0;" onclick="setViewMode('3d')">🧊 3D-превью <span style="opacity:.7; font-weight:400;">(бета)</span></button>
+                        </div>
+                        <button class="btn btn-primary no-print" onclick="downloadPNG()">📥 Скачать PNG</button>
+                    </div>
                 </div>
                 <canvas id="drawingCanvas" width="900" height="700"></canvas>
+                <div id="viewer3D" style="display:none; position:relative; width:100%; aspect-ratio: 900/700; border:2px solid #e2e8f0; border-radius:8px; overflow:hidden; background:#eef2f7;">
+                    <div id="threeMount" style="position:absolute; inset:0;"></div>
+                    <div id="threeUnsupported" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; text-align:center; padding:20px; color:#64748b; font-size:13px;">
+                        3D-превью пока реализовано только для «Прямой участок (круглый)» и «Крестовина (круглая)» — для остальных типов смотрите чертёж.
+                    </div>
+                    <div style="position:absolute; bottom:8px; left:12px; font-size:11px; color:#94a3b8;" class="no-print">Зажмите и тяните — вращение, колесо — зум</div>
+                </div>
             </div>
         </div>
 
@@ -361,6 +374,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script>
     'use strict';
 
@@ -1967,6 +1982,172 @@
         ctx.fillText('Все размеры в мм. Чертёж принципиальный, не для раскроя без ОТК.', DRAW.x, canvas.height - 10);
         ctx.textAlign = 'right';
         ctx.fillText(`Масштаб — авто, лист A4`, canvas.width - 20, DRAW.y - 4 + 24);
+
+        if (viewMode === '3d') update3DModel();
+    }
+
+    /* ============================================================
+       3D-ПРЕВЬЮ (прототип, WebGL/Three.js)
+       Реализовано только для round_straight и round_cross — реальная
+       параметрическая геометрия (не картинка), металлический материал,
+       вращение мышью. Остальные типы показывают заглушку.
+    ============================================================ */
+    let viewMode = '2d';
+    const SUPPORTED_3D = new Set(['roundStraight', 'roundCross']);
+    let three = null; // { renderer, scene, camera, controls, group }
+    let three3DRAF = null;
+
+    function setViewMode(mode) {
+        viewMode = mode;
+        document.getElementById('tabView2D').className = mode === '2d' ? 'btn' : 'btn btn-secondary';
+        document.getElementById('tabView2D').style.cssText = mode === '2d' ? 'border-radius:0; background:#1e40af; color:#fff;' : 'border-radius:0;';
+        document.getElementById('tabView3D').style.cssText = mode === '3d' ? 'border-radius:0; background:#1e40af; color:#fff;' : 'border-radius:0;';
+        canvas.style.display = mode === '2d' ? 'block' : 'none';
+        document.getElementById('viewer3D').style.display = mode === '3d' ? 'block' : 'none';
+        if (mode === '3d') {
+            update3DModel();
+            start3DLoop();
+        } else {
+            stop3DLoop();
+        }
+    }
+
+    function ensureThree() {
+        if (three || typeof THREE === 'undefined') return;
+        const mount = document.getElementById('threeMount');
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        mount.appendChild(renderer.domElement);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 0.9));
+        const key = new THREE.DirectionalLight(0xffffff, 1.1);
+        key.position.set(4, 6, 5);
+        scene.add(key);
+        const fill = new THREE.DirectionalLight(0xbcd2ff, 0.5);
+        fill.position.set(-5, -2, -4);
+        scene.add(fill);
+        const rim = new THREE.PointLight(0xffffff, 0.6);
+        rim.position.set(-3, 4, -5);
+        scene.add(rim);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.4;
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        three = { renderer, scene, camera, controls, group, mount };
+        new ResizeObserver(() => resize3D()).observe(mount);
+        resize3D();
+    }
+
+    function resize3D() {
+        if (!three) return;
+        const w = three.mount.clientWidth, h = three.mount.clientHeight;
+        if (!w || !h) return;
+        three.renderer.setSize(w, h);
+        three.camera.aspect = w / h;
+        three.camera.updateProjectionMatrix();
+    }
+
+    function metalMaterial() {
+        return new THREE.MeshStandardMaterial({ color: 0xb7c0c9, metalness: 0.85, roughness: 0.32 });
+    }
+
+    function addFlangeRing(group, radius, x, mat) {
+        const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
+        ring.rotation.z = Math.PI / 2;
+        ring.position.x = x;
+        group.add(ring);
+    }
+
+    function build3DGeometry(kind, d) {
+        const group = new THREE.Group();
+        const mat = metalMaterial();
+        const SCALE = 1 / 120; // мм → условные единицы сцены
+
+        if (kind === 'roundStraight') {
+            const r = d.D / 2 * SCALE, L = d.L * SCALE;
+            const pipe = new THREE.Mesh(new THREE.CylinderGeometry(r, r, L, 48, 1, true), mat);
+            pipe.rotation.z = Math.PI / 2;
+            group.add(pipe);
+            addFlangeRing(group, r, -L / 2, mat);
+            addFlangeRing(group, r, L / 2, mat);
+        } else if (kind === 'roundCross') {
+            const R = d.D / 2 * SCALE, r = d.d / 2 * SCALE, L = d.L * SCALE, C = d.C * SCALE;
+            const main = new THREE.Mesh(new THREE.CylinderGeometry(R, R, L, 48, 1, true), mat);
+            main.rotation.z = Math.PI / 2;
+            group.add(main);
+            addFlangeRing(group, R, -L / 2, mat);
+            addFlangeRing(group, R, L / 2, mat);
+
+            [1, -1].forEach(dir => {
+                const branch = new THREE.Mesh(new THREE.CylinderGeometry(r, r, C + R, 40, 1, true), mat);
+                branch.position.y = dir * (R + C / 2 - R / 2);
+                group.add(branch);
+                addFlangeRing2Y(group, r, dir * (R + C), mat);
+            });
+        }
+        return group;
+    }
+
+    function addFlangeRing2Y(group, radius, y, mat) {
+        const ring = new THREE.Mesh(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
+        ring.position.y = y;
+        group.add(ring);
+    }
+
+    function update3DModel() {
+        const unsupportedEl = document.getElementById('threeUnsupported');
+        const mountEl = document.getElementById('threeMount');
+        if (!currentProduct || !SUPPORTED_3D.has(currentProduct.kind)) {
+            unsupportedEl.style.display = 'flex';
+            mountEl.style.display = 'none';
+            return;
+        }
+        unsupportedEl.style.display = 'none';
+        mountEl.style.display = 'block';
+
+        ensureThree();
+        if (!three) return; // Three.js ещё не загрузился (нет сети) — тихо ждём
+
+        while (three.group.children.length) {
+            const obj = three.group.children.pop();
+            obj.traverse(node => node.geometry && node.geometry.dispose());
+            three.group.remove(obj);
+        }
+        const dims = { ...currentDims };
+        currentProduct.dims.forEach(dd => { if (!dims[dd.id]) dims[dd.id] = dd.def; });
+        const built = build3DGeometry(currentProduct.kind, dims);
+        three.group.add(built);
+
+        const box = new THREE.Box3().setFromObject(three.group);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        three.group.position.sub(center);
+        const dist = Math.max(size.x, size.y, size.z, 0.5) * 2.1;
+        three.camera.position.set(dist * 0.7, dist * 0.5, dist * 0.9);
+        three.controls.target.set(0, 0, 0);
+        three.controls.update();
+        resize3D();
+    }
+
+    function start3DLoop() {
+        if (three3DRAF) return;
+        function loop() {
+            three3DRAF = requestAnimationFrame(loop);
+            if (three) { three.controls.update(); three.renderer.render(three.scene, three.camera); }
+        }
+        loop();
+    }
+    function stop3DLoop() {
+        if (three3DRAF) { cancelAnimationFrame(three3DRAF); three3DRAF = null; }
     }
 
     /* ============================================================
