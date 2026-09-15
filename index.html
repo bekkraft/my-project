@@ -320,7 +320,7 @@
                 <div id="viewer3D" style="display:none; position:relative; width:100%; aspect-ratio: 900/700; border:2px solid #e2e8f0; border-radius:8px; overflow:hidden; background:#eef2f7;">
                     <div id="threeMount" style="position:absolute; inset:0;"></div>
                     <div id="threeUnsupported" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; text-align:center; padding:20px; color:#64748b; font-size:13px;">
-                        3D-превью пока реализовано только для «Прямой участок (круглый)» и «Крестовина (круглая)» — для остальных типов смотрите чертёж.
+                        3D-превью для этого типа изделия недоступно — смотрите чертёж.
                     </div>
                     <div style="position:absolute; bottom:8px; left:12px; font-size:11px; color:#94a3b8;" class="no-print">Зажмите и тяните — вращение, колесо — зум</div>
                 </div>
@@ -2016,7 +2016,11 @@
        вращение мышью. Остальные типы показывают заглушку.
     ============================================================ */
     let viewMode = '2d';
-    const SUPPORTED_3D = new Set(['roundStraight', 'roundCross']);
+    const SUPPORTED_3D = new Set([
+        'rectStraight', 'rectTransition', 'rectElbow', 'rectTee', 'rectCross', 'rectPlug', 'rectInsert', 'rectDuck',
+        'roundStraight', 'roundTransitionRR', 'roundTransitionRP', 'roundElbow', 'roundTee', 'roundCross',
+        'roundPlug', 'roundInsert', 'roundNipple', 'umbrella', 'damper', 'anemostat'
+    ]);
     let three = null; // { renderer, scene, camera, controls, group }
     let three3DRAF = null;
 
@@ -2098,6 +2102,59 @@
         return holder;
     }
 
+    /* ------------------------------------------------------------
+       Универсальные сечения + «лофт» между ними — чтобы не писать
+       geometry вручную под каждый из 24 типов. profile(theta) отдаёт
+       {y,z} на границе сечения при угле theta; buildLoftGeometry тянет
+       боковую поверхность между двумя (возможно разными) сечениями —
+       этим покрываются и прямые участки (одно и то же сечение с обоих
+       концов), и переходы (разные сечения/размеры по краям).
+    ------------------------------------------------------------ */
+    function circleProfile(r) {
+        return theta => ({ y: r * Math.sin(theta), z: r * Math.cos(theta) });
+    }
+    function rectProfile(h, w) {
+        const halfH = h / 2, halfW = w / 2;
+        return theta => {
+            const cx = Math.cos(theta), sy = Math.sin(theta);
+            const tx = Math.abs(cx) > 1e-6 ? halfW / Math.abs(cx) : Infinity;
+            const ty = Math.abs(sy) > 1e-6 ? halfH / Math.abs(sy) : Infinity;
+            const t = Math.min(tx, ty);
+            return { y: sy * t, z: cx * t };
+        };
+    }
+
+    // axis='x': сечение в плоскости Y-Z, тянется вдоль X (обычный участок воздуховода).
+    // axis='y': сечение в плоскости X-Z, тянется вдоль Y (вертикальный патрубок врезки/тройника).
+    function buildLoftGeometry(L, profileA, profileB, steps, axis) {
+        steps = steps || 48; axis = axis || 'x';
+        const positions = [];
+        function vertex(along, prof, t) {
+            const p = prof(t);
+            return axis === 'x' ? [along, p.y, p.z] : [p.y, along, p.z];
+        }
+        for (let i = 0; i < steps; i++) {
+            const t0 = i / steps * Math.PI * 2, t1 = (i + 1) / steps * Math.PI * 2;
+            const a0 = vertex(0, profileA, t0), a1 = vertex(0, profileA, t1);
+            const b0 = vertex(L, profileB, t0), b1 = vertex(L, profileB, t1);
+            positions.push(...a0, ...b0, ...b1);
+            positions.push(...a0, ...b1, ...a1);
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geo.computeVertexNormals();
+        return geo;
+    }
+
+    // Фланец — тонкий «воротник» по тому же профилю сечения, слегка увеличенный.
+    function addProfileFlange(group, profile, size, along, mat, axis) {
+        const t = Math.max(size * 0.07, 0.01);
+        const big = theta => { const p = profile(theta); return { y: p.y * 1.14, z: p.z * 1.14 }; };
+        const mesh = meshWithEdges(buildLoftGeometry(t, big, big, 48, axis), mat);
+        if (axis === 'x') mesh.position.x = along - t / 2; else mesh.position.y = along - t / 2;
+        group.add(mesh);
+    }
+
     function addFlangeRing(group, radius, x, mat) {
         const ring = meshWithEdges(new THREE.CylinderGeometry(radius * 1.12, radius * 1.12, radius * 0.12, 40), mat);
         ring.rotation.z = Math.PI / 2;
@@ -2145,6 +2202,189 @@
             });
             labels.push({ anchor: { x: -L * 0.32, y: R * 0.65, z: R * 0.65 }, text: `⌀ D = ${d.D}`, offX: -50, offY: -22 });
             labels.push({ anchor: { x: r * 0.6, y: R + C * 0.55, z: r * 0.4 }, text: `⌀ d = ${d.d}`, offX: 44, offY: -18 });
+        } else if (kind === 'rectStraight') {
+            const H = d.B * SCALE, W = d.A * SCALE, L = d.L * SCALE;
+            const prof = rectProfile(H, W);
+            group.add(meshWithEdges(buildLoftGeometry(L, prof, prof), mat));
+            addProfileFlange(group, prof, Math.max(H, W), 0, mat, 'x');
+            addProfileFlange(group, prof, Math.max(H, W), L, mat, 'x');
+            labels.push({ anchor: { x: L * 0.18, y: H / 2, z: W / 2 }, text: `Ш=${d.A}, В=${d.B}`, offX: 44, offY: -26 });
+        } else if (kind === 'rectTransition') {
+            const H1 = d.B * SCALE, W1 = d.A * SCALE, H2 = d.b * SCALE, W2 = d.a * SCALE, L = d.L * SCALE;
+            const dy = (H1 - H2) / 2, dz = (W1 - W2) / 2;
+            const profA = rectProfile(H1, W1);
+            const profB = theta => { const p = rectProfile(H2, W2)(theta); return { y: p.y + dy, z: p.z + dz }; };
+            group.add(meshWithEdges(buildLoftGeometry(L, profA, profB), mat));
+            addProfileFlange(group, profA, Math.max(H1, W1), 0, mat, 'x');
+            addProfileFlange(group, profB, Math.max(H2, W2), L, mat, 'x');
+            labels.push({ anchor: { x: 0, y: H1 / 2, z: 0 }, text: `Ш1×В1=${d.A}×${d.B}`, offX: -60, offY: -22 });
+            labels.push({ anchor: { x: L, y: dy + H2 / 2, z: dz }, text: `Ш2×В2=${d.a}×${d.b}`, offX: 40, offY: 20 });
+        } else if (kind === 'rectElbow') {
+            const H = d.B * SCALE, W = d.A * SCALE, R = d.R * SCALE, angle = d.angle || 90;
+            const prof = rectProfile(H, W);
+            const leg1 = Math.max(W * 1.1, R * 0.9), leg2 = leg1;
+            group.add(meshWithEdges(buildLoftGeometry(leg1, prof, prof), mat));
+            addProfileFlange(group, prof, Math.max(H, W), 0, mat, 'x');
+            const seg2 = meshWithEdges(buildLoftGeometry(leg2, prof, prof, 48, 'y'), mat);
+            seg2.position.set(leg1 - W, H, 0);
+            group.add(seg2);
+            addProfileFlange(group, prof, Math.max(H, W), H + leg2, mat, 'y');
+            labels.push({ anchor: { x: leg1 * 0.4, y: 0, z: 0 }, text: `Ш=${d.A}, В=${d.B}`, offX: 0, offY: -30 });
+            labels.push({ anchor: { x: leg1 - W / 2, y: H + leg2 * 0.5, z: 0 }, text: `R=${d.R}`, offX: 40, offY: 0 });
+        } else if (kind === 'rectTee' || kind === 'rectCross') {
+            const H = d.B * SCALE, W = d.A * SCALE, L = d.L * SCALE, a = d.a * SCALE, C = d.C * SCALE;
+            const prof = rectProfile(H, W), branchProf = rectProfile(a, a);
+            group.add(meshWithEdges(buildLoftGeometry(L, prof, prof), mat));
+            addProfileFlange(group, prof, Math.max(H, W), 0, mat, 'x');
+            addProfileFlange(group, prof, Math.max(H, W), L, mat, 'x');
+            const branchLen = C + H / 2;
+            const up = meshWithEdges(buildLoftGeometry(branchLen, branchProf, branchProf, 48, 'y'), mat);
+            up.position.set(L / 2, -H / 2, 0);
+            group.add(up);
+            addProfileFlange(group, branchProf, a, C, mat, 'y');
+            if (kind === 'rectCross') {
+                const down = meshWithEdges(buildLoftGeometry(branchLen, branchProf, branchProf, 48, 'y'), mat);
+                down.position.set(L / 2, H / 2, 0);
+                down.rotation.z = Math.PI;
+                group.add(down);
+                const downFlange = meshWithEdges(buildLoftGeometry(Math.max(a * 0.07, 0.01), theta => { const p = branchProf(theta); return {y:p.y*1.14,z:p.z*1.14}; }, theta => { const p = branchProf(theta); return {y:p.y*1.14,z:p.z*1.14}; }, 48, 'y'), mat);
+                downFlange.position.set(L / 2, -C - Math.max(a * 0.07, 0.01) / 2, 0);
+                group.add(downFlange);
+            }
+            labels.push({ anchor: { x: L * 0.15, y: -H / 2, z: 0 }, text: `Ш=${d.A}, В=${d.B}`, offX: 0, offY: 30 });
+            labels.push({ anchor: { x: L / 2, y: C, z: 0 }, text: `a=${d.a}, C=${d.C}`, offX: 42, offY: -20 });
+        } else if (kind === 'rectPlug') {
+            const H = d.B * SCALE, W = d.A * SCALE, t = Math.max(H, W) * 0.05;
+            group.add(meshWithEdges(new THREE.BoxGeometry(t, H, W), mat));
+            labels.push({ anchor: { x: 0, y: 0, z: W / 2 }, text: `Ш×В=${d.A}×${d.B}`, offX: 34, offY: -20 });
+        } else if (kind === 'rectInsert') {
+            const H = d.B * SCALE, W = d.A * SCALE, L = d.L * SCALE, r = d.d / 2 * SCALE, h = d.h * SCALE;
+            const prof = rectProfile(H, W), cProf = circleProfile(r);
+            group.add(meshWithEdges(buildLoftGeometry(L, prof, prof), mat));
+            addProfileFlange(group, prof, Math.max(H, W), 0, mat, 'x');
+            addProfileFlange(group, prof, Math.max(H, W), L, mat, 'x');
+            const collarLen = h + H / 2;
+            const collar = meshWithEdges(buildLoftGeometry(collarLen, cProf, cProf, 40, 'y'), mat);
+            collar.position.set(L / 2, -H / 2, 0);
+            group.add(collar);
+            addProfileFlange(group, cProf, r, h, mat, 'y');
+            labels.push({ anchor: { x: L * 0.15, y: -H / 2, z: 0 }, text: `Ш=${d.A}, В=${d.B}`, offX: 0, offY: 30 });
+            labels.push({ anchor: { x: L / 2, y: h, z: 0 }, text: `⌀d=${d.d}`, offX: 40, offY: -18 });
+        } else if (kind === 'rectDuck') {
+            const H = d.B * SCALE, W = d.A * SCALE, L = d.L * SCALE, off = d.offset * SCALE;
+            const prof = rectProfile(H, W);
+            const seg1 = meshWithEdges(buildLoftGeometry(L / 2, prof, prof), mat);
+            group.add(seg1);
+            addProfileFlange(group, prof, Math.max(H, W), 0, mat, 'x');
+            const seg2 = meshWithEdges(buildLoftGeometry(L / 2, prof, prof), mat);
+            seg2.position.set(L / 2, off, 0);
+            group.add(seg2);
+            addProfileFlange(group, prof, Math.max(H, W), L, mat, 'x');
+            labels.push({ anchor: { x: L * 0.25, y: 0, z: 0 }, text: `Ш=${d.A}, В=${d.B}`, offX: 0, offY: -28 });
+            labels.push({ anchor: { x: L * 0.75, y: off, z: W / 2 }, text: `смещение=${d.offset}`, offX: 30, offY: -18 });
+        } else if (kind === 'roundTransitionRR') {
+            const r1 = d.D / 2 * SCALE, r2 = d.d / 2 * SCALE, L = d.L * SCALE;
+            const pipe = meshWithEdges(new THREE.CylinderGeometry(r2, r1, L, 48, 1, true), mat);
+            pipe.rotation.z = Math.PI / 2;
+            group.add(pipe);
+            addFlangeRing(group, r1, -L / 2, mat);
+            addFlangeRing(group, r2, L / 2, mat);
+            labels.push({ anchor: { x: -L * 0.35, y: r1 * 0.7, z: r1 * 0.7 }, text: `⌀ D = ${d.D}`, offX: -50, offY: -22 });
+            labels.push({ anchor: { x: L * 0.35, y: r2 * 0.7, z: r2 * 0.7 }, text: `⌀ d = ${d.d}`, offX: 40, offY: -18 });
+        } else if (kind === 'roundTransitionRP') {
+            const r1 = d.D / 2 * SCALE, H2 = d.B * SCALE, W2 = d.A * SCALE, L = d.L * SCALE;
+            const profA = circleProfile(r1), profB = rectProfile(H2, W2);
+            group.add(meshWithEdges(buildLoftGeometry(L, profA, profB), mat));
+            addProfileFlange(group, profA, r1, 0, mat, 'x');
+            addProfileFlange(group, profB, Math.max(H2, W2), L, mat, 'x');
+            labels.push({ anchor: { x: 0, y: r1 * 0.7, z: r1 * 0.7 }, text: `⌀ D = ${d.D}`, offX: -50, offY: -22 });
+            labels.push({ anchor: { x: L, y: H2 / 2, z: 0 }, text: `${d.A}×${d.B}`, offX: 40, offY: -14 });
+        } else if (kind === 'roundElbow') {
+            const r = d.D / 2 * SCALE, R = d.R * SCALE, angle = d.angle;
+            const prof = circleProfile(r);
+            const leg = Math.max(r * 2.2, R * 0.9);
+            group.add(meshWithEdges(buildLoftGeometry(leg, prof, prof), mat));
+            addFlangeRing(group, r, 0, mat);
+            const seg2 = meshWithEdges(buildLoftGeometry(leg, prof, prof, 48, 'y'), mat);
+            seg2.position.set(leg - r, r, 0);
+            group.add(seg2);
+            addProfileFlange(group, prof, r, r + leg, mat, 'y');
+            labels.push({ anchor: { x: leg * 0.4, y: 0, z: r }, text: `⌀ D = ${d.D}`, offX: 0, offY: -28 });
+            labels.push({ anchor: { x: leg - r / 2, y: r + leg * 0.5, z: 0 }, text: `R=${d.R}, ${angle}°`, offX: 40, offY: 0 });
+        } else if (kind === 'roundTee') {
+            const R = d.D / 2 * SCALE, r = d.d / 2 * SCALE, L = d.L * SCALE, C = d.C * SCALE;
+            const main = meshWithEdges(new THREE.CylinderGeometry(R, R, L, 48, 1, true), mat);
+            main.rotation.z = Math.PI / 2;
+            group.add(main);
+            addFlangeRing(group, R, -L / 2, mat);
+            addFlangeRing(group, R, L / 2, mat);
+            const branch = meshWithEdges(new THREE.CylinderGeometry(r, r, C + R, 40, 1, true), mat);
+            branch.position.y = R + C / 2 - R / 2;
+            group.add(branch);
+            addFlangeRing2Y(group, r, R + C, mat);
+            labels.push({ anchor: { x: -L * 0.32, y: R * 0.65, z: R * 0.65 }, text: `⌀ D = ${d.D}`, offX: -50, offY: -22 });
+            labels.push({ anchor: { x: r * 0.6, y: R + C * 0.55, z: r * 0.4 }, text: `⌀ d = ${d.d}`, offX: 44, offY: -18 });
+        } else if (kind === 'roundPlug') {
+            const r = d.D / 2 * SCALE, t = Math.max(r * 0.12, 0.01);
+            const disc = meshWithEdges(new THREE.CylinderGeometry(r, r, t, 48), mat);
+            disc.rotation.z = Math.PI / 2;
+            group.add(disc);
+            labels.push({ anchor: { x: 0, y: 0, z: r }, text: `⌀ D = ${d.D}`, offX: 36, offY: -18 });
+        } else if (kind === 'roundInsert') {
+            const R = d.D / 2 * SCALE, r = d.d / 2 * SCALE, L = d.L * SCALE, h = d.h * SCALE;
+            const main = meshWithEdges(new THREE.CylinderGeometry(R, R, L, 48, 1, true), mat);
+            main.rotation.z = Math.PI / 2;
+            group.add(main);
+            addFlangeRing(group, R, -L / 2, mat);
+            addFlangeRing(group, R, L / 2, mat);
+            const collar = meshWithEdges(new THREE.CylinderGeometry(r, r, h + R, 40, 1, true), mat);
+            collar.position.y = R + h / 2 - R / 2;
+            group.add(collar);
+            addFlangeRing2Y(group, r, R + h, mat);
+            labels.push({ anchor: { x: -L * 0.32, y: R * 0.65, z: R * 0.65 }, text: `⌀ D = ${d.D}`, offX: -50, offY: -22 });
+            labels.push({ anchor: { x: r * 0.6, y: R + h * 0.55, z: r * 0.4 }, text: `⌀ d = ${d.d}`, offX: 44, offY: -18 });
+        } else if (kind === 'roundNipple') {
+            const r = d.D / 2 * SCALE, L = d.L * SCALE;
+            const pipe = meshWithEdges(new THREE.CylinderGeometry(r, r, L, 48, 1, true), mat);
+            pipe.rotation.z = Math.PI / 2;
+            group.add(pipe);
+            addFlangeRing(group, r, -L / 2, mat);
+            addFlangeRing(group, r, L / 2, mat);
+            labels.push({ anchor: { x: 0, y: r * 0.7, z: r * 0.7 }, text: `⌀ D = ${d.D}`, offX: 40, offY: -24 });
+        } else if (kind === 'umbrella') {
+            const r = d.D / 2 * SCALE, H = d.H * SCALE;
+            const cone = meshWithEdges(new THREE.ConeGeometry(r, H, 40, 1, true), mat);
+            cone.position.y = H / 2;
+            group.add(cone);
+            const stem = meshWithEdges(new THREE.CylinderGeometry(r * 0.18, r * 0.18, H * 0.7, 24, 1, true), mat);
+            stem.position.y = -H * 0.35;
+            group.add(stem);
+            labels.push({ anchor: { x: 0, y: H, z: 0 }, text: `H=${d.H}`, offX: 0, offY: -26 });
+            labels.push({ anchor: { x: r * 0.7, y: 0, z: r * 0.7 }, text: `⌀ D = ${d.D}`, offX: 40, offY: 10 });
+        } else if (kind === 'damper') {
+            const H = d.B * SCALE, W = d.A * SCALE, t = Math.max(H, W) * 0.1;
+            group.add(meshWithEdges(new THREE.BoxGeometry(t, H, W), mat));
+            const bladeMat = new THREE.MeshStandardMaterial({ color: 0xeef2f6, metalness: 0.1, roughness: 0.85 });
+            const blade = meshWithEdges(new THREE.BoxGeometry(t * 0.4, H * 0.82, W * 0.82), bladeMat);
+            blade.position.x = t * 0.1;
+            group.add(blade);
+            labels.push({ anchor: { x: 0, y: 0, z: W / 2 }, text: `Ш×В=${d.A}×${d.B}`, offX: 34, offY: -20 });
+        } else if (kind === 'anemostat') {
+            const r = d.D / 2 * SCALE, t = Math.max(r * 0.1, 0.01);
+            const disc = meshWithEdges(new THREE.CylinderGeometry(r, r, t, 48), mat);
+            disc.rotation.z = Math.PI / 2;
+            group.add(disc);
+            const gridMat = new THREE.LineBasicMaterial({ color: 0x8892a0 });
+            const gridPts = [];
+            for (let i = 0; i < 8; i++) {
+                const a = i * Math.PI / 4;
+                gridPts.push(t / 2 + 0.001, r * 0.9 * Math.sin(a), r * 0.9 * Math.cos(a));
+                gridPts.push(t / 2 + 0.001, -r * 0.9 * Math.sin(a), -r * 0.9 * Math.cos(a));
+            }
+            const gridGeo = new THREE.BufferGeometry();
+            gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridPts, 3));
+            group.add(new THREE.LineSegments(gridGeo, gridMat));
+            labels.push({ anchor: { x: t, y: 0, z: r }, text: `⌀ D = ${d.D}`, offX: 36, offY: -18 });
         }
         return { group, labels };
     }
