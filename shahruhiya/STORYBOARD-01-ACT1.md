@@ -18,6 +18,13 @@ cinematic film still, 35mm film grain, natural motivated lighting, shallow depth
 a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist
 ```
 
+### [SHOHRUH-DRY] — кадры 1–9b, до ванной
+Рубашка становится мокрой только в S9c, когда он плещет воду в лицо.
+До этого она СУХАЯ. В кадрах 1–8 использовать этот токен, дальше — обычный.
+```
+a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a DRY white cotton shirt with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket, dark brown leather boots, a steel watch on his left wrist
+```
+
 ### [COLD]
 ```
 desaturated cold steel-grey palette
@@ -69,7 +76,7 @@ Cinematic film still, extreme close-up, top-down directly above, the same smartp
 
 **S2a**
 ```
-Cinematic film still, close-up at pillow level, [SHOHRUH] asleep face down into a white pillow, only the jacket absent and the shirt visible, eyes shut, mouth slightly open, hair flattened on one side, one arm thrown over the pillow, soft flat grey overcast window light from the left with almost no shadows, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, close-up at pillow level, [SHOHRUH-DRY] asleep face down into a white pillow, only the jacket absent and the shirt visible, eyes shut, mouth slightly open, hair flattened on one side, one arm thrown over the pillow, soft flat grey overcast window light from the left with almost no shadows, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 3. Второй свайп (1 панель, повтор композиции S1a)
@@ -83,17 +90,17 @@ Cinematic film still, extreme close-up, top-down directly above, the same smartp
 
 **S4a**
 ```
-Cinematic film still, extreme close-up of the closed eyes of [SHOHRUH], eyelids shut, dark lashes, tired shadows beneath, the thin white scar through the left eyebrow clearly visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
+Cinematic film still, extreme close-up of the closed eyes of [SHOHRUH-DRY], eyelids shut, dark lashes, tired shadows beneath, the thin white scar through the left eyebrow clearly visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
 **S4b**
 ```
-Cinematic film still, extreme close-up of the eyes of [SHOHRUH], eyelids cracked half open and unfocused, pupils still adjusting, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
+Cinematic film still, extreme close-up of the eyes of [SHOHRUH-DRY], eyelids cracked half open and unfocused, pupils still adjusting, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
 **S4c**
 ```
-Cinematic film still, extreme close-up of the eyes of [SHOHRUH], both eyes fully open and fixed straight ahead, a small window reflection caught in the dark brown iris, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
+Cinematic film still, extreme close-up of the eyes of [SHOHRUH-DRY], both eyes fully open and fixed straight ahead, a small window reflection caught in the dark brown iris, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
 # КАДР 5. Потолок (1 панель)
@@ -107,12 +114,12 @@ Cinematic film still, medium wide shot from a low point of view looking straight
 
 **S6a**
 ```
-Cinematic film still, close-up, eye level, [SHOHRUH] lying on his back on an unmade bed, eyes open and blank, face still calm, lips parted, soft flat grey window light from the left, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, close-up, eye level, [SHOHRUH-DRY] lying on his back on an unmade bed, eyes open and blank, face still calm, lips parted, soft flat grey window light from the left, [COLD], 35mm lens, [SUFFIX]
 ```
 
 **S6b**
 ```
-Cinematic film still, close-up, eye level, [SHOHRUH] lying on his back on an unmade bed, eyes suddenly wide, eyebrows raised high, jaw tensed in a flash of panic, head beginning to lift off the pillow, soft flat grey window light from the left, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, close-up, eye level, [SHOHRUH-DRY] lying on his back on an unmade bed, eyes suddenly wide, eyebrows raised high, jaw tensed in a flash of panic, head beginning to lift off the pillow, soft flat grey window light from the left, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 7. Рывок с кровати, удар бедром (4 панели)
@@ -120,22 +127,22 @@ Cinematic film still, close-up, eye level, [SHOHRUH] lying on his back on an unm
 
 **S7a**
 ```
-Cinematic film still, medium shot, low eye level, [SHOHRUH] lying on an unmade bed in a small bedroom, torso beginning to lift, one hand pressed into the mattress, sheets tangled around his legs, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, medium shot, low eye level, [SHOHRUH-DRY] lying on an unmade bed in a small bedroom, torso beginning to lift, one hand pressed into the mattress, sheets tangled around his legs, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
 **S7b**
 ```
-Cinematic film still, medium shot, low eye level, [SHOHRUH] in a small bedroom, torso fully upright and twisted toward the edge of the bed, sheets thrown aside, one bare foot already reaching the floor, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, medium shot, low eye level, [SHOHRUH-DRY] in a small bedroom, torso fully upright and twisted toward the edge of the bed, sheets thrown aside, one bare foot already reaching the floor, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
 **S7c**
 ```
-Cinematic film still, medium shot, low eye level, [SHOHRUH] in a small bedroom mid-lunge off the bed, both feet on the floor, body pitched forward off balance, arms swinging, slight motion blur on the hands, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, medium shot, low eye level, [SHOHRUH-DRY] in a small bedroom mid-lunge off the bed, both feet on the floor, body pitched forward off balance, arms swinging, slight motion blur on the hands, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
 **S7d**
 ```
-Cinematic film still, medium shot, low eye level, [SHOHRUH] in a small bedroom jolting to a halt, his right hip struck against the sharp wooden corner of the bed frame, body folded slightly sideways, face contorted, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
+Cinematic film still, medium shot, low eye level, [SHOHRUH-DRY] in a small bedroom jolting to a halt, his right hip struck against the sharp wooden corner of the bed frame, body folded slightly sideways, face contorted, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
 # КАДР 8. Угол и гримаса (2 панели)
@@ -147,7 +154,7 @@ Cinematic film still, insert close-up, the sharp bare wooden corner of a bed fra
 
 **S8b**
 ```
-Cinematic film still, close-up, eye level, [SHOHRUH] with his face screwed up in pain, eyes squeezed shut, teeth bared, one hand clamped on his right hip, standing beside an unmade bed, soft grey window light from the left, [COLD], 50mm lens, [SUFFIX]
+Cinematic film still, close-up, eye level, [SHOHRUH-DRY] with his face screwed up in pain, eyes squeezed shut, teeth bared, one hand clamped on his right hip, standing beside an unmade bed, soft grey window light from the left, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 9. Вода в лицо (3 панели)
@@ -155,12 +162,12 @@ Cinematic film still, close-up, eye level, [SHOHRUH] with his face screwed up in
 
 **S9a**
 ```
-Cinematic film still, medium close-up at sink level, [SHOHRUH] leaning over a small bathroom sink, both hands cupped under a running tap and filling with water, head still up, hard cold lamp light from directly above carving shadows under his eyes, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up at sink level, [SHOHRUH-DRY] leaning over a small bathroom sink, both hands cupped under a running tap and filling with water, head still up, hard cold lamp light from directly above carving shadows under his eyes, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
 ```
 
 **S9b**
 ```
-Cinematic film still, medium close-up at sink level, [SHOHRUH] driving both cupped hands of water into his own face, water bursting outward in droplets, eyes shut tight, hard cold lamp light from directly above, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
+Cinematic film still, medium close-up at sink level, [SHOHRUH-DRY] driving both cupped hands of water into his own face, water bursting outward in droplets, eyes shut tight, hard cold lamp light from directly above, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
 ```
 
 **S9c**
@@ -423,7 +430,7 @@ Cinematic film still, a completely blank pure white frame with the faintest poss
 ## ЧЕК-ЛИСТ ПРИЁМКИ БЛОКА
 - [ ] Лицо Шохруха одинаковое во всех 30 панелях с ним
 - [ ] Шрам на ЛЕВОЙ брови виден в S4a, S4b, S4c, S10a
-- [ ] Мокрая рубашка появляется в S9c и остаётся до конца акта
+- [ ] Рубашка СУХАЯ в S1a–S9b (токен [SHOHRUH-DRY]), мокрая с S9c и до конца фильма
 - [ ] Оранжевая лампа бензина в S15b и S19a — один и тот же огонёк
 - [ ] Двор в S12a и S12b — идентичный фон, меняется только передний план
 - [ ] Туннель S23a→S23b→S23c — одна и та же геометрия, гаснут только лампы
