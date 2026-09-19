@@ -28,7 +28,7 @@ desaturated cold steel-grey palette
 региональную модель и подставляет обобщённый старый седан. Работает только
 ОПИСАНИЕ КУЗОВА — базу Chevrolet Aveo T250 модель знает хорошо.
 ```
-a grey compact four-door saloon of the late-2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint
+a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint
 ```
 
 ### [CAR-INT] — салон
@@ -47,7 +47,7 @@ the interior of a small grey saloon, a dark grey moulded dashboard with two roun
 4. **Негативный промпт для всего блока:**
    `no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration`
 
-   Панель 14b в первой генерации вышла с подписью «Bismillah» прямо в кадре —
+   Панель S14b в первой генерации вышла с подписью «Bismillah» прямо в кадре —
    отсюда `no subtitles, no captions, no lettering`.
 
 ---
@@ -55,62 +55,62 @@ the interior of a small grey saloon, a dark grey moulded dashboard with two roun
 # КАДР 1. Будильник, первый свайп (2 панели)
 Эталон: спальня (#8)
 
-**1a**
+**S1a**
 ```
 Cinematic film still, extreme close-up, top-down directly above, a smartphone screen lying on a crumpled white pillow showing the time 7:47 and an active alarm, a male hand entering frame from the right with the index finger extended toward the screen, screen glow the only light source, cold blue light on the fingers, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
-**1b**
+**S1b**
 ```
 Cinematic film still, extreme close-up, top-down directly above, the same smartphone on the crumpled white pillow, the screen now dark and blank, a male index finger completing a swipe across the glass and lifting away, only weak grey window light remaining on the pillow, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
 # КАДР 2. Лицо в подушке (1 панель)
 
-**2a**
+**S2a**
 ```
 Cinematic film still, close-up at pillow level, [SHOHRUH] asleep face down into a white pillow, only the jacket absent and the shirt visible, eyes shut, mouth slightly open, hair flattened on one side, one arm thrown over the pillow, soft flat grey overcast window light from the left with almost no shadows, [COLD], 35mm lens, [SUFFIX]
 ```
 
-# КАДР 3. Второй свайп (1 панель, повтор композиции 1a)
+# КАДР 3. Второй свайп (1 панель, повтор композиции S1a)
 
-**3a**
+**S3a**
 ```
 Cinematic film still, extreme close-up, top-down directly above, the same smartphone screen on the same crumpled white pillow showing the alarm active again, the same male index finger pressed flat against the glass mid-swipe, identical framing to the earlier swipe, screen glow the only light, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
 # КАДР 4. Глаза открываются (3 панели)
 
-**4a**
+**S4a**
 ```
 Cinematic film still, extreme close-up of the closed eyes of [SHOHRUH], eyelids shut, dark lashes, tired shadows beneath, the thin white scar through the left eyebrow clearly visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
-**4b**
+**S4b**
 ```
 Cinematic film still, extreme close-up of the eyes of [SHOHRUH], eyelids cracked half open and unfocused, pupils still adjusting, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
-**4c**
+**S4c**
 ```
 Cinematic film still, extreme close-up of the eyes of [SHOHRUH], both eyes fully open and fixed straight ahead, a small window reflection caught in the dark brown iris, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
 # КАДР 5. Потолок (1 панель)
 
-**5a**
+**S5a**
 ```
 Cinematic film still, medium wide shot from a low point of view looking straight up at a plain white ceiling of a small ordinary apartment bedroom, a simple round ceiling light fixture slightly off centre, the top edge of a curtained window at the frame edge, completely flat even overcast light, no shadows, [COLD], 24mm lens, [SUFFIX]
 ```
 
 # КАДР 6. Мозг складывает цифры (2 панели)
 
-**6a**
+**S6a**
 ```
 Cinematic film still, close-up, eye level, [SHOHRUH] lying on his back on an unmade bed, eyes open and blank, face still calm, lips parted, soft flat grey window light from the left, [COLD], 35mm lens, [SUFFIX]
 ```
 
-**6b**
+**S6b**
 ```
 Cinematic film still, close-up, eye level, [SHOHRUH] lying on his back on an unmade bed, eyes suddenly wide, eyebrows raised high, jaw tensed in a flash of panic, head beginning to lift off the pillow, soft flat grey window light from the left, [COLD], 35mm lens, [SUFFIX]
 ```
@@ -118,34 +118,34 @@ Cinematic film still, close-up, eye level, [SHOHRUH] lying on his back on an unm
 # КАДР 7. Рывок с кровати, удар бедром (4 панели)
 Активное действие — детальная фазировка.
 
-**7a**
+**S7a**
 ```
 Cinematic film still, medium shot, low eye level, [SHOHRUH] lying on an unmade bed in a small bedroom, torso beginning to lift, one hand pressed into the mattress, sheets tangled around his legs, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
-**7b**
+**S7b**
 ```
 Cinematic film still, medium shot, low eye level, [SHOHRUH] in a small bedroom, torso fully upright and twisted toward the edge of the bed, sheets thrown aside, one bare foot already reaching the floor, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
-**7c**
+**S7c**
 ```
 Cinematic film still, medium shot, low eye level, [SHOHRUH] in a small bedroom mid-lunge off the bed, both feet on the floor, body pitched forward off balance, arms swinging, slight motion blur on the hands, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
-**7d**
+**S7d**
 ```
 Cinematic film still, medium shot, low eye level, [SHOHRUH] in a small bedroom jolting to a halt, his right hip struck against the sharp wooden corner of the bed frame, body folded slightly sideways, face contorted, soft grey window light from the left, [COLD], 24mm lens, [SUFFIX]
 ```
 
 # КАДР 8. Угол и гримаса (2 панели)
 
-**8a**
+**S8a**
 ```
 Cinematic film still, insert close-up, the sharp bare wooden corner of a bed frame in a small bedroom with a man's hip pressed against it and beginning to pull away, worn varnish on the wood, soft grey window light, [COLD], 50mm lens, [SUFFIX]
 ```
 
-**8b**
+**S8b**
 ```
 Cinematic film still, close-up, eye level, [SHOHRUH] with his face screwed up in pain, eyes squeezed shut, teeth bared, one hand clamped on his right hip, standing beside an unmade bed, soft grey window light from the left, [COLD], 50mm lens, [SUFFIX]
 ```
@@ -153,41 +153,41 @@ Cinematic film still, close-up, eye level, [SHOHRUH] with his face screwed up in
 # КАДР 9. Вода в лицо (3 панели)
 Эталон локации: ванная — генерируется отдельно, палитра бирюзового кафеля
 
-**9a**
+**S9a**
 ```
 Cinematic film still, medium close-up at sink level, [SHOHRUH] leaning over a small bathroom sink, both hands cupped under a running tap and filling with water, head still up, hard cold lamp light from directly above carving shadows under his eyes, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
 ```
 
-**9b**
+**S9b**
 ```
 Cinematic film still, medium close-up at sink level, [SHOHRUH] driving both cupped hands of water into his own face, water bursting outward in droplets, eyes shut tight, hard cold lamp light from directly above, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
 ```
 
-**9c**
+**S9c**
 ```
 Cinematic film still, medium close-up at sink level, [SHOHRUH] lifting his dripping face, water running down his cheeks and jaw and soaking the collar and chest of his white shirt, eyes open and stinging, hard cold lamp light from directly above, white and turquoise tile, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 10. Зеркало в брызгах (1 панель) — СОЗНАТЕЛЬНАЯ СТАТИКА
 
-**10a**
+**S10a**
 ```
 Cinematic film still, close-up of a bathroom mirror covered in scattered water droplets, the reflected face of [SHOHRUH] broken and fragmented by the drops, only one eye and part of the scarred left eyebrow clearly readable through the water, hard cold lamp light from above, white and turquoise tile behind, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 11. Пуговица (3 панели)
 
-**11a**
+**S11a**
 ```
 Cinematic film still, extreme close-up, wet male fingers pinching a small white shirt button against damp white cotton fabric, the buttonhole just below, water beaded on the cloth, hard cold lamp light from above, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
-**11b**
+**S11b**
 ```
 Cinematic film still, extreme close-up, wet male fingers slipping off a small white shirt button, the button twisting free, fingertips sliding across damp white cotton, hard cold lamp light from above, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
-**11c**
+**S11c**
 ```
 Cinematic film still, extreme close-up, a male hand dropping away from an unbuttoned damp white shirt front, the collar hanging open, a bare thread where the second button is missing, hard cold lamp light from above, [COLD], 50mm macro lens, [SUFFIX]
 ```
@@ -195,12 +195,12 @@ Cinematic film still, extreme close-up, a male hand dropping away from an unbutt
 # КАДР 12. Двор (2 панели) — СОЗНАТЕЛЬНАЯ СТАТИКА
 Прикреплять: эталон двора #9
 
-**12a**
+**S12a**
 ```
 Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-storey brick apartment block in Tashkent early morning, wet asphalt after night rain with puddles reflecting the sky, an elderly Uzbek man in a tubeteika cap and striped robe sweeping slowly with a long broom in the middle distance, a tandoor bakery in an open garage to the right with live fire inside and smoke drifting under the awning, laundry lines strung between trees, [CAR] parked by an entrance, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
 ```
 
-**12b**
+**S12b**
 ```
 Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the old man still sweeping unchanged in the middle distance and the same parked car untouched, [SHOHRUH] crossing the very foreground close to the lens and heavily out of focus, only a blurred dark shape in motion, the sharp world behind him unchanged, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, [SUFFIX]
 ```
@@ -208,17 +208,17 @@ Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the
 # КАДР 13. Ключи в лужу (3 панели)
 Прикреплять: эталон двора #9
 
-**13a**
+**S13a**
 ```
 Cinematic film still, insert shot, top-down, a bunch of car keys falling through the air a hand's width above a puddle on wet courtyard asphalt, the sky and green tree branches mirrored in the still water below, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
 ```
 
-**13b**
+**S13b**
 ```
 Cinematic film still, insert shot, top-down, a bunch of car keys striking the same puddle on wet courtyard asphalt, a crown of water bursting upward, the mirrored sky and green branches shattered into ripples, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
 ```
 
-**13c**
+**S13c**
 ```
 Cinematic film still, insert shot, top-down, a male hand plunging into the same puddle on wet courtyard asphalt and closing around the bunch of car keys, water running off the knuckles, the reflection still broken, soft overcast morning light, [COLD], 50mm lens, [SUFFIX]
 ```
@@ -226,27 +226,27 @@ Cinematic film still, insert shot, top-down, a male hand plunging into the same 
 # КАДР 14. Ключ и «Бисмиллоҳ» (2 панели)
 Прикреплять: карта Шохруха #C1 + эталон лица #1
 
-**14a**
+**S14a**
 ```
 Cinematic film still, medium close-up from the passenger side, profile, [SHOHRUH] sitting in the driver's seat, [CAR-INT], one hand pushing the key into the ignition, eyes down on his hand, the grey courtyard visible through the windscreen, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
 ```
 
-**14b**
+**S14b**
 ```
 Cinematic film still, medium close-up from the passenger side, profile, identical framing, [SHOHRUH] in the driver's seat, [CAR-INT], lips parted mid-word speaking quietly to no one, gaze already forward through the windscreen, hand still on the key, flat grey daylight through glass, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 15. Приборка и лампа бензина (2 панели) — ПОСЕВ
-СНАЧАЛА сгенерировать 15b, довести до нужного вида, ПОТОМ подставлять её
-как image reference в 15a, 19a и позже в 112. Иначе получатся четыре разные
+СНАЧАЛА сгенерировать S15b, довести до нужного вида, ПОТОМ подставлять её
+как image reference в S15a, S19a и позже в 112. Иначе получатся четыре разные
 приборки и рифма через весь фильм не прочитается.
 
-**15a**
+**S15a**
 ```
 Cinematic film still, insert close-up of a car instrument cluster, [CAR-INT], two round dials framed by the top of the steering wheel, needles resting at zero, every warning lamp dark, the display blank, a fine layer of dust on the plastic, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
-**15b**
+**S15b**
 ```
 Cinematic film still, insert close-up of the same car instrument cluster in identical framing and scale, [CAR-INT], the dials now lit with cool green backlighting, both needles swung up, and a single ORANGE LOW-FUEL WARNING LAMP burning bright among them, the only warm colour in the frame, flat grey daylight through the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
@@ -254,12 +254,12 @@ Cinematic film still, insert close-up of the same car instrument cluster in iden
 # КАДР 16. Фары на луже (2 панели)
 Прикреплять: ПРИНЯТЫЙ ЭТАЛОН МАШИНЫ #6 — обязательно, иначе кузов уедет
 
-**16a**
+**S16a**
 ```
 Cinematic film still, wide shot, very low angle near the ground, a large still puddle on wet courtyard asphalt directly in front of [CAR] parked facing the camera, the headlights dark, the water holding only a dull grey sky, overcast morning, [COLD], 24mm lens, [SUFFIX]
 ```
 
-**16b**
+**S16b**
 ```
 Cinematic film still, wide shot, very low angle near the ground, identical framing, the headlights of the same [CAR] now lit and falling across the puddle, the water holding a warm inverted reflection of the apartment block and trees, a small city upside down inside the water, warm light spilling across an otherwise cold grey courtyard, 24mm lens, [SUFFIX]
 ```
@@ -267,7 +267,7 @@ Cinematic film still, wide shot, very low angle near the ground, identical frami
 # КАДР 17. Пробка (1 панель)
 Прикреплять: эталон улиц #10
 
-**17a**
+**S17a**
 ```
 Cinematic film still, medium shot from the rear seat over the driver's shoulder, [CAR-INT], looking through the windscreen at three lanes of Tashkent traffic packed bumper to bumper, mostly white and grey Uzbek-market sedans, wipers mid-stroke, rain beads on the glass, red brake lights, trolleybus wires overhead, billboards and high-rises beyond, overcast daylight, [COLD] with red brake lights as the only accents, 35mm lens, [SUFFIX]
 ```
@@ -275,50 +275,50 @@ Cinematic film still, medium shot from the rear seat over the driver's shoulder,
 # КАДР 18. Телефон за рулём (3 панели)
 Прикреплять: карта Шохруха #C1 + эталон лица #1
 
-**18a**
+**S18a**
 ```
 Cinematic film still, close-up, eye level, [SHOHRUH] in the driver's seat holding a smartphone low near the wheel, eyes cast down at the screen, the screen glow lighting his face from below, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
-**18b**
+**S18b**
 ```
 Cinematic film still, close-up, eye level, identical framing, [SHOHRUH] in the driver's seat with his chin lifted and eyes snapped forward onto the road, the phone still held low in his hand, screen glow gone from his face, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
-**18c**
+**S18c**
 ```
 Cinematic film still, close-up, eye level, identical framing, [SHOHRUH] in the driver's seat with his eyes cast down at the phone screen again, the same downward glow on his face, blurred traffic beyond the windscreen, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 19. 8:02 (1 панель)
-Прикреплять: утверждённую панель 15b как image reference
+Прикреплять: утверждённую панель S15b как image reference
 
-**19a**
+**S19a**
 ```
 Cinematic film still, insert close-up of the same car instrument cluster in identical framing and scale, [CAR-INT], the dials lit with the same cool green backlighting, the ORANGE LOW-FUEL WARNING LAMP still burning exactly as before, the small digital display reading 8:02, dust on the plastic, flat grey daylight, [COLD], 50mm lens, [SUFFIX]
 ```
 
 # КАДР 20. Заправка мимо (2 панели) — ВЫСТРЕЛ ПОСЕВА
 
-**20a**
+**S20a**
 ```
 Cinematic film still, medium shot from inside a car looking out through the side window, a petrol station with its canopy and pumps entering frame at the near edge of the glass, rain beads on the window, wet road, overcast daylight, [COLD], 35mm lens, [SUFFIX]
 ```
 
-**20b**
+**S20b**
 ```
 Cinematic film still, medium shot from inside a car looking out through the side window, identical framing, the same petrol station now sliding off the far edge of the frame and almost gone, only the end of its canopy left, rain beads on the glass, overcast daylight, [COLD], 35mm lens, [SUFFIX]
 ```
 
 # КАДР 21. Поворот к туннелю (2 панели)
-Прикреплять: эталон въезда в туннель #11b
+Прикреплять: эталон въезда в туннель #S11b
 
-**21a**
+**S21a**
 ```
 Cinematic film still, medium shot from behind the driver, [CAR-INT], both male hands turning the worn three-spoke steering wheel hard to the right, wet road swinging across the windscreen, overcast daylight, [COLD], 24mm lens, [SUFFIX]
 ```
 
-**21b**
+**S21b**
 ```
 Cinematic film still, insert shot through a rain-beaded windscreen, a road sign and the concrete mouth of a city underpass ahead with orange light glowing inside it, wet asphalt, overcast daylight above, [COLD] outside against warm amber inside the tunnel, 24mm lens, [SUFFIX]
 ```
@@ -326,84 +326,84 @@ Cinematic film still, insert shot through a rain-beaded windscreen, a road sign 
 # КАДР 22. Лампы бегут по лицу (2 панели)
 Прикреплять: карта Шохруха #C1 + эталон лица #1
 
-**22a**
+**S22a**
 ```
 Cinematic film still, medium close-up, profile from the passenger side, [SHOHRUH] driving, his face in shadow between tunnel lamps, only a faint amber edge along his cheekbone, dark concrete beyond the side window, amber and black palette, 35mm lens, [SUFFIX]
 ```
 
-**22b**
+**S22b**
 ```
 Cinematic film still, medium close-up, profile from the passenger side, identical framing, [SHOHRUH] driving with a hard band of orange sodium light laid across his eyes and cheekbone, the rest of the frame black, dark concrete beyond the side window, amber and black palette, 35mm lens, [SUFFIX]
 ```
 
 # КАДР 23. Лампы гаснут (3 панели)
 Прикреплять: эталон туннеля изнутри #11. Три панели — ОДНА И ТА ЖЕ геометрия,
-меняются только лампы. Сгенерировать 23a, потом её как reference в 23b и 23c.
+меняются только лампы. Сгенерировать S23a, потом её как reference в S23b и S23c.
 
-**23a**
+**S23a**
 ```
 Cinematic film still, wide shot from the driver's point of view, perfectly centred symmetrical composition looking down the interior of a road tunnel, a long receding row of orange sodium ceiling lamps all lit, lane markings running away from the camera, bare concrete walls, no other cars, amber orange palette, 24mm lens, [SUFFIX]
 ```
 
-**23b**
+**S23b**
 ```
 Cinematic film still, wide shot from the driver's point of view, the same centred symmetrical tunnel interior in identical framing, roughly half the ceiling lamps now dark and breaking the rhythm of the row, the far end swallowed in blackness, lane markings running away, amber orange fading into coal black, 24mm lens, [SUFFIX]
 ```
 
-**23c**
+**S23c**
 ```
 Cinematic film still, wide shot from the driver's point of view, the same centred symmetrical tunnel interior in identical framing with only two or three lamps still burning close to the camera, the tunnel stretching impossibly far into total darkness with no end visible, headlights raking the near walls, amber orange against coal black, 24mm lens, [SUFFIX]
 ```
 
 # КАДР 24. БЕТОН → КАМЕНЬ (3 панели) — ОПТИЧЕСКИЙ ПЕРЕХОД, МОРФ БЕЗ СКЛЕЙКИ
 
-**24a**
+**S24a**
 ```
 Cinematic film still, extreme close-up of a bare poured-concrete tunnel wall, form-work seams and grey aggregate texture, raking car headlight skimming across the surface from the left, deep black beyond, 50mm lens, [SUFFIX]
 ```
 
-**24b**
+**S24b**
 ```
 Cinematic film still, extreme close-up of a tunnel wall caught halfway between two materials, smooth poured concrete on the left of frame dissolving into rough ancient hewn stone on the right with deep veins like old animal hide, one continuous unbroken surface, raking headlight from the left, deep black beyond, 50mm lens, [SUFFIX]
 ```
 
-**24c**
+**S24c**
 ```
 Cinematic film still, extreme close-up of a rough ancient hewn stone wall with deep veins and pitted grain like the hide of an old animal, all trace of concrete gone, raking headlight skimming from the left, deep black beyond, 50mm lens, [SUFFIX]
 ```
 
 # КАДР 25. Руки и педаль (2 панели)
 
-**25a**
+**S25a**
 ```
 Cinematic film still, close-up, [SHOHRUH] gripping a worn steering wheel with both hands, knuckles white with strain, tendons raised on the backs of his hands, almost total darkness with only a faint dashboard glow, near-black palette, 50mm lens, [SUFFIX]
 ```
 
-**25b**
+**S25b**
 ```
 Cinematic film still, extreme close-up in the footwell of a car, a man's boot pressing a brake pedal all the way flat to the floor with no resistance left, rubber pad crushed against the metal, almost total darkness with a faint edge of light, near-black palette, 50mm lens, [SUFFIX]
 ```
 
 # КАДР 26. Белый свет (3 панели)
 
-**26a**
+**S26a**
 ```
 Cinematic film still, wide shot from the driver's point of view down the frontal centre of a dark ancient stone tunnel, a small hard point of pure white light far ahead in the blackness, stone walls barely readable at the edges, black palette with one white point, 24mm lens, [SUFFIX]
 ```
 
-**26b**
+**S26b**
 ```
 Cinematic film still, wide shot from the driver's point of view, the pure white light now swollen to fill the lower half of the windscreen, the stone walls burning out at their edges, all colour draining, white and black only, 24mm lens, [SUFFIX]
 ```
 
-**26c**
+**S26c**
 ```
 Cinematic film still, wide shot from the driver's point of view, blinding pure white light filling the entire windscreen and spilling past its frame, only a faint ghost of the dashboard silhouette remaining at the bottom edge, everything else burned out, 24mm lens, [SUFFIX]
 ```
 
 # КАДР 27. Тишина (1 панель)
 
-**27a**
+**S27a**
 ```
 Cinematic film still, a completely blank pure white frame with the faintest possible warm grain, no subject, no horizon, no object, total emptiness, [SUFFIX]
 ```
@@ -413,19 +413,19 @@ Cinematic film still, a completely blank pure white frame with the faintest poss
 # ИТОГИ БЛОКА 1
 
 - **57 панелей** на 27 кадров
-- **Одна панель-TRANSITION по существу:** 24b (морф бетона в камень).
+- **Одна панель-TRANSITION по существу:** S24b (морф бетона в камень).
   Остальные переходы — жёсткие склейки, панели не нужны
-- **Три сознательные статики:** 10a (зеркало), 12a–12b (двор), 23a–23c (туннель)
-- **Тёплые пятна в холодном акте, их всего два:** 12a (огонь тандыра) и 16b (фары на луже)
-- **Посевы, которые обязаны читаться:** 12a (старик), 13b (ключи в луже),
-  14b (Бисмиллоҳ), 15b (лампа бензина), 20b (заправка уходит)
+- **Три сознательные статики:** S10a (зеркало), S12a–S12b (двор), S23a–S23c (туннель)
+- **Тёплые пятна в холодном акте, их всего два:** S12a (огонь тандыра) и S16b (фары на луже)
+- **Посевы, которые обязаны читаться:** S12a (старик), S13b (ключи в луже),
+  S14b (Бисмиллоҳ), S15b (лампа бензина), S20b (заправка уходит)
 
 ## ЧЕК-ЛИСТ ПРИЁМКИ БЛОКА
 - [ ] Лицо Шохруха одинаковое во всех 30 панелях с ним
-- [ ] Шрам на ЛЕВОЙ брови виден в 4a, 4b, 4c, 10a
-- [ ] Мокрая рубашка появляется в 9c и остаётся до конца акта
-- [ ] Оранжевая лампа бензина в 15b и 19a — один и тот же огонёк
-- [ ] Двор в 12a и 12b — идентичный фон, меняется только передний план
-- [ ] Туннель 23a→23b→23c — одна и та же геометрия, гаснут только лампы
-- [ ] 24a→24b→24c — одна и та же стена, меняется только материал
-- [ ] Весь блок холодный и десатурированный, кроме 16b и туннеля
+- [ ] Шрам на ЛЕВОЙ брови виден в S4a, S4b, S4c, S10a
+- [ ] Мокрая рубашка появляется в S9c и остаётся до конца акта
+- [ ] Оранжевая лампа бензина в S15b и S19a — один и тот же огонёк
+- [ ] Двор в S12a и S12b — идентичный фон, меняется только передний план
+- [ ] Туннель S23a→S23b→S23c — одна и та же геометрия, гаснут только лампы
+- [ ] S24a→S24b→S24c — одна и та же стена, меняется только материал
+- [ ] Весь блок холодный и десатурированный, кроме S16b и туннеля
