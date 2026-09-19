@@ -45,7 +45,7 @@ the interior of a small grey saloon, a dark grey moulded dashboard with two roun
 3. **Акт 1 весь холодный и десатурированный** — кроме туннеля (янтарь) и
    кадра 16 (фары — единственное тёплое пятно акта).
 4. **Негативный промпт для всего блока:**
-   `no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration`
+   `no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration`
 
    Панель S14b в первой генерации вышла с подписью «Bismillah» прямо в кадре —
    отсюда `no subtitles, no captions, no lettering`.

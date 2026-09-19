@@ -65,7 +65,7 @@ low-key lighting from candles and oil lamps below and to the side, amber and dee
 
 ## НЕГАТИВНЫЙ ПРОМПТ ДЛЯ ВСЕГО БЛОКА
 ```
-no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no tabards, no straight swords, no european faces, no medieval european armour, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur, no modern objects, no electric light, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no tabards, no straight swords, no european faces, no medieval european armour, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur, no modern objects, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
