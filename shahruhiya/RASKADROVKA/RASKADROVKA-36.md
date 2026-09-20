@@ -39,9 +39,9 @@ Cinematic film still, close-up, a 30-year-old Uzbek man, oval face with moderate
 Cinematic film still, close-up, identical framing, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist with the hand lowered back to the wheel and a small private smile on his face, the ring resting on his finger, red dusk light through the windscreen, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +49,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S100a
 Cinematic film still, close-up, a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic leaning in very slightly, mouth opening to speak quietly and only to the man in front of him, half his face lit by the low sun and half in shadow, the crowd out of focus far behind, golden hour at its peak, horizontal sunlight almost level with the ground, dust burning in the air, bronze skin tones, red and gold palette, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +69,8 @@ Cinematic film still, close-up, a 30-year-old Uzbek man, oval face with moderate
 6) S103b
 Cinematic film still, close-up, identical framing, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist with the hand lowered back to the wheel and a small private smile on his face, the ring resting on his finger, red dusk light through the windscreen, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

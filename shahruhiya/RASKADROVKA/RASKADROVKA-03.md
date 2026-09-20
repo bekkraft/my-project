@@ -5,6 +5,8 @@
 **Эталоны прикрепить:** #8 спальня; #9 двор с тандыром; #2 Шохрух в рост; #6 Нексия
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 12.** Прикреплять: эталон двора #9
+
 ---
 
 ## ПАНЕЛИ
@@ -39,7 +41,7 @@ Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-s
 Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the old man still sweeping unchanged in the middle distance and the same parked car untouched, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist crossing the very foreground close to the lens and heavily out of focus, only a blurred dark shape in motion, the sharp world behind him unchanged, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
@@ -49,7 +51,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S6a
 Cinematic film still, close-up, eye level, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a DRY white cotton shirt with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket, dark brown leather boots, a steel watch on his left wrist lying on his back on an unmade bed, eyes open and blank, face still calm, lips parted, soft flat grey window light from the left, desaturated cold steel-grey palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,7 +71,7 @@ Cinematic film still, wide shot, eye level, the courtyard of a Soviet-era five-s
 6) S12b
 Cinematic film still, wide shot, eye level, the same Tashkent courtyard with the old man still sweeping unchanged in the middle distance and the same parked car untouched, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist crossing the very foreground close to the lens and heavily out of focus, only a blurred dark shape in motion, the sharp world behind him unchanged, soft overcast morning light, grey asphalt and green foliage with warm ochre smoke, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
+NEGATIVE PROMPT (apply to all 6 images):
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 

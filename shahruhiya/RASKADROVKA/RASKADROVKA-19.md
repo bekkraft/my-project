@@ -5,6 +5,11 @@
 **Эталоны прикрепить:** #14 шатёр; #4a Темур в шатре (корона!); #3 Бобур
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 55.** Прикреплять: эталон шатра #14
+> **Кадр 56.** Прикреплять: эталон Темура в шатре #S4a + карта Темура #C4
+> **Кадр 57.** Реплика: «Менга айтишди… юз етти от кучи бор эмиш»
+> **Кадр 59.** Реплика: «Мен… Шоҳруҳ. Тошкентданман.» Прикреплять: карта Шохруха #C1 + эталон лица #1
+
 ---
 
 ## ПАНЕЛИ
@@ -39,9 +44,9 @@ Cinematic film still, medium shot over the shoulder of a Central Asian ruler of 
 Cinematic film still, medium shot over the shoulder of a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic, a massive tarnished silver ring with a dark red carnelian on his right ring finger, seated cross-legged on low cushions leaning on his left arm with his right arm resting motionless on his knee seated in the foreground, identical framing, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist now upright and speaking, throat working as he swallows, shoulders drawn in, lit by the wedge of daylight from behind, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no tabards, no straight swords, no european faces, no medieval european armour, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur, no modern objects, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +54,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S55a
 Cinematic film still, wide shot, perfectly centred symmetrical composition, the interior of an enormous 14th century Timurid military command tent, layered Persian carpets covering the floor, low cushions, a brazier of glowing coals, oil lamps and candles as the only light sources, fabric walls, a high roof lost in shadow, two rows of late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres standing motionless along both side walls like human walls, a brazier of glowing coals in the centre, low cushions beyond it, the high fabric roof lost in shadow above, the wedge of daylight from the entrance behind, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +74,8 @@ Cinematic film still, medium shot over the shoulder of a Central Asian ruler of 
 6) S59b
 Cinematic film still, medium shot over the shoulder of a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic, a massive tarnished silver ring with a dark red carnelian on his right ring finger, seated cross-legged on low cushions leaning on his left arm with his right arm resting motionless on his knee seated in the foreground, identical framing, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist now upright and speaking, throat working as he swallows, shoulders drawn in, lit by the wedge of daylight from behind, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no tabards, no straight swords, no european faces, no medieval european armour, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur, no modern objects, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

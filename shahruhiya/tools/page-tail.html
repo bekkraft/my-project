@@ -1,0 +1,62 @@
+
+  <p class="empty hidden" id="empty">Ничего не найдено</p>
+</div>
+
+<script>
+(function(){
+  var rail=document.getElementById('rail'),find=document.getElementById('find'),
+      empty=document.getElementById('empty'),
+      items=[].slice.call(document.querySelectorAll('.batch')),filt='all';
+
+  function apply(){
+    var q=find.value.trim().toLowerCase(),n=0;
+    items.forEach(function(b){
+      var ok=(filt==='all'||b.dataset.act===filt) &&
+             (!q || b.dataset.ids.toLowerCase().indexOf(q)>-1);
+      b.classList.toggle('hidden',!ok); if(ok)n++;
+    });
+    empty.classList.toggle('hidden',n>0);
+  }
+  rail.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-f]'); if(!b)return;
+    filt=b.dataset.f;
+    [].forEach.call(rail.querySelectorAll('button[data-f]'),function(x){
+      x.setAttribute('aria-pressed',x===b?'true':'false');});
+    apply();
+  });
+  find.addEventListener('input',apply);
+
+  function copy(text,btn,label){
+    var done=function(){btn.textContent='скопировано';btn.classList.add('done');
+      setTimeout(function(){btn.textContent=label;btn.classList.remove('done');},1500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done,done);
+    }else{
+      var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);
+      ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();
+    }
+  }
+
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.cpy');
+    if(b){
+      var box=b.closest('.batch'),
+          instr=box.querySelector('.instr').textContent.trim(),
+          ids=[].slice.call(box.querySelectorAll('.prid')),
+          ps=[].slice.call(box.querySelectorAll('.prompt')),
+          neg=box.querySelector('.negp').textContent.trim(),
+          out=instr+'\n';
+      ps.forEach(function(p,i){
+        out += '\n'+(i+1)+') '+ids[i].textContent.trim()+'\n'+p.textContent.trim()+'\n';
+      });
+      out += '\nNEGATIVE PROMPT (apply to all '+ps.length+' images):\n'+neg;
+      copy(out,b,'копировать партию');
+      return;
+    }
+    var n=e.target.closest('.cpyn');
+    if(n){ copy(n.closest('.neg').querySelector('.negp').textContent.trim(),n,'копировать'); }
+  });
+})();
+</script>
+
+</body></html>

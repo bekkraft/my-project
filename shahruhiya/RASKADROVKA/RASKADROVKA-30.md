@@ -39,9 +39,9 @@ Cinematic film still, extreme wide shot, an empty darkening steppe horizon at du
 Cinematic film still, extreme wide shot, identical framing, the dust now a broad rolling cloud with the dark shapes of a large mounted column and tall banners emerging beneath it, still distant, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +49,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S84a
 Cinematic film still, medium shot, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist sitting on the ground with his back against the rear wheel of a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint, knees up, both hands visibly shaking in front of him, mud on his jeans, dusk light, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +69,8 @@ Cinematic film still, extreme wide shot, an empty darkening steppe horizon at du
 6) S86b
 Cinematic film still, extreme wide shot, identical framing, the dust now a broad rolling cloud with the dark shapes of a large mounted column and tall banners emerging beneath it, still distant, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

@@ -39,7 +39,7 @@ Cinematic film still, extreme close-up, wet male fingers slipping off a small wh
 Cinematic film still, extreme close-up, a male hand dropping away from an unbuttoned damp white shirt front, the collar hanging open, a bare thread where the second button is missing, hard cold lamp light from above, desaturated cold steel-grey palette, 50mm macro lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
@@ -49,7 +49,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S9a
 Cinematic film still, medium close-up at sink level, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a DRY white cotton shirt with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket, dark brown leather boots, a steel watch on his left wrist leaning over a small bathroom sink, both hands cupped under a running tap and filling with water, head still up, hard cold lamp light from directly above carving shadows under his eyes, white and turquoise tile, desaturated cold steel-grey palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,7 +69,7 @@ Cinematic film still, extreme close-up, wet male fingers slipping off a small wh
 6) S11c
 Cinematic film still, extreme close-up, a male hand dropping away from an unbuttoned damp white shirt front, the collar hanging open, a bare thread where the second button is missing, hard cold lamp light from above, desaturated cold steel-grey palette, 50mm macro lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
+NEGATIVE PROMPT (apply to all 6 images):
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 

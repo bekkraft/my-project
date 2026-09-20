@@ -5,6 +5,8 @@
 **Эталоны прикрепить:** #13 лагерь; #6 Нексия; #3 Бобур; #15 горная дорога и ущелье
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 68.** Прикреплять: эталон горной дороги #15 — ПРИНЯТ
+
 ---
 
 ## ПАНЕЛИ
@@ -39,9 +41,9 @@ Cinematic film still, medium shot inside a car from the rear, identical framing,
 Cinematic film still, medium shot inside a car from the rear, identical framing, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist hauling the steering wheel hard left with both arms crossed over, body leaning into the turn, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip braced against the door, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +51,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S67a
 Cinematic film still, extreme wide aerial shot from high above, a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint moving between the rows of yurts and tents of a vast steppe military camp, late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres standing aside to let it through, dark red three-circle banners, long shadows across the ground, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +71,8 @@ Cinematic film still, medium shot inside a car from the rear, identical framing,
 6) S69c
 Cinematic film still, medium shot inside a car from the rear, identical framing, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist hauling the steering wheel hard left with both arms crossed over, body leaning into the turn, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip braced against the door, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

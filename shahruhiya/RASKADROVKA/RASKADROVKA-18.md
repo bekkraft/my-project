@@ -5,6 +5,8 @@
 **Эталоны прикрепить:** #13 военный лагерь; #5 командир отряда; #6 Нексия; #3 Бобур; #13 лагерь; #14 шатёр; #4a Темур в шатре (корона!)
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 54.** Прикреплять: эталон шатра #14
+
 ---
 
 ## ПАНЕЛИ
@@ -39,9 +41,9 @@ Cinematic film still, wide shot, backlit, the interior of an enormous 14th centu
 Cinematic film still, wide shot, backlit, identical framing, the interior of an enormous 14th century Timurid military command tent, layered Persian carpets covering the floor, low cushions, a brazier of glowing coals, oil lamps and candles as the only light sources, fabric walls, a high roof lost in shadow, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist standing inside the wedge of hard white daylight at the far end of the tent, reduced almost to a black silhouette by the backlight, his modern jacket and jeans unmistakable in outline against the daylight, amber darkness all around him, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration, no tabards, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur
 ```
 
 ---
@@ -49,7 +51,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S49a
 Cinematic film still, close-up, an elderly Central Asian man with a long white beard in a worn robe and felt cap laying his open palm gently on the grey bonnet of a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint, his face turned down toward the metal, soft warm daylight on his skin, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +71,8 @@ Cinematic film still, wide shot, backlit, the interior of an enormous 14th centu
 6) S54b
 Cinematic film still, wide shot, backlit, identical framing, the interior of an enormous 14th century Timurid military command tent, layered Persian carpets covering the floor, low cushions, a brazier of glowing coals, oil lamps and candles as the only light sources, fabric walls, a high roof lost in shadow, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist standing inside the wedge of hard white daylight at the far end of the tent, reduced almost to a black silhouette by the backlight, his modern jacket and jeans unmistakable in outline against the daylight, amber darkness all around him, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration, no tabards, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur
 ```
 
 ---

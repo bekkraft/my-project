@@ -5,6 +5,9 @@
 **Эталоны прикрепить:** #13 военный лагерь; #5 командир отряда; #6 Нексия; #3 Бобур; #13 лагерь
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 46.** Реплика: «Ичида нечта от бор?»
+> **Кадр 50.** Прикреплять: эталон Бобура #3 — ПРИНЯТ + карта Бобура #C3
+
 ---
 
 ## ПАНЕЛИ
@@ -39,9 +42,9 @@ Cinematic film still, insert close-up inside a car, a hand drawing a seatbelt st
 Cinematic film still, close-up, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip looking down at the seatbelt strap lying across his chest with cautious curiosity, one finger touching it, his body still tense, warm daylight through the side window, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +52,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S43a
 Cinematic film still, close-up, a male hand approaching and hovering just above the sun-warmed grey bonnet of a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint, fingers slightly spread, faded paint and a fine layer of steppe dust on the metal, warm daylight, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +72,8 @@ Cinematic film still, insert close-up inside a car, a hand drawing a seatbelt st
 6) S50c
 Cinematic film still, close-up, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip looking down at the seatbelt strap lying across his chest with cautious curiosity, one finger touching it, his body still tense, warm daylight through the side window, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

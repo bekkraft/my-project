@@ -5,6 +5,8 @@
 **Эталоны прикрепить:** #8 спальня
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 7.** Активное действие — детальная фазировка.
+
 ---
 
 ## ПАНЕЛИ
@@ -39,7 +41,7 @@ Cinematic film still, medium shot, low eye level, a 30-year-old Uzbek man, oval 
 Cinematic film still, medium shot, low eye level, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a DRY white cotton shirt with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket, dark brown leather boots, a steel watch on his left wrist in a small bedroom jolting to a halt, his right hip struck against the sharp wooden corner of the bed frame, body folded slightly sideways, face contorted, soft grey window light from the left, desaturated cold steel-grey palette, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
@@ -49,7 +51,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S3a
 Cinematic film still, extreme close-up, top-down directly above, the same smartphone screen on the same crumpled white pillow showing the alarm active again, the same male index finger pressed flat against the glass mid-swipe, identical framing to the earlier swipe, screen glow the only light, desaturated cold steel-grey palette, 50mm macro lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,7 +71,7 @@ Cinematic film still, medium shot, low eye level, a 30-year-old Uzbek man, oval 
 6) S7d
 Cinematic film still, medium shot, low eye level, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a DRY white cotton shirt with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket, dark brown leather boots, a steel watch on his left wrist in a small bedroom jolting to a halt, his right hip struck against the sharp wooden corner of the bed frame, body folded slightly sideways, face contorted, soft grey window light from the left, desaturated cold steel-grey palette, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
+NEGATIVE PROMPT (apply to all 6 images):
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 

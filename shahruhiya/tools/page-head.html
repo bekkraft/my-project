@@ -1,0 +1,135 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Шаҳруҳия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap&subset=cyrillic,latin">
+<style>
+:root{
+  --bg:#F4F2ED;--surf:#FFFFFF;--surf2:#EAE7E0;--line:#D8D3C9;
+  --ink:#16181C;--mut:#6C7076;--slot:#E3DFD7;--ghost:#BDB6A9;--acc:#7E94AC;
+  --f-disp:'Oswald',Impact,'Arial Narrow',sans-serif;
+  --f-body:'Manrope','Segoe UI',system-ui,sans-serif;
+  --f-mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131519;--surf:#1B1E24;--surf2:#22262D;--line:#2C313A;
+  --ink:#E8E5E0;--mut:#8B9099;--slot:#20242B;--ghost:#3A404A;}}
+:root[data-theme="dark"]{
+  --bg:#131519;--surf:#1B1E24;--surf2:#22262D;--line:#2C313A;
+  --ink:#E8E5E0;--mut:#8B9099;--slot:#20242B;--ghost:#3A404A;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:0 80px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.topin{max-width:1120px;margin:0 auto;padding:13px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.brand{display:flex;align-items:baseline;gap:9px;margin-right:auto}
+.brand b{font-family:var(--f-disp);font-weight:600;font-size:24px;letter-spacing:.04em;
+  text-transform:uppercase;line-height:1}
+.brand span{font-size:11px;color:var(--mut);letter-spacing:.09em;text-transform:uppercase}
+.rail{display:flex;flex-wrap:wrap;gap:5px}
+.rail button{font-family:var(--f-disp);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:6px 12px;border-radius:2px;cursor:pointer;background:transparent;color:var(--mut);
+  border:1px solid var(--line)}
+.rail button:hover{color:var(--ink)}
+.rail button[aria-pressed="true"]{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+.find{font-family:var(--f-mono);font-size:13px;padding:7px 11px;width:118px;background:var(--surf);
+  color:var(--ink);border:1px solid var(--line);border-radius:2px}
+.find:focus-visible,.rail button:focus-visible,.cpy:focus-visible,.cpyn:focus-visible,summary:focus-visible
+  {outline:2px solid var(--acc);outline-offset:2px}
+
+.hero{padding-block:40px 26px;border-bottom:1px solid var(--line)}
+.hero h1{font-family:var(--f-disp);font-weight:600;font-size:clamp(34px,6.5vw,64px);line-height:.96;
+  letter-spacing:.02em;text-transform:uppercase;margin:0 0 14px;text-wrap:balance}
+.hero p{max-width:64ch;color:var(--mut);margin:0 0 20px}
+.how{background:var(--surf);border:1px solid var(--line);border-radius:3px;padding:16px 18px;
+  max-width:64ch}
+.how h2{font-family:var(--f-disp);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  margin:0 0 9px;color:var(--mut)}
+.how ol{margin:0;padding-left:19px;font-size:14px}
+.how li{margin-bottom:5px}
+.how li:last-child{margin:0}
+
+.batch{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--acc);
+  border-radius:3px;padding:16px 18px;margin-top:16px;scroll-margin-top:92px}
+.bh{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-bottom:9px}
+.bno{font-family:var(--f-disp);font-size:26px;letter-spacing:.02em;color:var(--acc);
+  font-variant-numeric:tabular-nums;line-height:1}
+.bno i{font-size:13px;font-style:normal;color:var(--mut)}
+.bmeta{display:flex;flex-direction:column;gap:1px;line-height:1.25}
+.blab{font-family:var(--f-disp);font-size:12px;letter-spacing:.13em;text-transform:uppercase}
+.btc{font-family:var(--f-mono);font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.bn{margin-left:auto;font-size:11px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
+.cpy{font-family:var(--f-disp);font-size:13px;letter-spacing:.09em;text-transform:uppercase;
+  padding:9px 16px;border-radius:2px;cursor:pointer;background:var(--acc);color:#101215;border:0}
+.cpy:hover{filter:brightness(1.1)}
+.cpy.done{background:transparent;color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.shots{font-size:13.5px;margin:0 0 9px;color:var(--mut)}
+.shots b{font-family:var(--f-disp);color:var(--ink);font-weight:500;letter-spacing:.03em}
+.note{font-size:12.5px;color:var(--mut);margin:0 0 11px;border-left:2px solid var(--line);
+  padding-left:10px;max-width:80ch}
+.slots{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));margin-bottom:11px}
+.slot{aspect-ratio:16/9;max-width:100%;background:var(--slot);border:1px solid var(--line);
+  border-radius:2px;display:grid;place-items:center}
+.slot span{font-family:var(--f-disp);font-size:17px;letter-spacing:.06em;color:var(--ghost)}
+.refs{font-size:12px;color:var(--mut);margin:0}
+.refs span{font-family:var(--f-disp);letter-spacing:.11em;text-transform:uppercase;font-size:11px}
+.det{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-family:var(--f-disp);font-size:12px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--mut);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+ ";color:var(--acc)}
+details[open] summary::before{content:"– "}
+.prs{margin-top:11px;display:flex;flex-direction:column;gap:9px}
+.prid{font-family:var(--f-disp);font-size:13px;letter-spacing:.07em;color:var(--acc);margin-bottom:3px}
+.prompt{font-family:var(--f-mono);font-size:10.5px;line-height:1.7;color:var(--mut);margin:0;
+  padding:9px 11px;background:var(--surf2);border-radius:2px;white-space:pre-wrap;overflow-wrap:anywhere}
+.neg{margin-top:12px}
+.negh{display:flex;align-items:center;gap:9px;font-family:var(--f-disp);font-size:11px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--mut);margin-bottom:5px}
+.cpyn{margin-left:auto;font-family:var(--f-body);font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;padding:3px 8px;border-radius:2px;cursor:pointer;background:transparent;
+  color:var(--mut);border:1px solid var(--line)}
+.cpyn:hover{color:var(--ink)}
+.cpyn.done{color:var(--acc);border-color:var(--acc)}
+.negp{font-family:var(--f-mono);font-size:10.5px;line-height:1.7;color:var(--mut);margin:0;
+  padding:9px 11px;background:var(--surf2);border-radius:2px;white-space:pre-wrap;overflow-wrap:anywhere}
+.hidden{display:none!important}
+.empty{padding:56px 0;text-align:center;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:640px){
+  .brand b{font-size:20px} .find{width:100%} .cpy{width:100%}
+  .slots{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
+<div class="top"><div class="topin">
+  <div class="brand"><b>Шаҳруҳия</b><span>партии</span></div>
+  <div class="rail" id="rail">
+    <button type="button" data-f="all" aria-pressed="true">все</button>
+    <button type="button" data-f="act1">акт 1</button>
+    <button type="button" data-f="act2">акт 2</button>
+    <button type="button" data-f="tent">шатёр</button>
+    <button type="button" data-f="race">гонка</button>
+    <button type="button" data-f="fin">финал</button>
+  </div>
+  <input class="find" id="find" type="search" placeholder="S58c" aria-label="Поиск по ID панели" autocomplete="off">
+</div></div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Шаҳруҳия</h1>
+    <p>256 панелей раскадровки, разложенных на 50 партий по шесть. Каждая партия копируется одной кнопкой и отправляется в генератор целиком. Токены уже развёрнуты — промпты готовы к вставке.</p>
+    <div class="how">
+      <h2>как работать</h2>
+      <ol>
+        <li>Нажать <b>«копировать партию»</b> — в буфере инструкция и шесть промптов.</li>
+        <li>Вставить в генератор, прикрепить эталоны из строки «прикрепить».</li>
+        <li>Негативный промпт скопировать отдельно — он общий на все шесть.</li>
+        <li>Сохранить результаты по ID: <code>S1a.png</code>, <code>S1b.png</code>…</li>
+      </ol>
+    </div>
+  </div>

@@ -39,9 +39,9 @@ Cinematic film still, insert close-up of the same car instrument cluster in iden
 Cinematic film still, extreme wide telephoto shot, dozens of late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres crouched motionless behind boulders high on the shadowed slope above a gorge, bows and sabres ready, looking down at the column passing below, entirely unnoticed, cold blue shadow on them against orange rock beyond, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 100mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +49,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S72a
 Cinematic film still, medium shot, very low angle beside a rear wheel, a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint sunk to the hub in thick wet mud, the wheel beginning to spin, mud already spattered up the rear wing, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +69,8 @@ Cinematic film still, insert close-up of the same car instrument cluster in iden
 6) S76a
 Cinematic film still, extreme wide telephoto shot, dozens of late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres crouched motionless behind boulders high on the shadowed slope above a gorge, bows and sabres ready, looking down at the column passing below, entirely unnoticed, cold blue shadow on them against orange rock beyond, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 100mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

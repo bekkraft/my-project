@@ -34,9 +34,9 @@ Cinematic film still, medium shot with three layers of depth, the interior of an
 Cinematic film still, medium shot with three layers of depth, identical framing, the interior of an enormous 14th century Timurid military command tent, layered Persian carpets covering the floor, low cushions, a brazier of glowing coals, oil lamps and candles as the only light sources, fabric walls, a high roof lost in shadow, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist frozen mid-gesture, and behind him the late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres along the walls all shifted a fraction toward him, hands moved to sabre grips, heads turned, the stillness broken only in the background, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 5)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no tabards, no straight swords, no european faces, no medieval european armour, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur, no modern objects, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -44,7 +44,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 5 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 5.
 
 1) S60a
 Cinematic film still, close-up, identical framing and identical pose to the earlier Temur shots, a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic, a massive tarnished silver ring with a dark red carnelian on his right ring finger, seated cross-legged on low cushions leaning on his left arm with his right arm resting motionless on his knee, the interior of an enormous 14th century Timurid military command tent, layered Persian carpets covering the floor, low cushions, a brazier of glowing coals, oil lamps and candles as the only light sources, fabric walls, a high roof lost in shadow, eyes fixed forward, mouth open speaking a short flat sentence, no emphasis in the face, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -61,15 +61,15 @@ Cinematic film still, medium shot with three layers of depth, the interior of an
 5) S63b
 Cinematic film still, medium shot with three layers of depth, identical framing, the interior of an enormous 14th century Timurid military command tent, layered Persian carpets covering the floor, low cushions, a brazier of glowing coals, oil lamps and candles as the only light sources, fabric walls, a high roof lost in shadow, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist frozen mid-gesture, and behind him the late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres along the walls all shifted a fraction toward him, hands moved to sabre grips, heads turned, the stillness broken only in the background, low-key lighting from candles and oil lamps below and to the side, amber and deep red palette with black shadows and one burning gold highlight, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 5 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no tabards, no straight swords, no european faces, no medieval european armour, no heraldry, no throne, no wooden chair, no tiled walls, no palace interior, no standing Temur, no modern objects, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
 
 ## ПРОВЕРКА ПЕРЕД СЛЕДУЮЩИМ ЛИСТОМ
 
-- [ ] Пришло ровно 6 картинок, не коллаж
+- [ ] Пришло ровно 5 картинок, не коллаж
 - [ ] Все 16:9
 - [ ] Лицо Шохруха то же, что в принятых панелях
 - [ ] Нет перстня на пальце (до кадра 105)

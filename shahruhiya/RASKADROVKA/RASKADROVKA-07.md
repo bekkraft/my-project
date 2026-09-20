@@ -5,6 +5,10 @@
 **Эталоны прикрепить:** #6 Нексия; #10 улицы Ташкента утром; #11c въезд в туннель снаружи
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 17.** Прикреплять: эталон улиц #10
+> **Кадр 18.** Прикреплять: карта Шохруха #C1 + эталон лица #1
+> **Кадр 21.** Прикреплять: эталон въезда в туннель #S11b
+
 ---
 
 ## ПАНЕЛИ
@@ -39,7 +43,7 @@ Cinematic film still, medium shot from behind the driver, the interior of a smal
 Cinematic film still, insert shot through a rain-beaded windscreen, a road sign and the concrete mouth of a city underpass ahead with orange light glowing inside it, wet asphalt, overcast daylight above, desaturated cold steel-grey palette outside against warm amber inside the tunnel, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
@@ -49,7 +53,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S17a
 Cinematic film still, medium shot from the rear seat over the driver's shoulder, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, looking through the windscreen at three lanes of Tashkent traffic packed bumper to bumper, mostly white and grey Uzbek-market sedans, wipers mid-stroke, rain beads on the glass, red brake lights, trolleybus wires overhead, billboards and high-rises beyond, overcast daylight, desaturated cold steel-grey palette with red brake lights as the only accents, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,7 +73,7 @@ Cinematic film still, medium shot from behind the driver, the interior of a smal
 6) S21b
 Cinematic film still, insert shot through a rain-beaded windscreen, a road sign and the concrete mouth of a city underpass ahead with orange light glowing inside it, wet asphalt, overcast daylight above, desaturated cold steel-grey palette outside against warm amber inside the tunnel, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
+NEGATIVE PROMPT (apply to all 6 images):
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 

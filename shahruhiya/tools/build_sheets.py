@@ -17,9 +17,48 @@ SRC = [
 BASE = 'shahruhiya'
 OUT = os.path.join(BASE, 'RASKADROVKA')
 
-NEG = (u'no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, '
-       u'no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, '
-       u'no distorted faces, no cartoon, no anime, no illustration')
+# Негатив блока 1 — в самих файлах его нет отдельной секцией, он общий.
+NEG_DEFAULT = (u'no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, '
+               u'no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, '
+               u'no distorted faces, no cartoon, no anime, no illustration')
+
+
+def parse_negatives(text):
+    """[( (кадр_от, кадр_до) | None, негатив ), ...] из одного файла блока."""
+    out = []
+    lines = text.split('\n')
+    for i, ln in enumerate(lines):
+        m = re.match(r'^#+\s*НЕГАТИВНЫЙ ПРОМПТ(.*)$', ln)
+        if not m:
+            continue
+        rng = re.search(r'кадры\s+(\d+)[\u2013\u2014-](\d+)', m.group(1))
+        blk = FENCE.search('\n'.join(lines[i:i + 6]))
+        if blk:
+            out.append(((int(rng.group(1)), int(rng.group(2))) if rng else None,
+                        blk.group(1).strip()))
+    return out
+
+
+def neg_for(shot, negs):
+    fallback = None
+    for rng, text in negs:
+        if rng is None:
+            fallback = text
+        elif rng[0] <= shot <= rng[1]:
+            return text
+    return fallback or NEG_DEFAULT
+
+
+def merge_negs(items):
+    """Лист на стыке блоков берёт оба негатива, без повторов."""
+    seen, out = set(), []
+    for t in items:
+        for term in [x.strip() for x in t.split(',')]:
+            k = term.lower()
+            if term and k not in seen:
+                seen.add(k)
+                out.append(term)
+    return u', '.join(out)
 
 FENCE = re.compile(r'```\n(.*?)\n```', re.S)
 
@@ -69,7 +108,8 @@ def parse(path):
     lines = text.split('\n')
 
     tokens, panels = {}, []
-    shot_no, shot_title, ref = None, u'', u''
+    negs = parse_negatives(text)
+    shot_no, shot_title, ref, note = None, u'', u'', []
     i = 0
     while i < len(lines):
         ln = lines[i]
@@ -86,7 +126,17 @@ def parse(path):
         if m:
             shot_no = int(m.group(1))
             shot_title = re.sub(r'\s*\(\d+\s*панел.*?\)', '', m.group(2)).strip()
-            ref = u''
+            ref, note = u'', []
+            # прозаические строки под заголовком кадра — заметка оператору
+            j = i + 1
+            while j < len(lines):
+                nxt = lines[j].strip()
+                if (not nxt or nxt.startswith('**') or nxt.startswith('#')
+                        or nxt.startswith('```') or nxt.startswith('|')):
+                    break
+                if not re.match(r'^Эталон', nxt):
+                    note.append(nxt)
+                j += 1
             i += 1
             continue
 
@@ -101,7 +151,9 @@ def parse(path):
             blk = FENCE.search('\n'.join(lines[i:i + 12]))
             if blk:
                 panels.append(dict(id=m.group(1), shot=shot_no, title=shot_title,
-                                   ref=ref, prompt=blk.group(1).strip()))
+                                   ref=ref, note=u' '.join(note).strip(),
+                                   neg=neg_for(shot_no, negs),
+                                   prompt=blk.group(1).strip()))
             i += 1
             continue
         i += 1
@@ -238,8 +290,16 @@ for n, sheet in enumerate(sheets, 1):
     A(u'**Панели:** `%s`' % u'`, `'.join(ids))
     A(u'**Кадры:** %s · **Блок:** %s' % (u', '.join(str(s) for s in shots), u' / '.join(blocks)))
     A(u'**Эталоны прикрепить:** %s' % (u'; '.join(refs) if refs else u'—'))
-    if any(u'Шохрух' in p['prompt'] or u'30-year-old Uzbek man' in p['prompt'] for p in sheet):
+    if any(u'30-year-old Uzbek man' in p['prompt'] for p in sheet):
         A(u'**Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.')
+    notes = []
+    for p in sheet:
+        if p['note'] and (p['shot'], p['note']) not in notes:
+            notes.append((p['shot'], p['note']))
+    if notes:
+        A(u'')
+        for shot, txt in notes:
+            A(u'> **Кадр %d.** %s' % (shot, txt))
     A(u'')
     if carry:
         A(u'> **Внимание — кадр разрезан между листами.**')
@@ -249,6 +309,8 @@ for n, sheet in enumerate(sheets, 1):
         A(u'> Прикрепи уже сгенерированную соседнюю панель как референс, '
           u'иначе рамка и масштаб уедут.')
         A(u'')
+    neg = merge_negs([p['neg'] for p in sheet])
+
     A(u'---')
     A(u'')
     A(u'## ПАНЕЛИ')
@@ -259,9 +321,9 @@ for n, sheet in enumerate(sheets, 1):
         A(p['prompt'])
         A(u'```')
         A(u'')
-    A(u'### НЕГАТИВ (на все шесть)')
+    A(u'### НЕГАТИВ (на все %d)' % len(sheet))
     A(u'```')
-    A(NEG)
+    A(neg)
     A(u'```')
     A(u'')
     A(u'---')
@@ -269,23 +331,23 @@ for n, sheet in enumerate(sheets, 1):
     A(u'## БЛОК ДЛЯ FLOW — скопировать целиком')
     A(u'')
     A(u'```text')
-    A(u'Generate 6 SEPARATE images, one for each numbered prompt below. '
-      u'Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. '
-      u'Keep the visual style identical across all six.')
+    A(u'Generate %d SEPARATE images, one for each numbered prompt below. '
+      u'Each image must be 16:9. Do NOT merge them into a grid, collage or contact '
+      u'sheet. Keep the visual style identical across all %d.' % (len(sheet), len(sheet)))
     A(u'')
     for k, p in enumerate(sheet, 1):
         A(u'%d) %s' % (k, p['id']))
         A(p['prompt'])
         A(u'')
-    A(u'NEGATIVE PROMPT (apply to all six):')
-    A(NEG)
+    A(u'NEGATIVE PROMPT (apply to all %d images):' % len(sheet))
+    A(neg)
     A(u'```')
     A(u'')
     A(u'---')
     A(u'')
     A(u'## ПРОВЕРКА ПЕРЕД СЛЕДУЮЩИМ ЛИСТОМ')
     A(u'')
-    A(u'- [ ] Пришло ровно 6 картинок, не коллаж')
+    A(u'- [ ] Пришло ровно %d картинок, не коллаж' % len(sheet))
     A(u'- [ ] Все 16:9')
     A(u'- [ ] Лицо Шохруха то же, что в принятых панелях')
     A(u'- [ ] Нет перстня на пальце (до кадра 105)')
@@ -324,7 +386,8 @@ io.open(os.path.join(OUT, 'INDEX.md'), 'w', encoding='utf-8').write(u'\n'.join(L
 io.open(os.path.join(OUT, 'sheets.json'), 'w', encoding='utf-8').write(
     json.dumps([{'n': n, 'panels': [{'id': p['id'], 'shot': p['shot'], 'title': p['title'],
                                      'prompt': p['prompt'], 'block': p['block'],
-                                     'ref': p['ref']} for p in s]}
+                                     'ref': p['ref'], 'note': p['note']} for p in s],
+                 'neg': merge_negs([p['neg'] for p in s])}
                 for n, s in enumerate(sheets, 1)], ensure_ascii=False, indent=1))
 
 print(u'панелей: %d, листов: %d, последний: %d' % (len(all_panels), len(sheets), len(sheets[-1])))

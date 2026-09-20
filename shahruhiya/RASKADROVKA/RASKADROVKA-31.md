@@ -39,9 +39,9 @@ Cinematic film still, wide shot, a Central Asian ruler of about 60 with a broad 
 Cinematic film still, wide shot, identical framing, a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic mid-speech facing the army with one hand raised chest high, the whole field silent and listening, dust burning in the horizontal light, golden hour at its peak, horizontal sunlight almost level with the ground, dust burning in the air, bronze skin tones, red and gold palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +49,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S88a
 Cinematic film still, medium shot, a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic standing before a massed army on an open field, one arm extended to indicate someone off to the side, mouth open speaking loudly, thousands of late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres and banners out of focus behind him, golden hour at its peak, horizontal sunlight almost level with the ground, dust burning in the air, bronze skin tones, red and gold palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +69,8 @@ Cinematic film still, wide shot, a Central Asian ruler of about 60 with a broad 
 6) S92b
 Cinematic film still, wide shot, identical framing, a Central Asian ruler of about 60 with a broad strong-jawed weathered face, heavy dark eyebrows, dark deep-set eyes with a heavy gaze from beneath the brows, tanned skin, deep lines on the forehead and around the eyes, a short wedge beard dark and heavily streaked with grey, wearing a golden domed crown set with dark red gemstones and topped with a white feather plume, a white fur-trimmed robe with gold floral embroidery over a patterned blue and deep red brocade tunic mid-speech facing the army with one hand raised chest high, the whole field silent and listening, dust burning in the horizontal light, golden hour at its peak, horizontal sunlight almost level with the ground, dust burning in the air, bronze skin tones, red and gold palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

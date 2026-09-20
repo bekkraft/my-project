@@ -4,6 +4,9 @@
 **Кадры:** 15, 16, 20 · **Блок:** АКТ 1 — Ташкент и туннель
 **Эталоны прикрепить:** #6 Нексия; #10 улицы Ташкента утром
 
+> **Кадр 15.** СНАЧАЛА сгенерировать S15b, довести до нужного вида, ПОТОМ подставлять её как image reference в S15a, S19a и позже в 112. Иначе получатся четыре разные приборки и рифма через весь фильм не прочитается.
+> **Кадр 16.** Прикреплять: ПРИНЯТЫЙ ЭТАЛОН МАШИНЫ #6 — обязательно, иначе кузов уедет
+
 ---
 
 ## ПАНЕЛИ
@@ -38,7 +41,7 @@ Cinematic film still, medium shot from inside a car looking out through the side
 Cinematic film still, medium shot from inside a car looking out through the side window, identical framing, the same petrol station now sliding off the far edge of the frame and almost gone, only the end of its canopy left, rain beads on the glass, overcast daylight, desaturated cold steel-grey palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
@@ -48,7 +51,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S15a
 Cinematic film still, insert close-up of a car instrument cluster, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, two round dials framed by the top of the steering wheel, needles resting at zero, every warning lamp dark, the display blank, a fine layer of dust on the plastic, flat grey daylight through the windscreen, desaturated cold steel-grey palette, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -68,7 +71,7 @@ Cinematic film still, medium shot from inside a car looking out through the side
 6) S20b
 Cinematic film still, medium shot from inside a car looking out through the side window, identical framing, the same petrol station now sliding off the far edge of the frame and almost gone, only the end of its canopy left, rain beads on the glass, overcast daylight, desaturated cold steel-grey palette, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
+NEGATIVE PROMPT (apply to all 6 images):
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 

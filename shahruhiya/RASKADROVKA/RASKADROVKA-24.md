@@ -39,9 +39,9 @@ Cinematic film still, medium shot, eye level, backlit silhouettes, a 22-year-old
 Cinematic film still, medium shot, eye level, backlit silhouettes, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist and a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip pushing together with their whole weight, both backs bent at the same angle, the car finally rolling forward out of the rut, mud sliding off the tyres, the low sun behind them, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +49,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S70a
 Cinematic film still, insert close-up, a rolled scroll of thick yellowish paper tied with a cord and closed with a dark red wax seal lying on a worn car seat pinned down by a grey river stone, both vibrating visibly against the fabric, the wax seal catching low orange light, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +69,8 @@ Cinematic film still, medium shot, eye level, backlit silhouettes, a 22-year-old
 6) S73c
 Cinematic film still, medium shot, eye level, backlit silhouettes, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist and a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip pushing together with their whole weight, both backs bent at the same angle, the car finally rolling forward out of the rut, mud sliding off the tyres, the low sun behind them, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no road signs, no asphalt, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

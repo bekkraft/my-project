@@ -38,9 +38,9 @@ Cinematic film still, extreme close-up macro, identical framing, low morning sun
 Cinematic film still, extreme close-up macro, identical framing to the previous panel, the lit engraving on a massive ring of tarnished blackened silver set with a large dark red carnelian stone, worn almost illegible Arabic calligraphy engraved in the metal around the stone held steady and slightly darkened overall to carry text, the composition leaving clean space in the lower third of the frame, 100mm macro lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no historical costume, no armour, no horses, no tents, no banners, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -48,7 +48,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S122a
 Cinematic film still, insert close-up, a puddle on wet city asphalt holding a clear reflection of trees and sky, its edges sharp, morning sun striking it, risen morning sun low and warm between the buildings, drying wet asphalt, warm golden and green and ochre palette, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -68,8 +68,8 @@ Cinematic film still, extreme close-up macro, identical framing, low morning sun
 6) S124a
 Cinematic film still, extreme close-up macro, identical framing to the previous panel, the lit engraving on a massive ring of tarnished blackened silver set with a large dark red carnelian stone, worn almost illegible Arabic calligraphy engraved in the metal around the stone held steady and slightly darkened overall to carry text, the composition leaving clean space in the lower third of the frame, 100mm macro lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no historical costume, no armour, no horses, no tents, no banners, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

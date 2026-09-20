@@ -4,6 +4,8 @@
 **Кадры:** 41, 42, 45 · **Блок:** АКТ 2 — Степь и лагерь
 **Эталоны прикрепить:** #13 военный лагерь; #5 командир отряда; #6 Нексия
 
+> **Кадр 41.** Прикреплять: эталон командира #5 — ПРИНЯТ
+
 ---
 
 ## ПАНЕЛИ
@@ -38,9 +40,9 @@ Cinematic film still, insert close-up, a weathered warrior's bare fingers touchi
 Cinematic film still, close-up, low angle, one of the late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres recoiling a full step backward with his burnt hand snatched up against his chest, eyes wide with fear, lips parted whispering, hard daylight on his face, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -48,7 +50,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S41a
 Cinematic film still, close-up, eye level, a 45-year-old Central Asian warrior, thickset with a powerful neck, weather-beaten sun-darkened face with deep vertical creases in the cheeks, dark narrowed eyes, a scar running through his right eyebrow and down across his right cheekbone, greying medium-length beard, wearing a dark green robe under a lamellar plate cuirass of riveted steel strips, leather bracers, a curved sabre on his hip looking straight ahead with an unreadable weighing expression, eyes narrowed, absolutely motionless, warm even sunlight across his weathered face, out-of-focus tents and banners behind, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -68,8 +70,8 @@ Cinematic film still, insert close-up, a weathered warrior's bare fingers touchi
 6) S45c
 Cinematic film still, close-up, low angle, one of the late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres recoiling a full step backward with his burnt hand snatched up against his chest, eyes wide with fear, lips parted whispering, hard daylight on his face, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

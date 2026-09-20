@@ -5,6 +5,9 @@
 **Эталоны прикрепить:** #12 степь; #6 Нексия; #13 военный лагерь; #5 командир отряда
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 29.** Прикреплять: эталон степи #12 — ПРИНЯТ
+> **Кадр 33.** Прикреплять: эталон лагеря #13 — ПРИНЯТ
+
 ---
 
 ## ПАНЕЛИ
@@ -39,9 +42,9 @@ Cinematic film still, wide shot at eye level, a point of view across open steppe
 Cinematic film still, wide shot at eye level, a point of view across open steppe now filled edge to edge with a vast late-14th-century military camp, hundreds of yurts and tents stretching to the horizon, dark red banners bearing a three-circle emblem, horse lines, cooking fires, dust hanging in the air, late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres moving between the tents, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +52,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S29a
 Cinematic film still, wide shot from the driver's seat looking through a windscreen, the edge of a dusty dashboard along the bottom of the frame, beyond it an endless Central Asian steppe of green-brown grass with rolling hills breathing under the wind, wet dark earth in the near foreground after rain, thin campfire smoke rising far away on the horizon, an enormous pale blue sky with fast-moving clouds, absolutely no buildings and no power lines anywhere, clear golden morning light after rain, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +72,8 @@ Cinematic film still, wide shot at eye level, a point of view across open steppe
 6) S33b
 Cinematic film still, wide shot at eye level, a point of view across open steppe now filled edge to edge with a vast late-14th-century military camp, hundreds of yurts and tents stretching to the horizon, dark red banners bearing a three-circle emblem, horse lines, cooking fires, dust hanging in the air, late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres moving between the tents, warm golden morning light, ochre and dusty brown against a huge pale blue sky, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no christian symbols, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no electric light, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

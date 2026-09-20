@@ -4,6 +4,8 @@
 **Кадры:** 105, 106, 109 · **Блок:** АКТ 3 — Имя, перстень, финал
 **Эталоны прикрепить:** #12 степь; #6 Нексия; #7 перстень; #11 туннель каменный; #11a туннель бетонный; #16 Ташкент финал
 
+> **Кадр 105.** ЕДИНСТВЕННЫЙ ОПТИЧЕСКИЙ ПЕРЕХОД БЛОКА. Правило «подаренное по имени остаётся» устанавливается здесь визуально, без единого слова объяснения.
+
 ---
 
 ## ПАНЕЛИ
@@ -38,9 +40,9 @@ Cinematic film still, extreme close-up in the footwell of a car, identical frami
 Cinematic film still, insert close-up of the same car instrument cluster in identical framing and scale as before, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, the small digital display reading 7:48, dials lit, morning daylight through the windscreen, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no crusaders, no red crosses, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration, no historical costume, no armour, no horses, no tents, no banners
 ```
 
 ---
@@ -48,7 +50,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S105a
 Cinematic film still, close-up of a man's hand resting on a car steering wheel with a massive ring of tarnished blackened silver set with a large dark red carnelian stone, worn almost illegible Arabic calligraphy engraved in the metal around the stone on the finger, the whole frame in full warm colour, red dusk light through the windscreen beyond, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, 100mm macro lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -68,8 +70,8 @@ Cinematic film still, extreme close-up in the footwell of a car, identical frami
 6) S109a
 Cinematic film still, insert close-up of the same car instrument cluster in identical framing and scale as before, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, the small digital display reading 7:48, dials lit, morning daylight through the windscreen, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no crusaders, no red crosses, no european knights, no chainmail hauberks, no surcoats, no straight swords, no european faces, no medieval european armour, no heraldic animals, no lion emblems, no modern objects, no power lines, no contrails, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration, no historical costume, no armour, no horses, no tents, no banners
 ```
 
 ---

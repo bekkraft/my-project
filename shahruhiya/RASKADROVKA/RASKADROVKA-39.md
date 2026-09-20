@@ -5,6 +5,8 @@
 **Эталоны прикрепить:** #16 Ташкент финал; #6 Нексия; #7 перстень; #9 двор с тандыром
 **Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
 
+> **Кадр 112.** Прикреплять: утверждённую панель S15b как image reference
+
 ---
 
 ## ПАНЕЛИ
@@ -39,9 +41,9 @@ Cinematic film still, close-up, an elderly Uzbek man in a tubeteika cap and stri
 Cinematic film still, close-up, identical framing, the same old man answering with one hand lifted from the broom to his chest and a small warm nod, his eyes crinkling, risen morning sun low and warm between the buildings, drying wet asphalt, warm golden and green and ochre palette, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no historical costume, no armour, no horses, no tents, no banners, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -49,7 +51,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S110a
 Cinematic film still, close-up, a man's hand resting on a car steering wheel with a massive ring of tarnished blackened silver set with a large dark red carnelian stone, worn almost illegible Arabic calligraphy engraved in the metal around the stone clearly on the ring finger, warm low morning sunlight raking across the tarnished silver and the dark red stone, ordinary city street out of focus beyond the windscreen, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, risen morning sun low and warm between the buildings, drying wet asphalt, warm golden and green and ochre palette, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -69,8 +71,8 @@ Cinematic film still, close-up, an elderly Uzbek man in a tubeteika cap and stri
 6) S116b
 Cinematic film still, close-up, identical framing, the same old man answering with one hand lifted from the broom to his chest and a small warm nod, his eyes crinkling, risen morning sun low and warm between the buildings, drying wet asphalt, warm golden and green and ochre palette, 85mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no historical costume, no armour, no horses, no tents, no banners, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---

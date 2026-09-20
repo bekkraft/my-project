@@ -38,7 +38,7 @@ Cinematic film still, wide shot from the driver's point of view, the pure white 
 Cinematic film still, wide shot from the driver's point of view, blinding pure white light filling the entire windscreen and spilling past its frame, only a faint ghost of the dashboard silhouette remaining at the bottom edge, everything else burned out, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
@@ -48,7 +48,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S24a
 Cinematic film still, extreme close-up of a bare poured-concrete tunnel wall, form-work seams and grey aggregate texture, raking car headlight skimming across the surface from the left, deep black beyond, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -68,7 +68,7 @@ Cinematic film still, wide shot from the driver's point of view, the pure white 
 6) S26c
 Cinematic film still, wide shot from the driver's point of view, blinding pure white light filling the entire windscreen and spilling past its frame, only a faint ghost of the dashboard silhouette remaining at the bottom edge, everything else burned out, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
+NEGATIVE PROMPT (apply to all 6 images):
 no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 

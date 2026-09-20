@@ -4,6 +4,8 @@
 **Кадры:** 120, 121 · **Блок:** АКТ 3 — Имя, перстень, финал
 **Эталоны прикрепить:** #17 сквер Амира Темура сверху; #16 Ташкент финал
 
+> **Кадр 121.** Прикреплять: эталон сквера сверху #17
+
 ---
 
 ## ПАНЕЛИ
@@ -38,9 +40,9 @@ Cinematic film still, wide aerial shot higher above the city, the ring road and 
 Cinematic film still, extreme wide aerial shot high above the city, the ENTIRE circular park revealed as a wheel — radial avenues converging on the equestrian monument at the exact centre, the ring road encircling it, dense green trees, neoclassical buildings around the perimeter, the city stretching away beyond, risen morning sun low and warm between the buildings, drying wet asphalt, warm golden and green and ochre palette, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 ```
 
-### НЕГАТИВ (на все шесть)
+### НЕГАТИВ (на все 6)
 ```
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+no historical costume, no armour, no horses, no tents, no banners, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
@@ -48,7 +50,7 @@ no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no
 ## БЛОК ДЛЯ FLOW — скопировать целиком
 
 ```text
-Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all 6.
 
 1) S120a
 Cinematic film still, insert close-up, a smartphone with a cracked corner lying on a car passenger seat, its screen lit with a reminder notification showing the time 8:15 and a short line of Uzbek text, warm morning light, 50mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
@@ -68,8 +70,8 @@ Cinematic film still, wide aerial shot higher above the city, the ring road and 
 6) S121c
 Cinematic film still, extreme wide aerial shot high above the city, the ENTIRE circular park revealed as a wheel — radial avenues converging on the equestrian monument at the exact centre, the ring road encircling it, dense green trees, neoclassical buildings around the perimeter, the city stretching away beyond, risen morning sun low and warm between the buildings, drying wet asphalt, warm golden and green and ochre palette, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
 
-NEGATIVE PROMPT (apply to all six):
-no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+NEGATIVE PROMPT (apply to all 6 images):
+no historical costume, no armour, no horses, no tents, no banners, no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
 ```
 
 ---
