@@ -227,6 +227,7 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
   </div>
   <input class="find" id="find" type="search" placeholder="S58c" aria-label="Поиск по ID панели" autocomplete="off">
   <button class="tool" type="button" id="btnFix">запрос на правку</button>
+  <button class="tool" type="button" id="btnZip">скачать все</button>
   <button class="tool" type="button" id="btnSave">проект</button>
 </div></div>
 
@@ -234,6 +235,13 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
   <div class="hero">
     <h1>Шаҳруҳия</h1>
     <p id="lede"></p>
+
+    <div class="alert hidden" id="dlWarn">
+      <b>Этот браузер не даёт странице сохранять файлы.</b><br>
+      Всё остальное работает. Чтобы выгрузить кадры уже названными —
+      <code>S12a.png</code> — открой присланный файл
+      <code>SHAHRUHIYA-raskadrovka.html</code> у себя на компьютере.
+    </div>
 
     <div class="alert hidden" id="storeWarn">
       <b>Браузер не даёт этому файлу хранилище.</b><br>
@@ -243,9 +251,9 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
 
     <div class="steps">
       <div class="step"><b>1 · копировать</b><span>«Копировать партию» — в буфере инструкция и все промпты. Вставить в Flow.</span></div>
-      <div class="step"><b>2 · вернуть</b><span>Скачать готовые картинки и перетащить их прямо на партию. Имена вида <code>S12a.png</code> разложатся сами.</span></div>
+      <div class="step"><b>2 · вернуть</b><span>Перетащить готовые картинки на партию — имена неважны, займут слоты по порядку. Не туда попал — перетащи на соседний слот, поменяются местами.</span></div>
       <div class="step"><b>3 · отсмотреть</b><span>Клик по кадру — большой просмотр. Принять или отметить, что не так.</span></div>
-      <div class="step"><b>4 · вернуть в работу</b><span>«Запрос на правку» соберёт брак в один текст с промптами — отправить Клоду.</span></div>
+      <div class="step"><b>4 · назвать и вернуть</b><span>«Скачать с именами» отдаст кадры как <code>S12a.png</code>. «Запрос на правку» соберёт брак в один текст с промптами.</span></div>
     </div>
 
     <p class="next" id="nextLine"></p>
@@ -291,6 +299,7 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
         <div class="acts">
           <button class="tool" type="button" id="dPick">загрузить картинку</button>
           <button class="tool" type="button" id="dDrop">убрать картинку</button>
+          <button class="tool" type="button" id="dSave">скачать как S00a.png</button>
           <button class="tool" type="button" id="dCopyP">копировать промпт</button>
           <button class="tool hot" type="button" id="dReq">запрос по этой панели</button>
         </div>
@@ -445,6 +454,7 @@ function build(){
         '<span class="btc">'+esc(b.tc)+' · '+b.panels.length+' панел'+
           (b.panels.length===1?'ь':(b.panels.length<5?'и':'ей'))+'</span></div>'+
         '<span class="tally" id="t'+b.n+'"></span>'+
+        '<button class="tool" type="button" data-act="save">скачать с именами</button>'+
         '<button class="tool" type="button" data-act="sheetprompt">промпт листа</button>'+
         '<button class="tool" type="button" data-act="sheet">лист</button>'+
         '<button class="cpy" type="button" data-act="copy">копировать партию</button>'+
@@ -705,6 +715,8 @@ list.addEventListener('click', function(e){
     copy(out, c, 'копировать партию');
     return;
   }
+  var sv = e.target.closest('[data-act="save"]');
+  if(sv){ saveBatch(+sv.closest('.batch').dataset.b, sv); return; }
   var sp = e.target.closest('[data-act="sheetprompt"]');
   if(sp){
     var bb = BATCHES[+sp.closest('.batch').dataset.b - 1];
@@ -716,6 +728,139 @@ list.addEventListener('click', function(e){
   var n = e.target.closest('[data-act="copyneg"]');
   if(n){ copy(BATCHES[+n.closest('.batch').dataset.b - 1].neg, n, 'копировать'); }
 });
+
+/* ── выгрузка кадров под своими именами ────────────── */
+var DL = null, DL_READY = false;
+
+function extOf(blob){
+  var t = (blob && blob.type) || '';
+  if(t.indexOf('jpeg') > -1 || t.indexOf('jpg') > -1) return '.jpg';
+  if(t.indexOf('webp') > -1) return '.webp';
+  return '.png';
+}
+function saveAs(blob, name){
+  var u = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = u; a.download = name; a.rel = 'noopener';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); }, 4000);
+}
+
+/* Отдаём файл: внутри claude.ai — через разрешение на скачивание,
+   в скачанном файле — обычной ссылкой. */
+function offerFile(blob, filename, btn, label){
+  var fail = function(msg){
+    if(!btn) return;
+    btn.textContent = msg;
+    setTimeout(function(){ btn.textContent = label; }, 2200);
+  };
+  if(DL){
+    DL.save({ filename: filename, data: blob }).then(function(){
+      if(btn){ btn.textContent = 'сохранено'; setTimeout(function(){ btn.textContent = label; }, 1600); }
+    }, function(err){
+      var c = (err && err.code) || 'unavailable';
+      fail(c === 'declined' ? 'отменено' : c === 'rate_limited' ? 'подожди секунду' : 'не вышло');
+    });
+    return;
+  }
+  if(location.protocol === 'file:'){ saveAs(blob, filename); return; }
+  fail('откажи в claude.ai — открой файл');
+}
+
+/* ── минимальный ZIP без сжатия: картинки уже сжаты ── */
+var CRC_T = (function(){
+  var t = new Uint32Array(256), c, n, k;
+  for(n = 0; n < 256; n++){
+    c = n;
+    for(k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+function crc32(u8){
+  var c = 0xFFFFFFFF;
+  for(var i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+function makeZip(entries){
+  return Promise.all(entries.map(function(e){
+    return e.blob.arrayBuffer().then(function(ab){
+      return { name: e.name, data: new Uint8Array(ab) };
+    });
+  })).then(function(files){
+    var parts = [], central = [], offset = 0;
+    var now = new Date();
+    var dosTime = ((now.getHours() & 31) << 11) | ((now.getMinutes() & 63) << 5) |
+                  ((now.getSeconds() / 2) & 31);
+    var dosDate = (((now.getFullYear() - 1980) & 127) << 9) |
+                  (((now.getMonth() + 1) & 15) << 5) | (now.getDate() & 31);
+    files.forEach(function(f){
+      var name = new TextEncoder().encode(f.name);
+      var crc = crc32(f.data), len = f.data.length;
+      var lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true);
+      lh.setUint16(6, 0, true); lh.setUint16(8, 0, true);
+      lh.setUint16(10, dosTime, true); lh.setUint16(12, dosDate, true);
+      lh.setUint32(14, crc, true); lh.setUint32(18, len, true);
+      lh.setUint32(22, len, true); lh.setUint16(26, name.length, true);
+      lh.setUint16(28, 0, true);
+      parts.push(new Uint8Array(lh.buffer), name, f.data);
+
+      var ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true);
+      ch.setUint16(6, 20, true); ch.setUint16(8, 0, true);
+      ch.setUint16(10, 0, true); ch.setUint16(12, dosTime, true);
+      ch.setUint16(14, dosDate, true); ch.setUint32(16, crc, true);
+      ch.setUint32(20, len, true); ch.setUint32(24, len, true);
+      ch.setUint16(28, name.length, true); ch.setUint16(30, 0, true);
+      ch.setUint16(32, 0, true); ch.setUint16(34, 0, true);
+      ch.setUint16(36, 0, true); ch.setUint32(38, 0, true);
+      ch.setUint32(42, offset, true);
+      central.push(new Uint8Array(ch.buffer), name);
+      offset += 30 + name.length + len;
+    });
+    var csize = central.reduce(function(a, x){ return a + x.length; }, 0);
+    var eo = new DataView(new ArrayBuffer(22));
+    eo.setUint32(0, 0x06054b50, true); eo.setUint16(4, 0, true);
+    eo.setUint16(6, 0, true); eo.setUint16(8, files.length, true);
+    eo.setUint16(10, files.length, true); eo.setUint32(12, csize, true);
+    eo.setUint32(16, offset, true); eo.setUint16(20, 0, true);
+    return new Blob(parts.concat(central, [new Uint8Array(eo.buffer)]),
+                    { type: 'application/zip' });
+  });
+}
+function saveBatch(n, btn){
+  var b = BATCHES[n - 1], label = 'скачать с именами';
+  var have = b.panels.filter(function(p){ return BLOBS[p.id]; });
+  if(!have.length){
+    btn.textContent = 'кадров ещё нет';
+    setTimeout(function(){ btn.textContent = label; }, 1800);
+    return;
+  }
+  if(have.length === 1){
+    offerFile(BLOBS[have[0].id], have[0].id + extOf(BLOBS[have[0].id]), btn, label);
+    return;
+  }
+  btn.textContent = 'собираю…';
+  makeZip(have.map(function(p){
+    return { name: p.id + extOf(BLOBS[p.id]), blob: BLOBS[p.id] };
+  })).then(function(zip){
+    offerFile(zip, 'shahruhiya-partiya-' + (n < 10 ? '0' + n : n) + '.zip', btn, label);
+  });
+}
+function saveAll(btn){
+  var label = 'скачать все';
+  var have = PANELS.filter(function(p){ return BLOBS[p.id]; });
+  if(!have.length){
+    btn.textContent = 'кадров ещё нет';
+    setTimeout(function(){ btn.textContent = label; }, 1800);
+    return;
+  }
+  btn.textContent = 'собираю ' + have.length + '…';
+  makeZip(have.map(function(p){
+    return { name: p.id + extOf(BLOBS[p.id]), blob: BLOBS[p.id] };
+  })).then(function(zip){ offerFile(zip, 'shahruhiya-kadry.zip', btn, label); });
+}
 
 /* ── контактный лист партии ────────────────────────── */
 var board = document.getElementById('board');
@@ -811,6 +956,10 @@ function fill(id){
     ? '<img src="' + u + '" alt="' + id + '">'
     : '<span class="ph">картинки ещё нет<br>перетащи сюда файл или вставь из буфера</span>';
   document.getElementById('dPrompt').textContent = p.prompt;
+  var sv = document.getElementById('dSave');
+  sv.textContent = 'скачать как ' + id + (u ? extOf(BLOBS[id]) : '.png');
+  sv.disabled = !u;
+  sv.style.opacity = u ? '' : '.45';
   document.getElementById('dComment').value = m.comment || '';
   [].forEach.call(document.querySelectorAll('.vb'), function(b){
     b.setAttribute('aria-pressed', (b.dataset.v || '') === (m.status || '') ? 'true' : 'false'); });
@@ -857,6 +1006,11 @@ document.getElementById('dNext').onclick = function(){ step(1); };
 document.getElementById('dClose').onclick = function(){ dlg.close(); };
 document.getElementById('dPick').onclick = function(){ picker.click(); };
 document.getElementById('dDrop').onclick = function(){ if(current){ dropImage(current); fill(current); } };
+document.getElementById('dSave').onclick = function(){
+  if(!current || !BLOBS[current]) return;
+  offerFile(BLOBS[current], current + extOf(BLOBS[current]), this,
+            'скачать как ' + current + extOf(BLOBS[current]));
+};
 document.getElementById('dCopyP').onclick = function(){ copy(BY[current].prompt, this, 'копировать промпт'); };
 document.getElementById('dReq').onclick = function(){ showRequest([current]); };
 dlg.addEventListener('keydown', function(e){
@@ -904,6 +1058,7 @@ document.getElementById('btnFix').onclick = function(){
   showRequest(PANELS.filter(function(p){ return (META[p.id]||{}).status === 'bad'; })
                     .map(function(p){ return p.id; }));
 };
+document.getElementById('btnZip').onclick = function(){ saveAll(this); };
 document.getElementById('btnSave').onclick = function(){
   var out = { app:'shahruhiya-board', v:1, savedAt:new Date().toISOString(), meta:META };
   showSheet('Проект', 'отметки и комментарии — картинки остаются в браузере',
@@ -927,6 +1082,16 @@ document.getElementById('lede').textContent =
   DATA.lede;
 
 build(); gauge();
+
+if(window.claude && claude.use){
+  claude.use('downloads').then(function(d){
+    DL = d; DL_READY = true;
+    if(!d && location.protocol !== 'file:')
+      document.getElementById('dlWarn').classList.remove('hidden');
+  }, function(){});
+} else if(location.protocol !== 'file:'){
+  document.getElementById('dlWarn').classList.remove('hidden');
+}
 
 openDB().then(function(d){
   db = d; storeOK = true;
