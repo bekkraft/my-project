@@ -1,0 +1,85 @@
+# РАСКАДРОВКА 23 — 6 панелей
+
+**Панели:** `S67a`, `S67b`, `S68a`, `S69a`, `S69b`, `S69c`
+**Кадры:** 67, 68, 69 · **Блок:** АКТ 3 — Гонка
+**Эталоны прикрепить:** #13 лагерь; #6 Нексия; #3 Бобур; #15 горная дорога и ущелье
+**Плюс всегда:** карта персонажа #C1 + эталон лица #1 — в каждой панели с Шохрухом.
+
+---
+
+## ПАНЕЛИ
+
+### 1) S67a — кадр 67. Выезд из лагеря
+```
+Cinematic film still, extreme wide aerial shot from high above, a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint moving between the rows of yurts and tents of a vast steppe military camp, late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres standing aside to let it through, dark red three-circle banners, long shadows across the ground, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+### 2) S67b — кадр 67. Выезд из лагеря
+```
+Cinematic film still, extreme wide aerial shot from high above, a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint now clear of the camp and alone on open grassland with a long plume of dust behind it, the camp and its banners receding at the edge of frame, mounted warriors standing still and not following, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+### 3) S68a — кадр 68. Дорога-рана
+```
+Cinematic film still, wide shot, low angle near the ground, a broken track through rocky highland terrain like a wound torn in the earth, loose stones, deep mud, water-filled ruts and boulders, a narrow gorge between two steep slopes visible far ahead, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+### 4) S69a — кадр 69. Тряска · «Чапга!»
+```
+Cinematic film still, medium shot inside a car from the rear, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist at the wheel and a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip beside him both jolted upward by a rut, shoulders lifted, the broken track and low sun filling the windscreen, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+### 5) S69b — кадр 69. Тряска · «Чапга!»
+```
+Cinematic film still, medium shot inside a car from the rear, identical framing, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip twisted in his seat with one arm thrust out pointing hard to the left past the windscreen, mouth open shouting, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist glancing where he points, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+### 6) S69c — кадр 69. Тряска · «Чапга!»
+```
+Cinematic film still, medium shot inside a car from the rear, identical framing, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist hauling the steering wheel hard left with both arms crossed over, body leaning into the turn, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip braced against the door, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+```
+
+### НЕГАТИВ (на все шесть)
+```
+no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+```
+
+---
+
+## БЛОК ДЛЯ FLOW — скопировать целиком
+
+```text
+Generate 6 SEPARATE images, one for each numbered prompt below. Each image must be 16:9. Do NOT merge them into a grid, collage or contact sheet. Keep the visual style identical across all six.
+
+1) S67a
+Cinematic film still, extreme wide aerial shot from high above, a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint moving between the rows of yurts and tents of a vast steppe military camp, late-14th-century Timurid warriors, Central Asian and Turkic men with dark almond eyes and thin beards, quilted ochre and dark green knee-length robes belted with cloth sashes, lamellar plate armour, leather bracers, pointed steel helmets with mail aventails, curved sabres standing aside to let it through, dark red three-circle banners, long shadows across the ground, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+
+2) S67b
+Cinematic film still, extreme wide aerial shot from high above, a grey compact four-door saloon of the late-S2000s Chevrolet Aveo T250 body style, rounded bonnet, large swept-back teardrop headlamps wrapping up into the front wings, a small two-part front grille with a thin chrome bar, tall narrow vertical tail lamps at the rear corners, fifteen-inch five-spoke alloy wheels, faded grey paint now clear of the camp and alone on open grassland with a long plume of dust behind it, the camp and its banners receding at the edge of frame, mounted warriors standing still and not following, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+
+3) S68a
+Cinematic film still, wide shot, low angle near the ground, a broken track through rocky highland terrain like a wound torn in the earth, loose stones, deep mud, water-filled ruts and boulders, a narrow gorge between two steep slopes visible far ahead, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 35mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+
+4) S69a
+Cinematic film still, medium shot inside a car from the rear, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist at the wheel and a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip beside him both jolted upward by a rut, shoulders lifted, the broken track and low sun filling the windscreen, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+
+5) S69b
+Cinematic film still, medium shot inside a car from the rear, identical framing, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip twisted in his seat with one arm thrust out pointing hard to the left past the windscreen, mouth open shouting, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist glancing where he points, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+
+6) S69c
+Cinematic film still, medium shot inside a car from the rear, identical framing, the interior of a small grey saloon, a dark grey moulded dashboard with two round instrument dials and a small digital display between them, a worn three-spoke steering wheel, a thin film of dust on the plastic, a 30-year-old Uzbek man, oval face with moderately defined cheekbones, dark brown almond-shaped eyes with tired shadows beneath them, thick straight dark eyebrows set low, a thin white scar through his left eyebrow, uneven three-day stubble, very dark almost black short hair tousled on one side, wearing a white shirt damp on the chest and collar with the top button undone and the second button missing, dark blue jeans, a dark grey bomber jacket hanging crookedly off one shoulder, dark brown leather boots, a steel watch on his left wrist hauling the steering wheel hard left with both arms crossed over, body leaning into the turn, a 22-year-old Central Asian warrior, broad face with round cheekbones, dark narrow lively curious eyes, slightly flattened nose, sparse youthful moustache and no beard, black hair pulled back with a thin braid at his left temple, a triangular leather amulet on a cord at his neck, wearing a quilted ochre knee-length robe belted with a braided cloth sash, leather bracers, knee-high leather boots, a curved sabre in a scabbard on his left hip braced against the door, late afternoon sun very low and backlit, long shadows reaching across the frame, maximum contrast between orange-gold light and cold blue shadows, dust hanging in the air, 24mm lens, cinematic film still, 35mm film grain, natural motivated lighting, shallow depth of field, subtle halation, 16:9
+
+NEGATIVE PROMPT (apply to all six):
+no rings on fingers, no wedding ring, no jewellery on hands, no text overlay, no subtitles, no captions, no lettering, no watermark, no logo, no extra fingers, no distorted faces, no cartoon, no anime, no illustration
+```
+
+---
+
+## ПРОВЕРКА ПЕРЕД СЛЕДУЮЩИМ ЛИСТОМ
+
+- [ ] Пришло ровно 6 картинок, не коллаж
+- [ ] Все 16:9
+- [ ] Лицо Шохруха то же, что в принятых панелях
+- [ ] Нет перстня на пальце (до кадра 105)
+- [ ] Нет текста и подписей в кадре
+- [ ] Файлы сохранены как `S67a.png`, `S67b.png`, `S68a.png`, `S69a.png`, `S69b.png`, `S69c.png`
