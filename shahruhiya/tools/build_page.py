@@ -184,7 +184,7 @@ for sh in sheets:
                   u'contact sheet. Keep the visual style identical across all %d.' % (k, k)),
         'panels': [{'id': p['id'], 'shot': p['shot'], 'title': p['title'],
                     'prompt': p['prompt'], 'note': p.get('note', u''),
-                    'cue': cue(p['short']),
+                    'cue': cue(p['short']), 'short': p['short'],
                     'label': label, 'key': p['id'].endswith('a')} for p in ps],
     })
     batches[-1]['sheetPrompt'] = sheet_prompt(

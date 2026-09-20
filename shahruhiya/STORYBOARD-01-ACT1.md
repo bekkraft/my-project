@@ -61,15 +61,18 @@ the interior of a small grey saloon, a dark grey moulded dashboard with two roun
 
 # КАДР 1. Будильник, первый свайп (2 панели)
 Эталон: спальня (#8)
+Первая генерация дала два РАЗНЫХ телефона и две разные руки — склейка бы
+развалилась. Аппарат и рука теперь описаны дословно в обеих панелях.
+Сгенерировать S1a, принять, и подставить её как image reference в S1b.
 
 **S1a**
 ```
-Cinematic film still, extreme close-up, top-down directly above, a smartphone screen lying on a crumpled white pillow showing the time 7:47 and an active alarm, a male hand entering frame from the right with the index finger extended toward the screen, screen glow the only light source, cold blue light on the fingers, [COLD], 50mm macro lens, [SUFFIX]
+Cinematic film still, extreme close-up, top-down directly above, a modern black glass-backed smartphone with a narrow notch and rounded corners in a plain matte black case, lying face up at a slight angle on a crumpled white pillow, the screen showing only the large numerals 7:47 and a single glowing alarm indicator with NO words and no interface labels of any kind, the smooth unlined hand of a man of thirty entering frame from the right with the index finger extended toward the screen, screen glow the only light source, cold blue light on the fingers, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
 **S1b**
 ```
-Cinematic film still, extreme close-up, top-down directly above, the same smartphone on the crumpled white pillow, the screen now dark and blank, a male index finger completing a swipe across the glass and lifting away, only weak grey window light remaining on the pillow, [COLD], 50mm macro lens, [SUFFIX]
+Cinematic film still, extreme close-up, top-down directly above, IDENTICAL framing, scale and camera position to the previous panel, the very same modern black glass-backed smartphone with a narrow notch and rounded corners in the same plain matte black case, lying in exactly the same place and at exactly the same angle on the same crumpled white pillow, the screen now dark and blank, the same smooth unlined hand of a man of thirty completing a swipe across the glass and lifting away, only weak grey window light remaining on the pillow, [COLD], 50mm macro lens, [SUFFIX]
 ```
 
 # КАДР 2. Лицо в подушке (1 панель)
@@ -87,6 +90,9 @@ Cinematic film still, extreme close-up, top-down directly above, the same smartp
 ```
 
 # КАДР 4. Глаза открываются (3 панели)
+Три панели — ОДНА макро-рамка, меняются только веки. В первой генерации S4c
+отъехала на общий план с курткой и комнатой, и движение не прочиталось.
+Сгенерировать S4a, принять, и подставить её как image reference в S4b и S4c.
 
 **S4a**
 ```
@@ -100,7 +106,7 @@ Cinematic film still, extreme close-up of the eyes of [SHOHRUH-DRY], eyelids cra
 
 **S4c**
 ```
-Cinematic film still, extreme close-up of the eyes of [SHOHRUH-DRY], both eyes fully open and fixed straight ahead, a small window reflection caught in the dark brown iris, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
+Cinematic film still, extreme close-up of the eyes of [SHOHRUH-DRY], IDENTICAL framing, scale and camera distance to the two previous panels, the crop holding only the brows, the eyes and the bridge of the nose with no shoulders, no clothing and no room behind, a plain out-of-focus pale grey wall filling the background, both eyes fully open and fixed straight ahead, a small window reflection caught in the dark brown iris, the thin white scar through the left eyebrow visible, soft cold grey window light from the left, [COLD], 85mm lens, [SUFFIX]
 ```
 
 # КАДР 5. Потолок (1 панель)

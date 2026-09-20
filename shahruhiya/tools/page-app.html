@@ -248,7 +248,7 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
 
     <div class="steps">
       <div class="step"><b>1 · копировать</b><span>«Копировать партию» — в буфере инструкция и все промпты. Вставить в Flow.</span></div>
-      <div class="step"><b>2 · вернуть</b><span>Перетащить картинки на партию — имена неважны. Flow отдаёт их новыми вверх, поэтому чаще всего нужен один клик «перевернуть».</span></div>
+      <div class="step"><b>2 · вернуть</b><span>Тащить каждый кадр на свой слот — под слотом написано, что в нём. Или бросить пачкой и поправить перетаскиванием.</span></div>
       <div class="step"><b>3 · отсмотреть</b><span>Клик по кадру — большой просмотр. Принять или отметить, что не так.</span></div>
       <div class="step"><b>4 · назвать и вернуть</b><span>«Скачать с именами» отдаст кадры как <code>S12a.png</code>. «Запрос на правку» соберёт брак в один текст с промптами.</span></div>
     </div>
@@ -466,10 +466,10 @@ function build(){
           '<span class="cue"><b>'+(i+1)+')</b> '+esc(p.cue)+'</span>'+
         '</div>';
       }).join('')+'</div>'+
-      '<p class="refs"><span>перетащи сюда</span> готовые кадры. Номера 1–6 под слотами — '+
-        'те же, что в скопированном промпте, а подпись совпадает с той, что Flow пишет '+
-        'под картинкой. Легли задом наперёд — нажми «перевернуть»; один кадр не на месте — '+
-        'перетащи его на нужный слот.</p>'+
+      '<p class="refs"><span>как класть:</span> вернее всего — тащить каждый кадр '+
+        'на свой слот: под каждым написано, что в нём. Бросишь пачкой — лягут по времени '+
+        'генерации, а это не всегда порядок промптов, поэтому проверь и поправь '+
+        'перетаскиванием; целиком задом наперёд — «перевернуть».</p>'+
       '<details class="det"><summary>показать промпты</summary>'+
         '<div class="prs">'+b.panels.map(function(p){
           return '<div class="pr"><div class="prid">'+p.id+'</div>'+
@@ -552,18 +552,37 @@ function idFromName(name){
 function accept(files, batchNo){
   var arr = [].slice.call(files).filter(function(f){ return /^image\//.test(f.type); });
   if(!arr.length) return;
-  var free = null;
-  if(batchNo){
-    free = BATCHES[batchNo - 1].panels.filter(function(p){ return !BLOBS[p.id]; })
-             .map(function(p){ return p.id; });
-  }
-  arr.sort(function(a, b){ return a.name.localeCompare(b.name, 'en', { numeric:true }); });
+  // Flow вшивает в имя время генерации — по нему порядок ближе к порядку
+  // промптов, чем по алфавиту. Точного совпадения не даёт ни то, ни другое.
+  var stamp = function(f){
+    var m = String(f.name).match(/(\d{10,})/);
+    return m ? m[1] : '';
+  };
+  arr.sort(function(a, b){
+    var sa = stamp(a), sb = stamp(b);
+    if(sa && sb && sa !== sb) return sa < sb ? -1 : 1;
+    return a.name.localeCompare(b.name, 'en', { numeric:true });
+  });
+
+  // 1. ID прямо в имени файла — вне конкуренции
+  var rest = [];
   arr.forEach(function(f){
     var id = idFromName(f.name);
-    if(!id && free && free.length) id = free.shift();
-    if(!id) return;
-    if(free){ var i = free.indexOf(id); if(i > -1) free.splice(i, 1); }
-    setImage(id, f);
+    if(id) setImage(id, f); else rest.push(f);
+  });
+  if(!rest.length || !batchNo) {
+    // без партии раскладывать некуда
+    return;
+  }
+
+  var panels = BATCHES[batchNo - 1].panels.filter(function(p){ return !BLOBS[p.id]; });
+  if(!panels.length) return;
+
+  // 2. остальные — по порядку в свободные слоты
+  var free = panels.slice();
+  rest.forEach(function(f){
+    var p = free.shift();
+    if(p) setImage(p.id, f);
   });
 }
 
