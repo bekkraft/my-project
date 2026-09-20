@@ -96,8 +96,11 @@ button{font-family:inherit}
 .refs span{font-family:var(--f-disp);letter-spacing:.11em;text-transform:uppercase;font-size:11px}
 
 /* ── слоты ──────────────────────────────────────────── */
-.slots{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));
+.slots{display:grid;gap:11px 9px;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));
   margin:11px 0}
+.cell{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cue{font-size:10.5px;line-height:1.35;color:var(--mut);overflow-wrap:anywhere}
+.cue b{font-family:var(--f-disp);color:var(--acc);font-weight:500;letter-spacing:.04em}
 .slot{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--slot);
   border:1px solid var(--line);border-radius:2px;overflow:hidden;cursor:pointer;
   display:grid;place-items:center;padding:0;color:inherit;text-align:left}
@@ -245,7 +248,7 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
 
     <div class="steps">
       <div class="step"><b>1 · копировать</b><span>«Копировать партию» — в буфере инструкция и все промпты. Вставить в Flow.</span></div>
-      <div class="step"><b>2 · вернуть</b><span>Перетащить готовые картинки на партию — имена неважны, займут слоты по порядку. Не туда попал — перетащи на соседний слот, поменяются местами.</span></div>
+      <div class="step"><b>2 · вернуть</b><span>Перетащить картинки на партию — имена неважны. Flow отдаёт их новыми вверх, поэтому чаще всего нужен один клик «перевернуть».</span></div>
       <div class="step"><b>3 · отсмотреть</b><span>Клик по кадру — большой просмотр. Принять или отметить, что не так.</span></div>
       <div class="step"><b>4 · назвать и вернуть</b><span>«Скачать с именами» отдаст кадры как <code>S12a.png</code>. «Запрос на правку» соберёт брак в один текст с промптами.</span></div>
     </div>
@@ -448,6 +451,7 @@ function build(){
         '<span class="btc">'+esc(b.tc)+' · '+b.panels.length+' панел'+
           (b.panels.length===1?'ь':(b.panels.length<5?'и':'ей'))+'</span></div>'+
         '<span class="tally" id="t'+b.n+'"></span>'+
+        '<button class="tool" type="button" data-act="flip">перевернуть</button>'+
         '<button class="tool" type="button" data-act="save">скачать с именами</button>'+
         '<button class="tool" type="button" data-act="sheetprompt">промпт листа</button>'+
         '<button class="tool" type="button" data-act="sheet">лист</button>'+
@@ -456,12 +460,16 @@ function build(){
       '<p class="shots">'+shots.join(' · ')+'</p>'+
       (b.refs ? '<p class="note"><b>Эталоны.</b> '+esc(b.refs)+'</p>' : '')+
       notes.join('')+
-      '<div class="slots">'+b.panels.map(function(p){
-        return '<button class="slot" type="button" draggable="true" data-id="'+p.id+'"></button>';
+      '<div class="slots">'+b.panels.map(function(p, i){
+        return '<div class="cell">'+
+          '<button class="slot" type="button" draggable="true" data-id="'+p.id+'"></button>'+
+          '<span class="cue"><b>'+(i+1)+')</b> '+esc(p.cue)+'</span>'+
+        '</div>';
       }).join('')+'</div>'+
-      '<p class="refs"><span>перетащи сюда</span> готовые кадры — разложатся по именам файлов, '+
-        'а если имена безликие, займут пустые слоты по порядку. Кадр попал не туда — '+
-        'перетащи его на соседний слот, они поменяются местами.</p>'+
+      '<p class="refs"><span>перетащи сюда</span> готовые кадры. Номера 1–6 под слотами — '+
+        'те же, что в скопированном промпте, а подпись совпадает с той, что Flow пишет '+
+        'под картинкой. Легли задом наперёд — нажми «перевернуть»; один кадр не на месте — '+
+        'перетащи его на нужный слот.</p>'+
       '<details class="det"><summary>показать промпты</summary>'+
         '<div class="prs">'+b.panels.map(function(p){
           return '<div class="pr"><div class="prid">'+p.id+'</div>'+
@@ -589,6 +597,27 @@ list.addEventListener('dragend', function(){
   [].forEach.call(list.querySelectorAll('.slot.drag'), function(s){ s.classList.remove('drag'); });
 });
 
+/* Flow отдаёт картинки новыми вверх — партия ложится задом наперёд.
+   Разворот ставит всё на места одним нажатием. */
+function flipBatch(n, btn){
+  var ids = BATCHES[n - 1].panels.map(function(p){ return p.id; });
+  var imgs = ids.map(function(id){ return BLOBS[id]; }).reverse();
+  var mets = ids.map(function(id){ return META[id]; }).reverse();
+  ids.forEach(function(id, i){
+    if(URLS[id]){ URL.revokeObjectURL(URLS[id]); delete URLS[id]; }
+    if(imgs[i]) BLOBS[id] = imgs[i]; else delete BLOBS[id];
+    if(mets[i]) META[id] = mets[i]; else delete META[id];
+    if(BLOBS[id]) idbPut('img', id, BLOBS[id]); else idbDel('img', id);
+    if(META[id]) idbPut('meta', id, META[id]); else idbDel('meta', id);
+    paint(id);
+  });
+  gauge();
+  if(btn){
+    btn.textContent = 'перевернул';
+    setTimeout(function(){ btn.textContent = 'перевернуть'; }, 1400);
+  }
+}
+
 function swapPanels(a, b){
   var ia = BLOBS[a], ib = BLOBS[b];
   var ma = META[a], mb = META[b];
@@ -709,6 +738,8 @@ list.addEventListener('click', function(e){
     copy(out, c, 'копировать партию');
     return;
   }
+  var fl = e.target.closest('[data-act="flip"]');
+  if(fl){ flipBatch(+fl.closest('.batch').dataset.b, fl); return; }
   var sv = e.target.closest('[data-act="save"]');
   if(sv){ saveBatch(+sv.closest('.batch').dataset.b, sv); return; }
   var sp = e.target.closest('[data-act="sheetprompt"]');

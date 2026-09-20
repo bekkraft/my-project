@@ -123,6 +123,33 @@ def sheet_prompt(b, panels):
     )
 
 
+# Flow подписывает каждую картинку обрывком промпта. Та же зацепка в слоте —
+# и кадр опознаётся глазами, без догадок.
+CAMERA_WORDS = (
+    u"close-up|wide|medium|insert|macro|aerial|group shot|two-shot|profile|"
+    u"top-down|eye level|low angle|high angle|backlit|reverse angle|static frame|"
+    u"identical|camera|from |looking |over the shoulder|straight down|near the ground|"
+    u"perfectly centred|at sink level|at pillow level|in the footwell|at ground level|"
+    u"with three layers of depth|extreme|tight|very |slightly"
+)
+CAMERA = re.compile(u"^(" + CAMERA_WORDS + u")", re.I)
+
+
+def cue(short, limit=64):
+    parts = [x.strip() for x in short.split(',') if x.strip()]
+    while parts and CAMERA.match(parts[0]):
+        parts.pop(0)
+    out = u''
+    for part in parts:
+        nxt = (out + u', ' + part) if out else part
+        if len(nxt) > limit:
+            if not out:
+                out = part[:limit].rsplit(' ', 1)[0]
+            break
+        out = nxt
+    return out or short[:limit]
+
+
 def timecodes():
     out = {}
     for ln in io.open(os.path.join(BASE, 'SCENARIY.md'), encoding='utf-8'):
@@ -157,6 +184,7 @@ for sh in sheets:
                   u'contact sheet. Keep the visual style identical across all %d.' % (k, k)),
         'panels': [{'id': p['id'], 'shot': p['shot'], 'title': p['title'],
                     'prompt': p['prompt'], 'note': p.get('note', u''),
+                    'cue': cue(p['short']),
                     'label': label, 'key': p['id'].endswith('a')} for p in ps],
     })
     batches[-1]['sheetPrompt'] = sheet_prompt(
