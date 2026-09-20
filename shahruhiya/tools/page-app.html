@@ -306,6 +306,17 @@ textarea{width:100%;min-height:68px;font-family:var(--f-body);font-size:13.5px;p
   <div class="db"><textarea id="shText" spellcheck="false"></textarea></div>
 </dialog>
 
+<dialog id="board" class="sheet">
+  <div class="dh">
+    <span class="did" id="bdTitle">Лист</span>
+    <span class="dsub" id="bdSub">правый клик по листу — «сохранить изображение»</span>
+    <span class="dnav">
+      <button class="tool" type="button" id="bdClose">закрыть</button>
+    </span>
+  </div>
+  <div class="db"><img id="bdImg" alt="Контактный лист партии" style="width:100%;border:1px solid var(--line);border-radius:3px"></div>
+</dialog>
+
 <input type="file" id="filePick" accept="image/*" multiple hidden>
 <div class="drop-hint hidden" id="dropHint"><div>отпусти файлы<div><p>имена с ID (S12a.png) разложатся по своим местам</p></div></div></div>
 
@@ -428,6 +439,7 @@ function build(){
         '<span class="btc">'+esc(b.tc)+' · '+b.panels.length+' панел'+
           (b.panels.length===1?'ь':(b.panels.length<5?'и':'ей'))+'</span></div>'+
         '<span class="tally" id="t'+b.n+'"></span>'+
+        '<button class="tool" type="button" data-act="sheet">лист</button>'+
         '<button class="cpy" type="button" data-act="copy">копировать партию</button>'+
       '</header>'+
       '<p class="shots">'+shots.join(' · ')+'</p>'+
@@ -636,9 +648,90 @@ list.addEventListener('click', function(e){
     copy(out, c, 'копировать партию');
     return;
   }
+  var sh = e.target.closest('[data-act="sheet"]');
+  if(sh){ showBoard(+sh.closest('.batch').dataset.b); return; }
   var n = e.target.closest('[data-act="copyneg"]');
   if(n){ copy(BATCHES[+n.closest('.batch').dataset.b - 1].neg, n, 'копировать'); }
 });
+
+/* ── контактный лист партии ────────────────────────── */
+var board = document.getElementById('board');
+document.getElementById('bdClose').onclick = function(){ board.close(); };
+
+function loadImg(src){
+  return new Promise(function(res){
+    var im = new Image();
+    im.onload = function(){ res(im); };
+    im.onerror = function(){ res(null); };
+    im.src = src;
+  });
+}
+function makeSheet(b){
+  var COLS = 3, CW = 640, CH = 360, BAR = 30, GAP = 16;
+  var rows = Math.ceil(b.panels.length / COLS);
+  var cv = document.createElement('canvas');
+  cv.width  = COLS * CW + (COLS + 1) * GAP;
+  cv.height = rows * (CH + BAR) + (rows + 1) * GAP + 54;
+  var g = cv.getContext('2d');
+  g.fillStyle = '#1C1C1F'; g.fillRect(0, 0, cv.width, cv.height);
+
+  g.fillStyle = '#E8E5E0';
+  g.font = '600 26px Oswald, Arial Narrow, sans-serif';
+  g.fillText('ШАҲРУҲИЯ · ПАРТИЯ ' + b.n + ' · ' + b.label.toUpperCase(), GAP, 36);
+  g.fillStyle = '#8B9099';
+  g.font = '15px JetBrains Mono, Consolas, monospace';
+  var w = g.measureText('ШАҲРУҲИЯ · ПАРТИЯ ' + b.n + ' · ' + b.label.toUpperCase()).width;
+  g.fillText(b.tc, GAP + w + 20, 36);
+
+  return Promise.all(b.panels.map(function(p){
+    var u = url(p.id);
+    return u ? loadImg(u) : Promise.resolve(null);
+  })).then(function(imgs){
+    b.panels.forEach(function(p, k){
+      var r = Math.floor(k / COLS), c = k % COLS;
+      var x = GAP + c * (CW + GAP), y = 54 + GAP + r * (CH + BAR + GAP);
+      var im = imgs[k];
+      if(im){
+        var s2 = Math.max(CW / im.width, CH / im.height);
+        var dw = im.width * s2, dh = im.height * s2;
+        g.save();
+        g.beginPath(); g.rect(x, y, CW, CH); g.clip();
+        g.drawImage(im, x + (CW - dw) / 2, y + (CH - dh) / 2, dw, dh);
+        g.restore();
+      } else {
+        g.fillStyle = '#2A2A2E'; g.fillRect(x, y, CW, CH);
+        g.strokeStyle = '#3A3A40'; g.setLineDash([9, 7]);
+        g.strokeRect(x + .5, y + .5, CW - 1, CH - 1); g.setLineDash([]);
+        g.fillStyle = '#5A5A62';
+        g.font = '500 30px Oswald, Arial Narrow, sans-serif';
+        g.textAlign = 'center';
+        g.fillText('кадра ещё нет', x + CW / 2, y + CH / 2 + 10);
+        g.textAlign = 'left';
+      }
+      var m = META[p.id] || {};
+      g.fillStyle = m.status === 'ok' ? '#3A5A3A' : m.status === 'bad' ? '#6B2E22' : '#101012';
+      g.fillRect(x, y + CH, CW, BAR);
+      g.fillStyle = '#FFFFFF';
+      g.font = '600 19px Oswald, Arial Narrow, sans-serif';
+      g.fillText(p.id, x + 10, y + CH + 22);
+      g.fillStyle = '#A9A9B2';
+      g.font = '14px Manrope, system-ui, sans-serif';
+      g.fillText('кадр ' + p.shot + ' · ' + p.title, x + 10 + g.measureText(p.id).width + 34,
+                 y + CH + 21);
+    });
+    return cv.toDataURL('image/jpeg', 0.92);
+  });
+}
+function showBoard(n){
+  var b = BATCHES[n - 1];
+  document.getElementById('bdTitle').textContent = 'Лист ' + b.n;
+  var missing = b.panels.filter(function(p){ return !BLOBS[p.id]; }).length;
+  document.getElementById('bdSub').textContent = missing
+    ? ('не хватает ' + missing + ' из ' + b.panels.length + ' · правый клик по листу — «сохранить изображение»')
+    : 'правый клик по листу — «сохранить изображение»';
+  if(!board.open) board.showModal();
+  makeSheet(b).then(function(src){ document.getElementById('bdImg').src = src; });
+}
 
 /* ── разбор панели ─────────────────────────────────── */
 var dlg = document.getElementById('dlg'), current = null;
