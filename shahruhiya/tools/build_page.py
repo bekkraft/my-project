@@ -19,6 +19,110 @@ ACTS = {
 }
 
 
+# Компактная ДНК персонажей: на листе она объявляется один раз, а не в каждой панели.
+DNA = [
+    (u'SHOHRUH', u'SHOHRUH — a 30-year-old Uzbek man, oval face, tired dark brown eyes, '
+                 u'thick low eyebrows, a thin white scar through the left eyebrow, three-day '
+                 u'stubble, very dark hair tousled on one side, a white shirt damp on the chest '
+                 u'with the second button missing, dark blue jeans, a grey bomber jacket off one '
+                 u'shoulder, a steel watch on the left wrist.'),
+    (u'AMIR TEMUR', u'AMIR TEMUR — a Central Asian ruler of about 60, broad strong-jawed '
+                    u'weathered face, heavy brows, deep-set dark eyes, a short wedge beard '
+                    u'heavily streaked with grey, a golden domed crown set with dark red gems '
+                    u'and topped with a white feather plume, a white fur-trimmed robe with gold '
+                    u'embroidery over blue and deep red brocade, a stiff right leg. The crown '
+                    u'is on his head in every panel where he appears.'),
+    (u'BOBUR', u'BOBUR — a 22-year-old warrior, broad face, lively narrow dark eyes, a sparse '
+               u'moustache and no beard, black hair with a thin braid at the left temple, a '
+               u'triangular leather amulet at the neck, a quilted ochre robe with a braided '
+               u'sash, leather bracers, a curved sabre on the left hip.'),
+    (u'THE COMMANDER', u'THE COMMANDER — a 45-year-old warrior, thickset, weather-beaten face, '
+                       u'a scar through the right eyebrow and cheekbone, a greying beard, a dark '
+                       u'green robe under a lamellar steel cuirass.'),
+    (u'Timurid warriors', u'TIMURID WARRIORS — late-14th-century Central Asian and Turkic men, '
+                          u'quilted ochre and dark green knee-length robes, lamellar plate '
+                          u'armour, pointed steel helmets with mail aventails, curved sabres.'),
+    (u'the grey saloon', u'THE CAR — a faded grey compact four-door saloon of late-2000s '
+                         u'Chevrolet Aveo T250 proportions, rounded bonnet, large swept-back '
+                         u'teardrop headlamps, tall narrow vertical tail lamps.'),
+    (u'the silver ring', u'THE RING — massive tarnished blackened silver set with a large dark '
+                         u'red carnelian, worn Arabic calligraphy around the stone.'),
+]
+
+# Генераторы рисуют кириллицу как набор закорючек — шапка листа идёт латиницей.
+LAT = {
+    u'АКТ 1 — Ташкент и туннель':      u'ACT 1 - TASHKENT AND THE TUNNEL',
+    u'АКТ 2 — Степь и лагерь':         u'ACT 2 - THE STEPPE AND THE CAMP',
+    u'Шатёр Темура':                   u'THE TENT OF AMIR TEMUR',
+    u'АКТ 3 — Гонка':                  u'ACT 3 - THE RACE',
+    u'АКТ 3 — Имя, перстень, финал':   u'ACT 3 - THE NAME, THE RING, THE RETURN',
+}
+
+STYLE = {
+    u'АКТ 1 — Ташкент и туннель':
+        u'desaturated cold steel-grey palette, flat overcast Tashkent morning, wet asphalt',
+    u'АКТ 2 — Степь и лагерь':
+        u'warm golden morning light, ochre and dusty brown against a huge pale blue sky',
+    u'Шатёр Темура':
+        u'low-key candle and oil-lamp light from below and the side, amber and deep red with '
+        u'black shadows and one burning gold highlight',
+    u'АКТ 3 — Гонка':
+        u'late afternoon sun very low and backlit, long shadows, orange-gold against cold blue '
+        u'shadows, dust hanging in the air',
+    u'АКТ 3 — Имя, перстень, финал':
+        u'golden hour, horizontal sunlight almost level with the ground, dust burning in the '
+        u'air, bronze skin tones, red and gold',
+}
+
+# На листе номера ДОЛЖНЫ быть напечатаны, поэтому запреты на текст снимаются.
+TEXT_BANS = ('no text overlay', 'no subtitles', 'no captions', 'no lettering')
+
+
+def sheet_negative(neg):
+    keep = [t.strip() for t in neg.split(',')
+            if t.strip() and t.strip().lower() not in TEXT_BANS]
+    return u', '.join(keep + [u'no speech bubbles', u'no comic book styling',
+                              u'no handwriting', u'no misspelled labels'])
+
+
+def sheet_prompt(b, panels):
+    cols = 3
+    rows = -(-len(panels) // cols)
+    who = [line for key, line in DNA
+           if any(key in p['short'] for p in panels)]
+    beats = []
+    for i, p in enumerate(panels, 1):
+        beats.append(u'Panel %d, labelled %s, timecode %s — %s'
+                     % (i, p['id'], p.get('tc') or u'--:--', p['short'].rstrip('.') + u'.'))
+    return (
+        u'A professional storyboard sheet for the short film "Shahrukhiya", a magical-realism '
+        u'drama set between present-day Tashkent and the steppe of Amir Temur in the 14th '
+        u'century. One single composite presentation page holding %d sequential cinematic '
+        u'panels in a clean %d\u00d7%d grid, read left to right, top to bottom.\n\n'
+        u'STYLE. Photoreal cinematic film stills, 35mm film grain, natural motivated lighting, '
+        u'shallow depth of field, subtle halation. Every panel is a 16:9 frame from the same '
+        u'film, graded the same way: %s. No illustration, no comic art — each panel looks like '
+        u'a frame of photographed film pasted onto the board.\n\n'
+        u'CHARACTERS. %s\n\n'
+        u'SHEET LAYOUT. A dark charcoal production board. The panels sit in the grid with even '
+        u'thin gutters between them and a white hairline border around each frame. Beneath '
+        u'every panel runs a narrow caption strip in clean sans-serif type carrying that '
+        u'panel\u2019s label and timecode exactly as written below, plus its short shot note. '
+        u'A single header line across the top of the board reads "SHAHRUKHIYA \u2014 BATCH %d '
+        u'\u2014 %s". Typography is small, quiet and legible; it never overlaps the images.\n\n'
+        u'PANELS.\n%s\n\n'
+        u'ART DIRECTION. Vary the shot sizes exactly as described — do not flatten everything to '
+        u'medium shots. Faces stay identical from panel to panel. Keep the light direction and '
+        u'colour consistent across the whole sheet. Composition inside each frame is centred on '
+        u'what the note names, with real depth and atmosphere.\n\n'
+        u'RENDER. Masterpiece quality, production-ready storyboard sheet, sharp legible '
+        u'captions, 16:9 board.'
+        % (len(panels), cols, rows, STYLE.get(b['block'], u'cinematic natural light'),
+           u' '.join(who) if who else u'No named characters in this batch.',
+           b['n'], LAT.get(b['block'], u'SHAHRUKHIYA'), u'\n'.join(beats))
+    )
+
+
 def timecodes():
     out = {}
     for ln in io.open(os.path.join(BASE, 'SCENARIY.md'), encoding='utf-8'):
@@ -42,6 +146,8 @@ for sh in sheets:
         for r in [x.strip() for x in (p.get('ref') or u'').split(';') if x.strip()]:
             if r not in refs:
                 refs.append(r)
+    for p in ps:
+        p['tc'] = TC.get(p['shot'], u'')
     k = len(ps)
     batches.append({
         'n': sh['n'], 'acc': acc, 'label': label, 'tc': tc,
@@ -53,6 +159,9 @@ for sh in sheets:
                     'prompt': p['prompt'], 'note': p.get('note', u''),
                     'label': label, 'key': p['id'].endswith('a')} for p in ps],
     })
+    batches[-1]['sheetPrompt'] = sheet_prompt(
+        {'n': sh['n'], 'label': label, 'block': ps[0]['block']}, ps)
+    batches[-1]['sheetNeg'] = sheet_negative(sh['neg'])
 
 total = sum(len(b['panels']) for b in batches)
 six = sum(1 for b in batches if len(b['panels']) == 6)

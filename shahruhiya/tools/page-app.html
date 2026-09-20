@@ -439,6 +439,7 @@ function build(){
         '<span class="btc">'+esc(b.tc)+' · '+b.panels.length+' панел'+
           (b.panels.length===1?'ь':(b.panels.length<5?'и':'ей'))+'</span></div>'+
         '<span class="tally" id="t'+b.n+'"></span>'+
+        '<button class="tool" type="button" data-act="sheetprompt">промпт листа</button>'+
         '<button class="tool" type="button" data-act="sheet">лист</button>'+
         '<button class="cpy" type="button" data-act="copy">копировать партию</button>'+
       '</header>'+
@@ -446,9 +447,11 @@ function build(){
       (b.refs ? '<p class="note"><b>Эталоны.</b> '+esc(b.refs)+'</p>' : '')+
       notes.join('')+
       '<div class="slots">'+b.panels.map(function(p){
-        return '<button class="slot" type="button" data-id="'+p.id+'"></button>';
+        return '<button class="slot" type="button" draggable="true" data-id="'+p.id+'"></button>';
       }).join('')+'</div>'+
-      '<p class="refs"><span>перетащи сюда</span> готовые кадры этой партии — разложатся по именам файлов</p>'+
+      '<p class="refs"><span>перетащи сюда</span> готовые кадры — разложатся по именам файлов, '+
+        'а если имена безликие, займут пустые слоты по порядку. Кадр попал не туда — '+
+        'перетащи его на соседний слот, они поменяются местами.</p>'+
       '<details class="det"><summary>показать промпты</summary>'+
         '<div class="prs">'+b.panels.map(function(p){
           return '<div class="pr"><div class="prid">'+p.id+'</div>'+
@@ -544,6 +547,54 @@ function accept(files, batchNo){
     if(free){ var i = free.indexOf(id); if(i > -1) free.splice(i, 1); }
     setImage(id, f);
   });
+}
+
+var moving = null;
+list.addEventListener('dragstart', function(e){
+  var s = e.target.closest('.slot');
+  if(!s || !BLOBS[s.dataset.id]) { e.preventDefault(); return; }
+  moving = s.dataset.id;
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', moving); } catch(err){}
+});
+list.addEventListener('dragover', function(e){
+  if(!moving) return;
+  var s = e.target.closest('.slot');
+  if(s && s.dataset.id !== moving){ e.preventDefault(); s.classList.add('drag'); }
+});
+list.addEventListener('dragleave', function(e){
+  var s = e.target.closest('.slot'); if(s) s.classList.remove('drag');
+});
+list.addEventListener('drop', function(e){
+  if(!moving) return;
+  var s = e.target.closest('.slot');
+  if(!s || s.dataset.id === moving) return;
+  e.preventDefault(); e.stopPropagation();
+  s.classList.remove('drag');
+  swapPanels(moving, s.dataset.id);
+  moving = null;
+});
+list.addEventListener('dragend', function(){
+  moving = null;
+  [].forEach.call(list.querySelectorAll('.slot.drag'), function(s){ s.classList.remove('drag'); });
+});
+
+function swapPanels(a, b){
+  var ia = BLOBS[a], ib = BLOBS[b];
+  var ma = META[a], mb = META[b];
+  [a, b].forEach(function(id){
+    if(URLS[id]){ URL.revokeObjectURL(URLS[id]); delete URLS[id]; }
+  });
+  if(ib) BLOBS[a] = ib; else delete BLOBS[a];
+  if(ia) BLOBS[b] = ia; else delete BLOBS[b];
+  if(mb) META[a] = mb; else delete META[a];
+  if(ma) META[b] = ma; else delete META[b];
+  [a, b].forEach(function(id){
+    if(BLOBS[id]) idbPut('img', id, BLOBS[id]); else idbDel('img', id);
+    if(META[id]) idbPut('meta', id, META[id]); else idbDel('meta', id);
+    paint(id);
+  });
+  gauge();
 }
 
 var hint = document.getElementById('dropHint'), dragDepth = 0;
@@ -646,6 +697,12 @@ list.addEventListener('click', function(e){
     b.panels.forEach(function(p, i){ out += '\n' + (i+1) + ') ' + p.id + '\n' + p.prompt + '\n'; });
     out += '\nNEGATIVE PROMPT (apply to all ' + b.panels.length + ' images):\n' + b.neg;
     copy(out, c, 'копировать партию');
+    return;
+  }
+  var sp = e.target.closest('[data-act="sheetprompt"]');
+  if(sp){
+    var bb = BATCHES[+sp.closest('.batch').dataset.b - 1];
+    copy(bb.sheetPrompt + '\n\nNEGATIVE PROMPT:\n' + bb.sheetNeg, sp, 'промпт листа');
     return;
   }
   var sh = e.target.closest('[data-act="sheet"]');

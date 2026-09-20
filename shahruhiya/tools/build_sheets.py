@@ -160,6 +160,32 @@ def parse(path):
     return tokens, panels
 
 
+# Короткие подписи вместо развёрнутых токенов — для промпта контактного листа,
+# где ДНК персонажа объявляется один раз на весь лист, а не в каждой панели.
+SHORT = {
+    'SHOHRUH': u'SHOHRUH', 'SHOHRUH-DRY': u'SHOHRUH',
+    'TEMUR': u'AMIR TEMUR', 'BOBUR': u'BOBUR', 'COMMANDER': u'THE COMMANDER',
+    'WARRIORS': u'Timurid warriors', 'CAR': u'the grey saloon',
+    'CAR-INT': u'the saloon interior', 'LETTER': u'the sealed scroll',
+    'RING': u'the silver ring with the red carnelian', 'TENT': u'the command tent',
+    'COLD': u'', 'WARM': u'', 'SUNSET': u'', 'GOLDEN': u'', 'MORNING': u'',
+    'LOWKEY': u'', 'SUFFIX': u'',
+}
+LENS = re.compile(r',?\s*\d{2,3}mm(\s+macro)?\s+lens', re.I)
+OPEN = re.compile(r'^Cinematic film still,\s*', re.I)
+
+
+def shorten(prompt):
+    """Промпт панели без стилевого хвоста и без повторов ДНК — одна строка действия."""
+    out = re.sub(r'\[([A-Z0-9\-]+)\]',
+                 lambda m: SHORT.get(m.group(1), m.group(0)), prompt)
+    out = LENS.sub('', out)
+    out = OPEN.sub('', out)
+    out = re.sub(r',(\s*,)+', ',', out)
+    out = re.sub(r'\s{2,}', ' ', out).strip().strip(',').strip()
+    return out[:1].upper() + out[1:]
+
+
 def expand(prompt, tokens):
     out = prompt
     for _ in range(4):
@@ -177,6 +203,7 @@ all_panels = []
 for fn, block_name in SRC:
     tokens, panels = parse(os.path.join(BASE, fn))
     for p in panels:
+        p['short'] = shorten(p['prompt'])
         p['prompt'], p['unresolved'] = expand(p['prompt'], tokens)
         p['block'] = block_name
         p['src'] = fn
@@ -386,7 +413,8 @@ io.open(os.path.join(OUT, 'INDEX.md'), 'w', encoding='utf-8').write(u'\n'.join(L
 io.open(os.path.join(OUT, 'sheets.json'), 'w', encoding='utf-8').write(
     json.dumps([{'n': n, 'panels': [{'id': p['id'], 'shot': p['shot'], 'title': p['title'],
                                      'prompt': p['prompt'], 'block': p['block'],
-                                     'ref': p['ref'], 'note': p['note']} for p in s],
+                                     'ref': p['ref'], 'note': p['note'],
+                                     'short': p['short']} for p in s],
                  'neg': merge_negs([p['neg'] for p in s])}
                 for n, s in enumerate(sheets, 1)], ensure_ascii=False, indent=1))
 
